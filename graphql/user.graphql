@@ -11,7 +11,8 @@ type User {
     updated_at: DateTime!
 }
 
-extend type Query {
+extend type Query  @middleware(checks: ["auth:api"]) {
+    me: User @auth
     users: [User!]! @paginate(model: "App\\Models\\User")
     user(id: ID @eq): User @find(model: "App\\Models\\User")
 }

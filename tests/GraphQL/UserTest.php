@@ -3,17 +3,14 @@
 namespace Tests\GraphQL;
 
 use App\Models\User;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Passport\Passport;
+use Tests\GraphQLTestCase;
 
-class UserTest extends TestCase
+class UserTest extends GraphQLTestCase
 {
-    use RefreshDatabase;
-
-    public function testUserQuery()
+    public function test_user_query()
     {
-        /** @var User $user */
-        $user = factory(User::class)->create();
+        $user = app(\App\Factories\UserFactory::class)->create();
 
         $this->graphQL("
         {
@@ -44,10 +41,9 @@ class UserTest extends TestCase
         ]);
     }
 
-    public function testUsersQuery()
+    public function test_users_query()
     {
-        /** @var User $user */
-        $user = factory(User::class)->create();
+        $user = app(\App\Factories\UserFactory::class)->create();
 
         $this->graphQL("
         {
