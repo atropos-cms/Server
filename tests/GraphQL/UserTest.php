@@ -10,29 +10,59 @@ class UserTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testBasicTest()
+    public function testUserQuery()
     {
+        /** @var User $user */
         $user = factory(User::class)->create();
 
-        $this->graphQL('
+        $this->graphQL("
         {
-            users {
+            user (id: $user->id) {
                 id
                 first_name
+                last_name
+                street
+                postcode
+                city
+                country
+                email
             }
         }
-        ')->assertJson([
+        ")->assertJson([
+            'data' => [
+                'user' => [
+                    'id' => $user->id,
+                    'first_name' => $user->first_name,
+                    'last_name' => $user->last_name,
+                    'street' => $user->street,
+                    'postcode' => $user->postcode,
+                    'city' => $user->city,
+                    'country' => $user->country,
+                    'email' => $user->email,
+                ]
+            ]
+        ]);
+    }
+
+    public function testUsersQuery()
+    {
+        /** @var User $user */
+        $user = factory(User::class)->create();
+
+        $this->graphQL("
+        {
+            users (first:1, page: 1) {
+                data {
+                    id
+                }
+            }
+        }
+        ")->assertJson([
             'data' => [
                 'users' => [
-                    [
+                    'data' => [[
                         'id' => $user->id,
-                        'first_name' => $user->first_name,
-                    ]
+                    ]]
                 ]
             ]
         ]);
