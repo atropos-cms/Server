@@ -1,0 +1,20 @@
+type Role {
+    id: ID!
+    name: String!
+}
+
+input CreateAndUpdateRoleInput {
+    name: String @rules(apply: ["string"])
+}
+
+
+extend type Query @middleware(checks: ["auth:api"]) {
+    role(id: ID! @eq): Role @find(model: "Spatie\\Permission\\Models\\Role")
+    roles: [Role!]! @paginate(model: "Spatie\\Permission\\Models\\Role")
+}
+
+extend type Mutation @middleware(checks: ["auth:api"]) {
+    createRole(data: CreateAndUpdateRoleInput! @spread): Role @create(model: "Spatie\\Permission\\Models\\Role")
+    updateRole(id: ID!, data: CreateAndUpdateRoleInput! @spread): Role @update(model: "Spatie\\Permission\\Models\\Role")
+    deleteRole(id: ID!): Role @delete(model: "Spatie\\Permission\\Models\\Role")
+}
