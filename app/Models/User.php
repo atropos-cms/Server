@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -10,6 +11,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
+    use SoftDeletes;
     use HasApiTokens;
     use HasRoles;
     use Notifiable;
@@ -38,6 +40,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
+        'deleted_at' => 'datetime',
         'email_verified_at' => 'datetime',
     ];
 }
