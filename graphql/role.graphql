@@ -3,7 +3,7 @@ type Role {
     name: String!
 }
 
-input CreateAndUpdateRoleInput {
+input CreateOrUpdateRoleInput {
     name: String @rules(apply: ["string"])
 }
 
@@ -14,7 +14,7 @@ extend type Query @middleware(checks: ["auth:api"]) {
 }
 
 extend type Mutation @middleware(checks: ["auth:api"]) {
-    createRole(data: CreateAndUpdateRoleInput! @spread): Role @create(model: "Spatie\\Permission\\Models\\Role")
-    updateRole(id: ID!, data: CreateAndUpdateRoleInput! @spread): Role @update(model: "Spatie\\Permission\\Models\\Role")
+    createRole(data: CreateOrUpdateRoleInput! @spread): Role @create(model: "Spatie\\Permission\\Models\\Role")
+    updateRole(id: ID!, data: CreateOrUpdateRoleInput! @spread): Role @update(model: "Spatie\\Permission\\Models\\Role")
     deleteRole(id: ID!): Role @delete(model: "Spatie\\Permission\\Models\\Role")
 }
