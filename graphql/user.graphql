@@ -12,6 +12,6 @@ type User {
 }
 
 extend type Query {
-    users: [User!]! @paginate(model: "App\\User")
-    user(id: ID @eq): User @find(model: "App\\User")
+    users: [User!]! @paginate(model: "App\\Models\\User")
+    user(id: ID @eq): User @find(model: "App\\Models\\User")
 }
