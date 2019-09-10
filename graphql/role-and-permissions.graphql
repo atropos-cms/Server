@@ -29,6 +29,6 @@ extend type Mutation @middleware(checks: ["auth:api"]) {
     deleteRole(id: ID!): Role @delete(model: "Spatie\\Permission\\Models\\Role")
 
     syncRolePermissions(id: ID!, permissions: [ID!]!): Role
-    syncUSerPermissions(id: ID!, permissions: [ID!]!): User
+    syncUserPermissions(id: ID!, permissions: [ID!]!): User
     syncUserRoles(id: ID!, roles: [ID!]!): User
 }
