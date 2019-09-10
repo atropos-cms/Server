@@ -1,7 +1,7 @@
 type User {
     id: ID!
-    first_name: String!
-    last_name: String!
+    first_name: String
+    last_name: String
     street: String
     postcode: String
     city: String
@@ -10,6 +10,11 @@ type User {
     created_at: DateTime!
     updated_at: DateTime!
     deleted_at: DateTime
+
+    permissions: [Permission!]!  @method(name: "getAllPermissions")
+    directPermissions: [Permission!]!  @method(name: "getDirectPermissions")
+    inheritedPermissions: [Permission!]! @method(name: "getPermissionsViaRoles")
+    roles: [Role!]!
 }
 
 input UpdateUserInput {

@@ -1,6 +1,14 @@
+type Permission {
+    id: ID!
+    name: String!
+    roles: [Role!]!
+}
+
 type Role {
     id: ID!
     name: String!
+    permissions: [Permission!]!
+    members: [User!]!  @morphMany(relation: "users")
 }
 
 input CreateOrUpdateRoleInput {
@@ -11,6 +19,9 @@ input CreateOrUpdateRoleInput {
 extend type Query @middleware(checks: ["auth:api"]) {
     role(id: ID! @eq): Role @find(model: "Spatie\\Permission\\Models\\Role")
     roles: [Role!]! @paginate(model: "Spatie\\Permission\\Models\\Role")
+
+    permission(id: ID! @eq): Permission @find(model: "Spatie\\Permission\\Models\\Permission")
+    permissions: [Permission!]! @paginate(model: "Spatie\\Permission\\Models\\Permission")
 }
 
 extend type Mutation @middleware(checks: ["auth:api"]) {
