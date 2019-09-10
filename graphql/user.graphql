@@ -43,7 +43,7 @@ input CreateUserInput {
 extend type Query @middleware(checks: ["auth:api"]) {
     me: User @auth
     user(id: ID! @eq): User @find
-    users: [User!]! @paginate @softDeletes
+    users(search: String @search): [User!]! @paginate @softDeletes
 }
 
 extend type Mutation @middleware(checks: ["auth:api"]) {

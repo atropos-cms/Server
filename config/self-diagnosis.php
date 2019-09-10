@@ -46,6 +46,7 @@ return [
                 'xml',
                 'ctype',
                 'json',
+                'sqlite3',
             ],
             'include_composer_extensions' => true,
         ],
