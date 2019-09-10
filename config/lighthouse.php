@@ -209,7 +209,7 @@ return [
         /*
          * Determines if broadcasts should be queued by default.
          */
-        'queue_broadcasts' => env('LIGHTHOUSE_QUEUE_BROADCASTS', true),
+        'queue_broadcasts' => env('LIGHTHOUSE_QUEUE_BROADCASTS', false),
 
         /*
          * Default subscription storage.

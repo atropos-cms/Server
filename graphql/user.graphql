@@ -48,9 +48,14 @@ extend type Query @middleware(checks: ["auth:api"]) {
 
 extend type Mutation @middleware(checks: ["auth:api"]) {
     updateMe(data: UpdateUserInput! @spread): User
+        @broadcast(subscription: "userUpdated")
 
     createUser(data: CreateUserInput! @spread): User @create
     updateUser(id: ID!, data: UpdateUserInput! @spread): User @update
     deleteUser(id: ID!): User @delete
     restoreUser(id: ID!): User @restore
+}
+
+type Subscription {
+    userUpdated(id: ID): User
 }
