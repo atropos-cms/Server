@@ -15,7 +15,6 @@ input CreateOrUpdateRoleInput {
     name: String @rules(apply: ["string"])
 }
 
-
 extend type Query @middleware(checks: ["auth:api"]) {
     role(id: ID! @eq): Role @find(model: "Spatie\\Permission\\Models\\Role")
     roles: [Role!]! @paginate(model: "Spatie\\Permission\\Models\\Role")
@@ -28,4 +27,8 @@ extend type Mutation @middleware(checks: ["auth:api"]) {
     createRole(data: CreateOrUpdateRoleInput! @spread): Role @create(model: "Spatie\\Permission\\Models\\Role")
     updateRole(id: ID!, data: CreateOrUpdateRoleInput! @spread): Role @update(model: "Spatie\\Permission\\Models\\Role")
     deleteRole(id: ID!): Role @delete(model: "Spatie\\Permission\\Models\\Role")
+
+    syncRolePermissions(id: ID!, permissions: [ID!]!): Role
+    syncUSerPermissions(id: ID!, permissions: [ID!]!): User
+    syncUserRoles(id: ID!, roles: [ID!]!): User
 }
