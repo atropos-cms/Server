@@ -8,4 +8,5 @@ type Query
 type Mutation
 
 #import user.graphql
-#import role-and-permissions.graphql
+#import role-and-permission.graphql
+#import post.graphql
