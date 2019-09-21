@@ -45,4 +45,8 @@ class User extends Authenticatable
         'deleted_at' => 'datetime',
         'email_verified_at' => 'datetime',
     ];
+
+    public function getInitialsAttribute() {
+        return substr($this->first_name, 0, 1) . substr($this->last_name, 0, 1);
+    }
 }
