@@ -18,28 +18,21 @@ type User {
     roles: [Role!]!
 }
 
-input UpdateUserInput {
-    first_name: String @rules(apply: ["string"])
-    last_name: String @rules(apply: ["string"])
+input UpdateOrCreateUserInput {
+    first_name: String
+    last_name: String
     street: String
     postcode: String
     city: String
     country: String
-    email: String @rules(apply: ["email", "unique:users,email"])
-    password: String @bcrypt
+    email: String
 }
 
-input CreateUserInput {
-    first_name: String @rules(apply: ["string"])
-    last_name: String @rules(apply: ["string"])
-    street: String
-    postcode: String
-    city: String
-    country: String
-    email: String @rules(apply: ["required", "email", "unique:users,email"])
-    password: String @bcrypt
+input UpdateUserPasswordInput {
+    current_password: String
+    password: String
+    password_confirmation: String
 }
-
 
 extend type Query @middleware(checks: ["auth:api"]) {
     me: User @auth
@@ -48,15 +41,11 @@ extend type Query @middleware(checks: ["auth:api"]) {
 }
 
 extend type Mutation @middleware(checks: ["auth:api"]) {
-    updateMe(data: UpdateUserInput! @spread): User
-        # @broadcast(subscription: "userUpdated")
+    updateMe(data: UpdateOrCreateUserInput! @spread): User @updateUserValidation
+    updateMyPassword(data: UpdateUserPasswordInput! @spread): User @updateUserPasswordValidation
 
-    createUser(data: CreateUserInput! @spread): User @create
-    updateUser(id: ID!, data: UpdateUserInput! @spread): User @update
+    createUser(data: UpdateOrCreateUserInput! @spread): User @updateUserValidation @create
+    updateUser(id: ID!, data: UpdateOrCreateUserInput! @spread): User @updateUserValidation @update
     deleteUser(id: ID!): User @delete
     restoreUser(id: ID!): User @restore
 }
-
-# type Subscription {
-#     userUpdated(id: ID): User
-# }

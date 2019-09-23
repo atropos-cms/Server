@@ -1316,16 +1316,16 @@
         },
         {
             "name": "joselfonseca/lighthouse-graphql-passport-auth",
-            "version": "2.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joselfonseca/lighthouse-graphql-passport-auth.git",
-                "reference": "01ecafea9a2732030701eab876a13475f18b7542"
+                "reference": "2d47ed56445eb540c0737da22ef0af0dfa81b478"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joselfonseca/lighthouse-graphql-passport-auth/zipball/01ecafea9a2732030701eab876a13475f18b7542",
-                "reference": "01ecafea9a2732030701eab876a13475f18b7542",
+                "url": "https://api.github.com/repos/joselfonseca/lighthouse-graphql-passport-auth/zipball/2d47ed56445eb540c0737da22ef0af0dfa81b478",
+                "reference": "2d47ed56445eb540c0737da22ef0af0dfa81b478",
                 "shasum": ""
             },
             "require": {
@@ -1367,7 +1367,7 @@
                 "lighthouse",
                 "passport-auth"
             ],
-            "time": "2019-09-03T22:31:30+00:00"
+            "time": "2019-09-23T15:24:20+00:00"
         },
         {
             "name": "laravel/framework",
