@@ -8,6 +8,7 @@ type User {
     city: String
     country: String
     email: String!
+    login_at: DateTime
     created_at: DateTime!
     updated_at: DateTime!
     deleted_at: DateTime
