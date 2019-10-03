@@ -157,6 +157,7 @@ return [
 
     'error_handlers' => [
         \Nuwave\Lighthouse\Execution\ExtensionErrorHandler::class,
+        \App\Exceptions\AuthenticationErrorHandler::class,
     ],
 
     /*
