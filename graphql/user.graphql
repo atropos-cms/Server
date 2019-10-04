@@ -45,7 +45,7 @@ extend type Mutation @middleware(checks: ["auth:api"]) {
     updateMe(data: UpdateOrCreateUserInput! @spread): User @updateUserValidation
     updateMyPassword(data: UpdateUserPasswordInput! @spread): User @updateUserPasswordValidation
 
-    createUser(data: UpdateOrCreateUserInput! @spread): User @updateUserValidation @create
+    createUser(data: UpdateOrCreateUserInput! @spread): User @updateUserValidation @create @event(dispatch: "App\\Events\\UserCreated")
     updateUser(id: ID!, data: UpdateOrCreateUserInput! @spread): User @updateUserValidation @update
     deleteUser(id: ID!): User @delete
     restoreUser(id: ID!): User @restore

@@ -21,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
         \Laravel\Passport\Events\AccessTokenCreated::class => [
             \App\Listeners\UpdateUserLoginAt::class,
         ],
+        \App\Events\UserCreated::class => [
+            \App\Listeners\SendUserCreatedNotification::class
+        ]
     ];
 
     /**

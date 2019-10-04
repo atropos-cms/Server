@@ -22,17 +22,20 @@ class UpdateUserValidationDirective extends ValidationDirective
      */
     public function rules(): array
     {
+        $createUser = $this->resolveInfo->fieldName === 'createUser';
+
         if ($this->resolveInfo->fieldName === 'updateMe') {
             $ignore = auth()->user()->id;
         } else {
-            $ignore = $this->args['id'];
+            $ignore = $this->args['id'] ?? null;
         }
 
         return [
-            'first_name' => ['required', 'string'],
-            'last_name' => ['required', 'string'],
+            'first_name' => [Rule::requiredIf($createUser), 'string'],
+            'last_name' => [Rule::requiredIf($createUser), 'string'],
             'email' => [
-                'required', 'email',
+                Rule::requiredIf($createUser),
+                'email',
                 Rule::unique('users', 'email')->ignore($ignore, 'id')
             ]
         ];

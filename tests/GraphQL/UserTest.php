@@ -63,4 +63,138 @@ class UserTest extends GraphQLTestCase
             ]
         ]);
     }
+
+    public function test_createUser_mutation()
+    {
+        $user = app(\App\Factories\UserFactory::class)->create();
+
+        $this->postGraphQL([
+            'query' => '
+                mutation createUser($data: UpdateOrCreateUserInput!) {
+                    createUser(data: $data) {
+                        id
+                        first_name
+                        last_name
+                        initials
+                        email
+                        street
+                        postcode
+                        city
+                        country
+                    }
+                }
+            ',
+            'variables' => [
+                'data' => [
+                    'first_name' => 'FirstName',
+                    'last_name' => 'LastName',
+                    'email' => 'test@local.com'
+                ]
+            ],
+        ])->assertJson([
+            'data' => [
+                'createUser' => [
+                    'first_name' => 'FirstName',
+                    'last_name' => 'LastName',
+                    'email' => 'test@local.com'
+                ]
+            ]
+        ]);
+    }
+
+    public function test_updateUser_mutation()
+    {
+        $user = app(\App\Factories\UserFactory::class)->create();
+
+        $this->postGraphQL([
+            'query' => '
+                mutation updateUser($id: ID!, $data: UpdateOrCreateUserInput!) {
+                    updateUser(id: $id, data: $data) {
+                        id
+                        first_name
+                        last_name
+                        initials
+                        email
+                        street
+                        postcode
+                        city
+                        country
+                    }
+                }
+            ',
+            'variables' => [
+                'id' => $user->id,
+                'data' => [
+                    'first_name' => 'FirstName',
+                    'last_name' => 'LastName'
+                ]
+            ],
+        ])->assertJson([
+            'data' => [
+                'updateUser' => [
+                    'id' => $user->id,
+                    'first_name' => 'FirstName',
+                    'last_name' => 'LastName',
+                    'street' => $user->street,
+                    'postcode' => $user->postcode,
+                    'city' => $user->city,
+                    'country' => $user->country,
+                    'email' => $user->email,
+                ]
+            ]
+        ]);
+    }
+
+    public function test_deleteUser_mutation()
+    {
+        $user = app(\App\Factories\UserFactory::class)->create();
+
+        $this->postGraphQL([
+            'query' => '
+                mutation deleteUser($id: ID!) {
+                    deleteUser(id: $id) {
+                        id
+                    }
+                }
+            ',
+            'variables' => [
+                'id' => $user->id,
+            ],
+        ])->assertJson([
+            'data' => [
+                'deleteUser' => [
+                    'id' => $user->id,
+                ]
+            ]
+        ]);
+
+        $this->assertTrue($user->refresh()->trashed());
+    }
+
+    public function test_restoreUser_mutation()
+    {
+        $user = app(\App\Factories\UserFactory::class)->create();
+        $user->delete();
+
+        $this->postGraphQL([
+            'query' => '
+                mutation restoreUser($id: ID!) {
+                    restoreUser(id: $id) {
+                        id
+                    }
+                }
+            ',
+            'variables' => [
+                'id' => $user->id,
+            ],
+        ])->assertJson([
+            'data' => [
+                'restoreUser' => [
+                    'id' => $user->id,
+                ]
+            ]
+        ]);
+
+        $this->assertFalse($user->refresh()->trashed());
+    }
 }

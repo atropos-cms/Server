@@ -17,6 +17,11 @@ class UserFactory
         return $this;
     }
 
+    public function make() : UserModel
+    {
+       return factory(UserModel::class)->make();
+    }
+
     public function create() : UserModel
     {
         $user = factory(UserModel::class)->create();
