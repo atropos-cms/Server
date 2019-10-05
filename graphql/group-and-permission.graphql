@@ -1,0 +1,40 @@
+type Permission {
+    id: ID!
+    name: String!
+    groups: [Group!]!
+}
+
+type Group {
+    id: ID!
+    name: String!
+    description: String
+    created_at: DateTime!
+    updated_at: DateTime!
+
+    permissions: [Permission!]!
+    members: [User!]!  @morphMany(relation: "users")
+}
+
+input UpdateOrCreateGroupInput {
+    name: String @rules(apply: ["required", "string"])
+    description: String @rules(apply: ["string", "max:1000"])
+}
+
+extend type Query @middleware(checks: ["auth:api"]) {
+    group(id: ID! @eq): Group @find
+    groups(search: String @search, orderBy: [OrderByClause!] @orderBy): [Group!]! @paginate
+
+    permission(id: ID! @eq): Permission @find(model: "Spatie\\Permission\\Models\\Permission")
+    permissions: [Permission!]! @paginate(model: "Spatie\\Permission\\Models\\Permission")
+}
+
+extend type Mutation @middleware(checks: ["auth:api"]) {
+    createGroup(data: UpdateOrCreateGroupInput! @spread): Group @create
+    updateGroup(id: ID!, data: UpdateOrCreateGroupInput! @spread): Group @update
+    deleteGroup(id: ID!): Group @delete
+
+    syncGroupPermissions(id: ID!, permissions: [ID!]!): Group
+    syncGroupMembers(id: ID!, members: [ID!]!): Group
+    syncUserPermissions(id: ID!, permissions: [ID!]!): User
+    syncUserGroups(id: ID!, groups: [ID!]!): User
+}

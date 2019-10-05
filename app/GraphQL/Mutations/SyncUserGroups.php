@@ -2,11 +2,11 @@
 
 namespace App\GraphQL\Mutations;
 
+use App\Models\User;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Spatie\Permission\Models\Role;
 
-class SyncRolePermissions
+class SyncUserGroups
 {
     /**
      * Return a value for the field.
@@ -19,9 +19,9 @@ class SyncRolePermissions
      */
     public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        /** @var Role $role */
-        $role = Role::findById($args['id']);
+        /** @var User $user */
+        $user = User::findOrFail($args['id']);
 
-        return $role->syncPermissions($args['permissions']);
+        return $user->syncRoles($args['groups']);
     }
 }

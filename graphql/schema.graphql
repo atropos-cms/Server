@@ -5,5 +5,5 @@ type Query
 type Mutation
 
 #import user.graphql
-#import role-and-permission.graphql
+#import group-and-permission.graphql
 #import post.graphql
