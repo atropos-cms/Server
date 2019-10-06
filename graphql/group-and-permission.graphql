@@ -35,6 +35,8 @@ extend type Mutation @middleware(checks: ["auth:api"]) {
 
     syncGroupPermissions(id: ID!, permissions: [ID!]!): Group
     syncGroupMembers(id: ID!, members: [ID!]!): Group
+    addGroupMembers(id: ID!, members: [ID!]!): Group
+    removeGroupMembers(id: ID!, members: [ID!]!): Group
     syncUserPermissions(id: ID!, permissions: [ID!]!): User
     syncUserGroups(id: ID!, groups: [ID!]!): User
 }
