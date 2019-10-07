@@ -17,14 +17,14 @@ class UserFactory
         return $this;
     }
 
-    public function make() : UserModel
+    public function make($data = []) : UserModel
     {
        return factory(UserModel::class)->make();
     }
 
-    public function create() : UserModel
+    public function create($data = []) : UserModel
     {
-        $user = factory(UserModel::class)->create();
+        $user = factory(UserModel::class)->create($data);
 
         if ($this->withAuthentication) {
             Passport::actingAs($user);

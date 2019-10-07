@@ -197,4 +197,75 @@ class UserTest extends GraphQLTestCase
 
         $this->assertFalse($user->refresh()->trashed());
     }
+
+    public function test_updateMe_mutation()
+    {
+        $user = app(\App\Factories\UserFactory::class)->create();
+        $this->actingAs($user);
+
+        $this->postGraphQL([
+            'query' => '
+                mutation updateMe($data: UpdateOrCreateUserInput!) {
+                    updateMe(data: $data) {
+                        id
+                        first_name
+                        last_name
+                        initials
+                        email
+                        street
+                        postcode
+                        city
+                        country
+                    }
+                }
+            ',
+            'variables' => [
+                'data' => [
+                    'first_name' => 'FirstName',
+                    'last_name' => 'LastName'
+                ]
+            ],
+        ])->assertJson([
+            'data' => [
+                'updateMe' => [
+                    'id' => $user->id,
+                    'first_name' => 'FirstName',
+                    'last_name' => 'LastName',
+                    'street' => $user->street,
+                    'postcode' => $user->postcode,
+                    'city' => $user->city,
+                    'country' => $user->country,
+                    'email' => $user->email,
+                ]
+            ]
+        ]);
+    }
+
+    public function test_updateMyPassword_mutation()
+    {
+        $user = app(\App\Factories\UserFactory::class)->create(['password' => \Hash::make('secret')]);
+
+        $this->postGraphQL([
+            'query' => '
+                mutation updateMyPassword($data: UpdateUserPasswordInput!) {
+                    updateMyPassword(data: $data) {
+                        id
+                    }
+                }
+            ',
+            'variables' => [
+                'data' => [
+                    'current_password' => 'secret',
+                    'password' => 'passw0rd',
+                    'password_confirmation' => 'passw0rd'
+                ]
+            ],
+        ])->assertJson([
+            'data' => [
+                'updateMyPassword' => [
+                    'id' => $user->id,
+                ]
+            ]
+        ]);
+    }
 }
