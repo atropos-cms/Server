@@ -17,7 +17,7 @@ type User {
     permissions: [Permission!]!  @method(name: "getAllPermissions")
     directPermissions: [Permission!]!  @method(name: "getDirectPermissions")
     inheritedPermissions: [Permission!]! @method(name: "getPermissionsViaRoles")
-    groups: [Group!]!
+    groups: [Group!] @morphMany(relation: "roles")
 }
 
 input UpdateOrCreateUserInput {
