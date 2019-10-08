@@ -1,0 +1,24 @@
+- Page
+  + title
+  + content
+  + mount -> @hasOne(Mount)
+
+  - link to Blog
+  - link to Gallery
+  - Link to Blogpost
+  -
+
+- Mount
+  + page -> @belongsTo(Page)
+  + mountable -> @morphTo()
+
+
+- Post
+  + title
+  + content
+  + mount -> @morphOne(Mount, mountable)
+
+- Gallery
+  + title
+  + images
+  + mount -> @morphOne(Mount, mountable)
