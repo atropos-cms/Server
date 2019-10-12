@@ -1,6 +1,7 @@
-type Post {
+type Page {
     id: ID!
     title: String!
+    slug: String!
     content: String!
     created_at: DateTime!
     updated_at: DateTime!
@@ -8,25 +9,31 @@ type Post {
     author: User! @belongsTo
 }
 
-input CreatePostInput {
+input CreatePageInput {
     title: String @rules(apply: ["string"])
+    slug: String @rules(apply: ["string"])
     content: String @rules(apply: ["string"])
     author: CreateAuthorRelation
 }
 
-input UpdatePostInput {
+input CreateAuthorRelation {
+    connect: ID
+}
+
+input UpdatePageInput {
     title: String @rules(apply: ["string"])
+    slug: String @rules(apply: ["string"])
     content: String @rules(apply: ["string"])
 }
 
 extend type Query @middleware(checks: ["auth:api"]) {
-    post(id: Int! @eq): Post @find
-    posts: [Post!]! @paginate @softDeletes
+    page(id: ID! @eq): Page @find
+    pages: [Page!]! @all @softDeletes
 }
 
 extend type Mutation @middleware(checks: ["auth:api"]) {
-    createPost(data: CreatePostInput! @spread): Post @create
-    updatePost(id: ID!, data: UpdatePostInput! @spread): Post @update
-    deletePost(id: ID!): Post @delete
-    restorePost(id: ID!): Post @restore
+    createPage(data: CreatePageInput! @spread): Page @create
+    updatePage(id: ID!, data: UpdatePageInput! @spread): Page @update
+    deletePage(id: ID!): Page @delete
+    restorePage(id: ID!): Page @restore
 }

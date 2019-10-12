@@ -6,4 +6,5 @@ type Mutation
 
 #import user.graphql
 #import group-and-permission.graphql
+#import page.graphql
 #import post.graphql
