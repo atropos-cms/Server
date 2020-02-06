@@ -8,8 +8,8 @@ type Group {
     id: ID!
     name: String!
     description: String
-    created_at: DateTime!
-    updated_at: DateTime!
+    createdAt: DateTime! @rename(attribute: "created_at")
+    updatedAt: DateTime!  @rename(attribute: "updated_at")
 
     permissions: [Permission!]!
     members: [User!]!  @morphMany(relation: "users")
@@ -20,7 +20,7 @@ input UpdateOrCreateGroupInput {
     description: String @rules(apply: ["string", "max:1000"])
 }
 
-extend type Query @middleware(checks: ["auth:api"]) {
+extend type Query @middleware(checks: ["auth:airlock"]) {
     group(id: ID! @eq): Group @find
     groups(search: String @search, orderBy: [OrderByClause!] @orderBy): [Group!]! @paginate
 
@@ -28,7 +28,7 @@ extend type Query @middleware(checks: ["auth:api"]) {
     permissions: [Permission!]! @paginate(model: "Spatie\\Permission\\Models\\Permission")
 }
 
-extend type Mutation @middleware(checks: ["auth:api"]) {
+extend type Mutation @middleware(checks: ["auth:airlock"]) {
     createGroup(data: UpdateOrCreateGroupInput! @spread): Group @create
     updateGroup(id: ID!, data: UpdateOrCreateGroupInput! @spread): Group @update
     deleteGroup(id: ID!): Group @delete

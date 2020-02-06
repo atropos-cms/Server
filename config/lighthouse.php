@@ -31,8 +31,8 @@ return [
          * To apply middleware on a field level, use the @middleware directive.
          */
         'middleware' => [
+            \Laravel\Airlock\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             \Nuwave\Lighthouse\Support\Http\Middleware\AcceptJson::class,
-            \Barryvdh\Cors\HandleCors::class,
         ],
     ],
 
@@ -80,7 +80,7 @@ return [
     */
 
     'namespaces' => [
-        'models' => ['App', 'App\\Models'],
+        'models' => ['App\\Models'],
         'queries' => 'App\\GraphQL\\Queries',
         'mutations' => 'App\\GraphQL\\Mutations',
         'subscriptions' => 'App\\GraphQL\\Subscriptions',

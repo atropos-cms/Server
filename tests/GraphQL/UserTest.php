@@ -3,7 +3,6 @@
 namespace Tests\GraphQL;
 
 use App\Models\User;
-use Laravel\Passport\Passport;
 use Tests\GraphQLTestCase;
 
 class UserTest extends GraphQLTestCase
@@ -16,8 +15,8 @@ class UserTest extends GraphQLTestCase
         {
             user (id: $user->id) {
                 id
-                first_name
-                last_name
+                firstName
+                lastName
                 street
                 postcode
                 city
@@ -29,8 +28,8 @@ class UserTest extends GraphQLTestCase
             'data' => [
                 'user' => [
                     'id' => $user->id,
-                    'first_name' => $user->first_name,
-                    'last_name' => $user->last_name,
+                    'firstName' => $user->first_name,
+                    'lastName' => $user->last_name,
                     'street' => $user->street,
                     'postcode' => $user->postcode,
                     'city' => $user->city,
@@ -73,8 +72,8 @@ class UserTest extends GraphQLTestCase
                 mutation createUser($data: UpdateOrCreateUserInput!) {
                     createUser(data: $data) {
                         id
-                        first_name
-                        last_name
+                        firstName
+                        lastName
                         initials
                         email
                         street
@@ -86,16 +85,16 @@ class UserTest extends GraphQLTestCase
             ',
             'variables' => [
                 'data' => [
-                    'first_name' => 'FirstName',
-                    'last_name' => 'LastName',
+                    'firstName' => 'FirstName',
+                    'lastName' => 'LastName',
                     'email' => 'test@local.com'
                 ]
             ],
         ])->assertJson([
             'data' => [
                 'createUser' => [
-                    'first_name' => 'FirstName',
-                    'last_name' => 'LastName',
+                    'firstName' => 'FirstName',
+                    'lastName' => 'LastName',
                     'email' => 'test@local.com'
                 ]
             ]
@@ -111,8 +110,8 @@ class UserTest extends GraphQLTestCase
                 mutation updateUser($id: ID!, $data: UpdateOrCreateUserInput!) {
                     updateUser(id: $id, data: $data) {
                         id
-                        first_name
-                        last_name
+                        firstName
+                        lastName
                         initials
                         email
                         street
@@ -125,16 +124,16 @@ class UserTest extends GraphQLTestCase
             'variables' => [
                 'id' => $user->id,
                 'data' => [
-                    'first_name' => 'FirstName',
-                    'last_name' => 'LastName'
+                    'firstName' => 'FirstName',
+                    'lastName' => 'LastName'
                 ]
             ],
         ])->assertJson([
             'data' => [
                 'updateUser' => [
                     'id' => $user->id,
-                    'first_name' => 'FirstName',
-                    'last_name' => 'LastName',
+                    'firstName' => 'FirstName',
+                    'lastName' => 'LastName',
                     'street' => $user->street,
                     'postcode' => $user->postcode,
                     'city' => $user->city,
@@ -208,8 +207,8 @@ class UserTest extends GraphQLTestCase
                 mutation updateMe($data: UpdateOrCreateUserInput!) {
                     updateMe(data: $data) {
                         id
-                        first_name
-                        last_name
+                        firstName
+                        lastName
                         initials
                         email
                         street
@@ -221,16 +220,16 @@ class UserTest extends GraphQLTestCase
             ',
             'variables' => [
                 'data' => [
-                    'first_name' => 'FirstName',
-                    'last_name' => 'LastName'
+                    'firstName' => 'FirstName',
+                    'lastName' => 'LastName'
                 ]
             ],
         ])->assertJson([
             'data' => [
                 'updateMe' => [
                     'id' => $user->id,
-                    'first_name' => 'FirstName',
-                    'last_name' => 'LastName',
+                    'firstName' => 'FirstName',
+                    'lastName' => 'LastName',
                     'street' => $user->street,
                     'postcode' => $user->postcode,
                     'city' => $user->city,
@@ -255,9 +254,9 @@ class UserTest extends GraphQLTestCase
             ',
             'variables' => [
                 'data' => [
-                    'current_password' => 'secret',
+                    'currentPassword' => 'secret',
                     'password' => 'passw0rd',
-                    'password_confirmation' => 'passw0rd'
+                    'passwordConfirmation' => 'passw0rd'
                 ]
             ],
         ])->assertJson([

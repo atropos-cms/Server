@@ -3,7 +3,6 @@
 namespace Tests\GraphQL;
 
 use App\Models\User;
-use Laravel\Passport\Passport;
 use Tests\GraphQLTestCase;
 
 class AuthTest extends GraphQLTestCase
@@ -12,13 +11,12 @@ class AuthTest extends GraphQLTestCase
     {
         $user = app(\App\Factories\UserFactory::class)->create();
 
-        $this->graphQL("
+        $this->graphQL('
         {
             me {
                 id
             }
-        }
-        ")->assertJson([
+        }')->assertJson([
             'data' => [
                 'me' => [
                     'id' => $user->id,

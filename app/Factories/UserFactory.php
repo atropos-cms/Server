@@ -5,7 +5,7 @@ namespace App\Factories;
 
 
 use App\Models\User as UserModel;
-use Laravel\Passport\Passport;
+use Laravel\Airlock\Airlock;
 
 class UserFactory
 {
@@ -26,9 +26,7 @@ class UserFactory
     {
         $user = factory(UserModel::class)->create($data);
 
-        if ($this->withAuthentication) {
-            Passport::actingAs($user);
-        }
+        Airlock::actingAs($user, ['*']);
 
         return $user;
     }

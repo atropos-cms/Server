@@ -3,9 +3,9 @@ type Page {
     title: String!
     slug: String!
     content: String!
-    created_at: DateTime!
-    updated_at: DateTime!
-    deleted_at: DateTime
+    createdAt: DateTime! @rename(attribute: "created_at")
+    updatedAt: DateTime!  @rename(attribute: "updated_at")
+    deletedAt: DateTime  @rename(attribute: "deleted_at")
     author: User! @belongsTo
 }
 
@@ -26,12 +26,12 @@ input UpdatePageInput {
     content: String @rules(apply: ["string"])
 }
 
-extend type Query @middleware(checks: ["auth:api"]) {
+extend type Query @middleware(checks: ["auth:airlock"]) {
     page(id: ID! @eq): Page @find
     pages: [Page!]! @all @softDeletes
 }
 
-extend type Mutation @middleware(checks: ["auth:api"]) {
+extend type Mutation @middleware(checks: ["auth:airlock"]) {
     createPage(data: CreatePageInput! @spread): Page @create
     updatePage(id: ID!, data: UpdatePageInput! @spread): Page @update
     deletePage(id: ID!): Page @delete

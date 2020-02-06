@@ -1,18 +1,19 @@
 type User {
     id: ID!
-    first_name: String
-    last_name: String
-    full_name: String
+
+    firstName: String @rename(attribute: "first_name")
+    lastName: String @rename(attribute: "last_name")
+    fullName: String @rename(attribute: "full_name")
     initials: String
     street: String
     postcode: String
     city: String
     country: String
     email: String!
-    login_at: DateTime
-    created_at: DateTime!
-    updated_at: DateTime!
-    deleted_at: DateTime
+    loginAt: DateTime @rename(attribute: "login_at")
+    createdAt: DateTime! @rename(attribute: "created_at")
+    updatedAt: DateTime!  @rename(attribute: "updated_at")
+    deletedAt: DateTime  @rename(attribute: "deleted_at")
 
     permissions: [Permission!]!  @method(name: "getAllPermissions")
     directPermissions: [Permission!]!  @method(name: "getDirectPermissions")
@@ -21,8 +22,8 @@ type User {
 }
 
 input UpdateOrCreateUserInput {
-    first_name: String
-    last_name: String
+    firstName: String @rename(attribute: "first_name")
+    lastName: String @rename(attribute: "last_name")
     street: String
     postcode: String
     city: String
@@ -31,18 +32,18 @@ input UpdateOrCreateUserInput {
 }
 
 input UpdateUserPasswordInput {
-    current_password: String
+    currentPassword: String @rename(attribute: "current_password")
     password: String
-    password_confirmation: String
+    passwordConfirmation: String @rename(attribute: "password_confirmation")
 }
 
-extend type Query @middleware(checks: ["auth:api"]) {
+extend type Query @middleware(checks: ["auth:airlock"]) {
     me: User @auth
     user(id: ID! @eq): User @find
     users(search: String @search, orderBy: [OrderByClause!] @orderBy): [User!]! @paginate @softDeletes
 }
 
-extend type Mutation @middleware(checks: ["auth:api"]) {
+extend type Mutation @middleware(checks: ["auth:airlock"]) {
     updateMe(data: UpdateOrCreateUserInput! @spread): User @updateUserValidation
     updateMyPassword(data: UpdateUserPasswordInput! @spread): User @updateUserPasswordValidation
 

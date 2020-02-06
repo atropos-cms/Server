@@ -25,7 +25,7 @@ class UpdateUserLoginAt
      * @param  object  $event
      * @return void
      */
-    public function handle(\Laravel\Passport\Events\AccessTokenCreated $event)
+    public function handle($event)
     {
         /** @var User $user */
         $user = User::findOrFail($event->userId);

@@ -18,9 +18,9 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        \Laravel\Passport\Events\AccessTokenCreated::class => [
-            \App\Listeners\UpdateUserLoginAt::class,
-        ],
+        // \Laravel\Passport\Events\AccessTokenCreated::class => [
+        //     \App\Listeners\UpdateUserLoginAt::class,
+        // ],
         \App\Events\UserCreated::class => [
             \App\Listeners\SendUserCreatedNotification::class
         ]
