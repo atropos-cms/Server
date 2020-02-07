@@ -4,6 +4,7 @@ scalar DateTime @scalar(class: "App\\GraphQL\\Scalars\\Iso8601DateTime")
 type Query
 type Mutation
 
+#import auth.graphql
 #import user.graphql
 #import group-and-permission.graphql
 #import page.graphql

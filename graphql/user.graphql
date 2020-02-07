@@ -40,7 +40,7 @@ input UpdateUserPasswordInput {
 extend type Query @middleware(checks: ["auth:airlock"]) {
     me: User @auth
     user(id: ID! @eq): User @find
-    users(search: String @search, orderBy: [OrderByClause!] @orderBy): [User!]! @paginate @softDeletes
+    users(search: String @search, orderBy: _ @orderBy): [User!]! @paginate @softDeletes
 }
 
 extend type Mutation @middleware(checks: ["auth:airlock"]) {
