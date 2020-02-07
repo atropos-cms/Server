@@ -20,9 +20,16 @@ input UpdateOrCreateGroupInput {
     description: String @rules(apply: ["string", "max:1000"])
 }
 
+enum GroupColumn {
+    name @enum(value: "name")
+    description @enum(value: "description")
+    createdAt @enum(value: "created_at")
+    updatedAt @enum(value: "updated_at")
+}
+
 extend type Query @middleware(checks: ["auth:airlock"]) {
     group(id: ID! @eq): Group @find
-    groups(search: String @search, orderBy: [OrderByClause!] @orderBy): [Group!]! @paginate
+    groups(search: String @search, orderBy: _ @orderBy(columnsEnum: "GroupColumn")): [Group!]! @paginate
 
     permission(id: ID! @eq): Permission @find(model: "Spatie\\Permission\\Models\\Permission")
     permissions: [Permission!]! @paginate(model: "Spatie\\Permission\\Models\\Permission")

@@ -37,10 +37,25 @@ input UpdateUserPasswordInput {
     passwordConfirmation: String @rename(attribute: "password_confirmation")
 }
 
+enum UserColumn {
+    firstName @enum(value: "first_name")
+    lastName @enum(value: "last_name")
+    initials @enum(value: initials)
+    street @enum(value: street)
+    postcode @enum(value: postcode)
+    city @enum(value: city)
+    country @enum(value: country)
+    email @enum(value: email)
+    loginAt @enum(value: "login_at")
+    createdAt @enum(value: "created_at")
+    updatedAt @enum(value: "updated_at")
+    deletedAt @enum(value: "deleted_at")
+}
+
 extend type Query @middleware(checks: ["auth:airlock"]) {
     me: User @auth
     user(id: ID! @eq): User @find
-    users(search: String @search, orderBy: _ @orderBy): [User!]! @paginate @softDeletes
+    users(search: String @search, orderBy: _ @orderBy(columnsEnum: "UserColumn")): [User!]! @paginate @softDeletes
 }
 
 extend type Mutation @middleware(checks: ["auth:airlock"]) {
