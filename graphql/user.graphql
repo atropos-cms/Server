@@ -53,7 +53,7 @@ enum UserColumn {
 }
 
 extend type Query @middleware(checks: ["auth:airlock"]) {
-    me: User @auth
+    me: User @auth @event(dispatch: "App\\Events\\UserLogin")
     user(id: ID! @eq): User @find
     users(search: String @search, orderBy: _ @orderBy(columnsEnum: "UserColumn")): [User!]! @paginate @softDeletes
 }

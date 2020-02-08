@@ -16,7 +16,7 @@ class AuthTest extends GraphQLTestCase
             'query' => '
                 mutation login($data: LoginInput) {
                     login(data: $data) {
-                        token
+                        accessToken
                     }
                 }
             ',
@@ -26,7 +26,7 @@ class AuthTest extends GraphQLTestCase
                     'password' => 'password',
                 ]
             ],
-        ])->decodeResponseJson('data.login.token');
+        ])->decodeResponseJson('data.login.accessToken');
 
         $this->postGraphQL([
             'query' => '{
@@ -60,5 +60,25 @@ class AuthTest extends GraphQLTestCase
                 ]
             ]
         ]);
+    }
+
+    public function test_a_user_can_logout()
+    {
+        $user = app(\App\Factories\UserFactory::class)->create();
+        $token = $user->createToken('device_name')->plainTextToken;
+
+        $this->assertCount(1, $user->tokens);
+
+        $this->postGraphQL([
+            'query' => '
+                mutation {
+                  logout {
+                    status
+                  }
+            }',],
+            ['Authorization' => "Bearer $token"]
+        );
+
+        $this->assertCount(0, $user->fresh()->tokens);
     }
 }

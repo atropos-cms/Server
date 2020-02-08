@@ -4,13 +4,12 @@ input LoginInput {
 }
 
 type AuthPayload {
-    accessToken: String! @rename(attribute: "access_token"),
+    accessToken: String!,
     user: User!
 }
 
 type LogoutResponse {
-    status: String!
-    message: String
+    status: Boolean
 }
 
 type ForgotPasswordResponse {
@@ -37,8 +36,8 @@ input RegisterInput {
 }
 
 extend type Mutation {
-    login(data: LoginInput @spread): AuthPayload
-    # logout: LogoutResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Logout@resolve")
+    login(data: LoginInput @spread): AuthPayload @event(dispatch: "App\\Events\\UserLogin")
+    logout: LogoutResponse @middleware(checks: ["auth:airlock"])
     # forgotPassword(data: ForgotPasswordInput! @spread): ForgotPasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\ForgotPassword@resolve")
     # updateForgottenPassword(data: NewPasswordWithCodeInput @spread): ForgotPasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\ResetPassword@resolve")
     # register(data: RegisterInput @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Register@resolve")

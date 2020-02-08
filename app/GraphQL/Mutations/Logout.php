@@ -5,12 +5,11 @@ namespace App\GraphQL\Mutations;
 use App\Models\User;
 use GraphQL\Type\Definition\ResolveInfo;
 use Hash;
-use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
+use Laravel\Airlock\Airlock;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Illuminate\Support\Facades\Auth;
 
-class Login
+class Logout
 {
     /**
      * Return a value for the field.
@@ -24,17 +23,14 @@ class Login
      */
     public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $user = User::where('email', $args['email'])->first();
+        $request = $context->request();
+        $token = $request->bearerToken();
 
-        if (! $user || ! Hash::check($args['password'], $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
-        }
+        $model = Airlock::$personalAccessTokenModel;
+        $accessToken = $model::where('token', hash('sha256', $token))->first();
 
         return [
-            'accessToken' => $user->createToken('device_name')->plainTextToken,
-            'user' => $user
+            'status' => $accessToken->delete()
         ];
     }
 }
