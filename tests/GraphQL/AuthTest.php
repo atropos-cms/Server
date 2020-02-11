@@ -9,8 +9,7 @@ class AuthTest extends GraphQLTestCase
 {
     public function test_a_user_can_login()
     {
-        $user = app(\App\Factories\UserFactory::class)->make();
-        $user->save();
+        $user = app(\App\Factories\UserFactory::class)->create();
 
         $token = $this->postGraphQL([
             'query' => '
@@ -46,7 +45,7 @@ class AuthTest extends GraphQLTestCase
 
     public function test_that_me_returns_the_active_user()
     {
-        $user = app(\App\Factories\UserFactory::class)->create();
+        $user = $this->authenticate();
 
         $this->graphQL('
         {

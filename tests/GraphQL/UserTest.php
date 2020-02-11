@@ -9,7 +9,7 @@ class UserTest extends GraphQLTestCase
 {
     public function test_user_query()
     {
-        $user = app(\App\Factories\UserFactory::class)->create();
+        $user = $this->authenticate();
 
         $this->graphQL("
         {
@@ -42,7 +42,7 @@ class UserTest extends GraphQLTestCase
 
     public function test_users_query()
     {
-        $user = app(\App\Factories\UserFactory::class)->create();
+        $user = $this->authenticate();
 
         $this->graphQL("
         {
@@ -65,7 +65,7 @@ class UserTest extends GraphQLTestCase
 
     public function test_createUser_mutation()
     {
-        $user = app(\App\Factories\UserFactory::class)->create();
+        $this->authenticate();
 
         $this->postGraphQL([
             'query' => '
@@ -103,7 +103,7 @@ class UserTest extends GraphQLTestCase
 
     public function test_updateUser_mutation()
     {
-        $user = app(\App\Factories\UserFactory::class)->create();
+        $user = $this->authenticate();
 
         $this->postGraphQL([
             'query' => '
@@ -146,7 +146,7 @@ class UserTest extends GraphQLTestCase
 
     public function test_deleteUser_mutation()
     {
-        $user = app(\App\Factories\UserFactory::class)->create();
+        $user = $this->authenticate();
 
         $this->postGraphQL([
             'query' => '
@@ -172,7 +172,7 @@ class UserTest extends GraphQLTestCase
 
     public function test_restoreUser_mutation()
     {
-        $user = app(\App\Factories\UserFactory::class)->create();
+        $user = $this->authenticate();
         $user->delete();
 
         $this->postGraphQL([
@@ -199,8 +199,7 @@ class UserTest extends GraphQLTestCase
 
     public function test_updateMe_mutation()
     {
-        $user = app(\App\Factories\UserFactory::class)->create();
-        $this->actingAs($user);
+        $user = $this->authenticate();
 
         $this->postGraphQL([
             'query' => '
@@ -238,11 +237,14 @@ class UserTest extends GraphQLTestCase
                 ]
             ]
         ]);
+
+        $this->assertEquals('FirstName', $user->fresh()->first_name);
+        $this->assertEquals('LastName', $user->fresh()->last_name);
     }
 
     public function test_updateMyPassword_mutation()
     {
-        $user = app(\App\Factories\UserFactory::class)->create(['password' => \Hash::make('secret')]);
+        $user = app(\App\Factories\UserFactory::class)->createWithAuthentication(['password' => \Hash::make('secret')]);
 
         $this->postGraphQL([
             'query' => '

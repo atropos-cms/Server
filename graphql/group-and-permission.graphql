@@ -17,7 +17,7 @@ type Group {
 
 input UpdateOrCreateGroupInput {
     name: String @rules(apply: ["required", "string"])
-    description: String @rules(apply: ["string", "max:1000"])
+    description: String @rules(apply: ["string", "nullable", "max:1000"])
 }
 
 enum GroupColumn {
@@ -31,8 +31,8 @@ extend type Query @middleware(checks: ["auth:airlock"]) {
     group(id: ID! @eq): Group @find
     groups(search: String @search, orderBy: _ @orderBy(columnsEnum: "GroupColumn")): [Group!]! @paginate
 
-    permission(id: ID! @eq): Permission @find(model: "Spatie\\Permission\\Models\\Permission")
-    permissions: [Permission!]! @paginate(model: "Spatie\\Permission\\Models\\Permission")
+    permission(id: ID! @eq): Permission @find
+    permissions: [Permission!]! @all
 }
 
 extend type Mutation @middleware(checks: ["auth:airlock"]) {

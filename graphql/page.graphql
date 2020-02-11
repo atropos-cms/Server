@@ -2,6 +2,7 @@ type Page {
     id: ID!
     title: String!
     slug: String!
+    published: Boolean!
     content: String!
     createdAt: DateTime! @rename(attribute: "created_at")
     updatedAt: DateTime!  @rename(attribute: "updated_at")
@@ -10,8 +11,9 @@ type Page {
 }
 
 input CreatePageInput {
-    title: String @rules(apply: ["string"])
+    title: String! @rules(apply: ["string"])
     slug: String @rules(apply: ["string"])
+    published: Boolean @rules(apply: ["boolean"])
     content: String @rules(apply: ["string"])
     author: CreateAuthorRelation
 }
@@ -21,8 +23,9 @@ input CreateAuthorRelation {
 }
 
 input UpdatePageInput {
-    title: String @rules(apply: ["string"])
+    title: String! @rules(apply: ["string"])
     slug: String @rules(apply: ["string"])
+    published: Boolean @rules(apply: ["boolean"])
     content: String @rules(apply: ["string"])
 }
 

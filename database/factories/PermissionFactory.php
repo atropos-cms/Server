@@ -1,8 +1,6 @@
 <?php
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-use App\Models\User;
-use App\Models\Page;
 use Faker\Generator as Faker;
 
 /*
@@ -16,14 +14,8 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(Page::class, function (Faker $faker) {
-    $author = optional(User::inRandomOrder()->first())->id;
-
+$factory->define(\App\Models\Permission::class, function (Faker $faker) {
     return [
-        'title' => $faker->sentence,
-        'slug' => $faker->word,
-        'content' => $faker->paragraph,
-        'published' => $faker->boolean,
-        'author_id' => $author
+        'name' => $faker->word,
     ];
 });
