@@ -7,17 +7,17 @@ use Laravel\Airlock\Airlock;
 
 class UserFactory
 {
-    public function make($data = []) : UserModel
+    public function make($data = []): UserModel
     {
-       return factory(UserModel::class)->make($data);
+        return factory(UserModel::class)->make($data);
     }
 
-    public function create($data = []) : UserModel
+    public function create($data = []): UserModel
     {
         return factory(UserModel::class)->create($data);
     }
 
-    public function createWithAuthentication($data = []) : UserModel
+    public function createWithAuthentication($data = []): UserModel
     {
         $user = factory(UserModel::class)->create($data);
 

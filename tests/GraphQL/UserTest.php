@@ -35,8 +35,8 @@ class UserTest extends GraphQLTestCase
                     'city' => $user->city,
                     'country' => $user->country,
                     'email' => $user->email,
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 
@@ -44,7 +44,7 @@ class UserTest extends GraphQLTestCase
     {
         $user = $this->authenticate();
 
-        $this->graphQL("
+        $this->graphQL('
         {
             users (first:1, page: 1) {
                 data {
@@ -52,14 +52,14 @@ class UserTest extends GraphQLTestCase
                 }
             }
         }
-        ")->assertJson([
+        ')->assertJson([
             'data' => [
                 'users' => [
                     'data' => [[
                         'id' => $user->id,
-                    ]]
-                ]
-            ]
+                    ]],
+                ],
+            ],
         ]);
     }
 
@@ -87,17 +87,17 @@ class UserTest extends GraphQLTestCase
                 'data' => [
                     'firstName' => 'FirstName',
                     'lastName' => 'LastName',
-                    'email' => 'test@local.com'
-                ]
+                    'email' => 'test@local.com',
+                ],
             ],
         ])->assertJson([
             'data' => [
                 'createUser' => [
                     'firstName' => 'FirstName',
                     'lastName' => 'LastName',
-                    'email' => 'test@local.com'
-                ]
-            ]
+                    'email' => 'test@local.com',
+                ],
+            ],
         ]);
     }
 
@@ -125,8 +125,8 @@ class UserTest extends GraphQLTestCase
                 'id' => $user->id,
                 'data' => [
                     'firstName' => 'FirstName',
-                    'lastName' => 'LastName'
-                ]
+                    'lastName' => 'LastName',
+                ],
             ],
         ])->assertJson([
             'data' => [
@@ -139,8 +139,8 @@ class UserTest extends GraphQLTestCase
                     'city' => $user->city,
                     'country' => $user->country,
                     'email' => $user->email,
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 
@@ -163,8 +163,8 @@ class UserTest extends GraphQLTestCase
             'data' => [
                 'deleteUser' => [
                     'id' => $user->id,
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $this->assertTrue($user->refresh()->trashed());
@@ -190,8 +190,8 @@ class UserTest extends GraphQLTestCase
             'data' => [
                 'restoreUser' => [
                     'id' => $user->id,
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $this->assertFalse($user->refresh()->trashed());
@@ -220,8 +220,8 @@ class UserTest extends GraphQLTestCase
             'variables' => [
                 'data' => [
                     'firstName' => 'FirstName',
-                    'lastName' => 'LastName'
-                ]
+                    'lastName' => 'LastName',
+                ],
             ],
         ])->assertJson([
             'data' => [
@@ -234,8 +234,8 @@ class UserTest extends GraphQLTestCase
                     'city' => $user->city,
                     'country' => $user->country,
                     'email' => $user->email,
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $this->assertEquals('FirstName', $user->fresh()->first_name);
@@ -258,15 +258,15 @@ class UserTest extends GraphQLTestCase
                 'data' => [
                     'currentPassword' => 'secret',
                     'password' => 'passw0rd',
-                    'passwordConfirmation' => 'passw0rd'
-                ]
+                    'passwordConfirmation' => 'passw0rd',
+                ],
             ],
         ])->assertJson([
             'data' => [
                 'updateMyPassword' => [
                     'id' => $user->id,
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 }

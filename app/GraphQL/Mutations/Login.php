@@ -6,9 +6,9 @@ use App\Models\User;
 use GraphQL\Type\Definition\ResolveInfo;
 use Hash;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Illuminate\Support\Facades\Auth;
 
 class Login
 {
@@ -34,7 +34,7 @@ class Login
 
         return [
             'accessToken' => $user->createToken('device_name')->plainTextToken,
-            'user' => $user
+            'user' => $user,
         ];
     }
 }

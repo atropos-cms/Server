@@ -32,8 +32,8 @@ class PageTest extends GraphQLTestCase
                     'id' => $page->id,
                     'title' => $page->title,
                     'published' => $page->published,
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 
@@ -41,18 +41,18 @@ class PageTest extends GraphQLTestCase
     {
         $page = factory(Page::class)->create();
 
-        $this->graphQL("
+        $this->graphQL('
         {
             pages {
                     id
             }
         }
-        ")->assertJson([
+        ')->assertJson([
             'data' => [
                 'pages' => [[
                     'id' => $page->id,
-                ]]
-            ]
+                ]],
+            ],
         ]);
     }
 
@@ -74,16 +74,16 @@ class PageTest extends GraphQLTestCase
             'variables' => [
                 'data' => [
                     'title' => $page->title,
-                ]
+                ],
             ],
         ])->assertJson([
             'data' => [
                 'createPage' => [
                     'title' => $page->title,
                     'slug' => Str::slug($page->title),
-                    'published' => false
-                ]
-            ]
+                    'published' => false,
+                ],
+            ],
         ]);
     }
 }

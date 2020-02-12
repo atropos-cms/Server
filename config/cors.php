@@ -23,7 +23,7 @@ return [
      */
     'paths' => [
         'graphql',
-        'airlock/*'
+        'airlock/*',
     ],
 
     /*

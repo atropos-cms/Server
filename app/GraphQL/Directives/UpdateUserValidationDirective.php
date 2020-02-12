@@ -36,8 +36,8 @@ class UpdateUserValidationDirective extends ValidationDirective
             'email' => [
                 Rule::requiredIf($createUser),
                 'email',
-                Rule::unique('users', 'email')->ignore($ignore, 'id')
-            ]
+                Rule::unique('users', 'email')->ignore($ignore, 'id'),
+            ],
         ];
     }
 }

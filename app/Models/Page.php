@@ -17,11 +17,11 @@ class Page extends Model
     {
         parent::boot();
 
-        static::creating(function (Page $model) {
+        static::creating(function (self $model) {
             $model->slug = Str::slug($model->title);
         });
 
-        static::saving(function (Page $model) {
+        static::saving(function (self $model) {
             $model->author_id = auth()->id();
         });
     }
@@ -32,7 +32,7 @@ class Page extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'slug', 'content', 'published'
+        'title', 'slug', 'content', 'published',
     ];
 
     /**
@@ -41,7 +41,7 @@ class Page extends Model
      * @var array
      */
     protected $attributes = [
-        'published' => false
+        'published' => false,
     ];
 
     public function author(): BelongsTo
