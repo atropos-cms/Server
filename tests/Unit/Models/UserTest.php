@@ -15,10 +15,9 @@ class UserTest extends TestCase
     {
         $user = factory(User::class)->make([
             'first_name' => 'Jane',
-            'last_name' => 'Doe'
+            'last_name' => 'Doe',
         ]);
         $this->assertEquals('JD', $user->initials);
-
 
         /** @var User $user */
         $user = factory(User::class)->make();

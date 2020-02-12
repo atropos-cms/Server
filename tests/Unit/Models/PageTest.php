@@ -18,7 +18,7 @@ class PageTest extends TestCase
 
         /** @var Page $page */
         $page = factory(Page::class)->make([
-            'user' => $user
+            'user' => $user,
         ]);
 
         $this->assertEquals($user->id, $page->author->id);

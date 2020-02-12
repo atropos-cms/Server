@@ -65,7 +65,7 @@ class AuthTest extends GraphQLTestCase
             ],
         ])->assertJson([
             'errors' => [[
-                'message' => 'The given data was invalid.'
+                'message' => 'The given data was invalid.',
             ]],
         ]);
     }
@@ -99,7 +99,7 @@ class AuthTest extends GraphQLTestCase
             }
         }')->assertJson([
             'errors' => [[
-                'message' => 'UNAUTHENTICATED'
+                'message' => 'UNAUTHENTICATED',
             ]],
         ]);
     }
