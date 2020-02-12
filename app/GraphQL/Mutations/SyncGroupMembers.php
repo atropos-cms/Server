@@ -21,8 +21,8 @@ class SyncGroupMembers
     {
         /** @var Group $group */
         $group = Group::findById($args['id']);
-
         $group->users()->sync($args['members']);
+
         return $group;
     }
 }

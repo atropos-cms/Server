@@ -25,9 +25,7 @@ class AddGroupMembers
         // Remove users from the input array, that are already a member of the group.
         $currentMembers = collect($group->users()->pluck('id'));
         $newMembers = collect($args['members'])
-            ->filter(function ($item) use ($currentMembers) {
-                return !$currentMembers->contains($item);
-            })
+            ->filter(fn ($item) => !$currentMembers->contains($item))
             ->toArray();
 
         $group->users()->attach($newMembers);
