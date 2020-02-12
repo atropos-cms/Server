@@ -19,7 +19,7 @@ class PostTest extends TestCase
 
         /** @var Post $post */
         $post = factory(Post::class)->make([
-            'user' => $user
+            'user' => $user,
         ]);
 
         $this->assertEquals($user->id, $post->author->id);

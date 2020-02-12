@@ -47,12 +47,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function getInitialsAttribute() : string
+    public function getInitialsAttribute(): string
     {
         return substr($this->first_name, 0, 1).substr($this->last_name, 0, 1);
     }
 
-    public function getFullNameAttribute() : string
+    public function getFullNameAttribute(): string
     {
         return $this->first_name.' '.$this->last_name;
     }
