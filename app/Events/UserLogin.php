@@ -9,10 +9,7 @@ class UserLogin
 {
     use Dispatchable, SerializesModels;
 
-    /**
-     * @var int|null
-     */
-    public $userId = null;
+    public ?int $userId = null;
 
     /**
      * Create a new event instance.
