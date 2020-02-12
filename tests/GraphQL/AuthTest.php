@@ -28,7 +28,8 @@ class AuthTest extends GraphQLTestCase
             ],
         ])->decodeResponseJson('data.login.accessToken');
 
-        $this->postGraphQL([
+        $this->postGraphQL(
+            [
             'query' => '{
                 me {
                     id
@@ -112,7 +113,8 @@ class AuthTest extends GraphQLTestCase
 
         $this->assertCount(1, $user->tokens);
 
-        $this->postGraphQL([
+        $this->postGraphQL(
+            [
             'query' => '
                 mutation {
                   logout {
