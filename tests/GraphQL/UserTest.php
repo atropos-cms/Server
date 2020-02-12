@@ -7,6 +7,7 @@ use Tests\GraphQLTestCase;
 
 class UserTest extends GraphQLTestCase
 {
+    /** @test */
     public function test_user_query()
     {
         $user = $this->authenticate();
@@ -40,6 +41,7 @@ class UserTest extends GraphQLTestCase
         ]);
     }
 
+    /** @test */
     public function test_users_query()
     {
         $user = $this->authenticate();
@@ -63,6 +65,7 @@ class UserTest extends GraphQLTestCase
         ]);
     }
 
+    /** @test */
     public function test_createUser_mutation()
     {
         $this->authenticate();
@@ -101,6 +104,7 @@ class UserTest extends GraphQLTestCase
         ]);
     }
 
+    /** @test */
     public function test_updateUser_mutation()
     {
         $user = $this->authenticate();
@@ -144,6 +148,7 @@ class UserTest extends GraphQLTestCase
         ]);
     }
 
+    /** @test */
     public function test_deleteUser_mutation()
     {
         $user = $this->authenticate();
@@ -170,6 +175,7 @@ class UserTest extends GraphQLTestCase
         $this->assertTrue($user->refresh()->trashed());
     }
 
+    /** @test */
     public function test_restoreUser_mutation()
     {
         $user = $this->authenticate();
@@ -197,6 +203,7 @@ class UserTest extends GraphQLTestCase
         $this->assertFalse($user->refresh()->trashed());
     }
 
+    /** @test */
     public function test_updateMe_mutation()
     {
         $user = $this->authenticate();
@@ -242,6 +249,7 @@ class UserTest extends GraphQLTestCase
         $this->assertEquals('LastName', $user->fresh()->last_name);
     }
 
+    /** @test */
     public function test_updateMyPassword_mutation()
     {
         $user = app(\App\Factories\UserFactory::class)->createWithAuthentication(['password' => \Hash::make('secret')]);

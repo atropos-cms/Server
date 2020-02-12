@@ -14,6 +14,7 @@ class PageTest extends GraphQLTestCase
         $this->authenticate();
     }
 
+    /** @test */
     public function test_page_query()
     {
         $page = factory(Page::class)->create();
@@ -37,6 +38,7 @@ class PageTest extends GraphQLTestCase
         ]);
     }
 
+    /** @test */
     public function test_pages_query()
     {
         $page = factory(Page::class)->create();
@@ -56,6 +58,7 @@ class PageTest extends GraphQLTestCase
         ]);
     }
 
+    /** @test */
     public function test_createPage_mutation()
     {
         $page = factory(Page::class)->make();

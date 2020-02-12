@@ -7,7 +7,8 @@ use Tests\GraphQLTestCase;
 
 class AuthTest extends GraphQLTestCase
 {
-    public function test_a_user_can_login()
+    /** @test */
+    public function a_user_can_login()
     {
         $user = app(\App\Factories\UserFactory::class)->create();
 
@@ -43,7 +44,34 @@ class AuthTest extends GraphQLTestCase
         ]);
     }
 
-    public function test_that_me_returns_the_active_user()
+    /** @test */
+    public function an_error_is_returned_if_invalid_login_data_is_provided()
+    {
+        $user = app(\App\Factories\UserFactory::class)->create();
+
+        $this->postGraphQL([
+            'query' => '
+                mutation login($data: LoginInput) {
+                    login(data: $data) {
+                        accessToken
+                    }
+                }
+            ',
+            'variables' => [
+                'data' => [
+                    'email' => $user->email,
+                    'password' => 'invalid',
+                ],
+            ],
+        ])->assertJson([
+            'errors' => [[
+                'message' => 'The given data was invalid.'
+            ]],
+        ]);
+    }
+
+    /** @test */
+    public function me_returns_the_active_user()
     {
         $user = $this->authenticate();
 
@@ -61,7 +89,23 @@ class AuthTest extends GraphQLTestCase
         ]);
     }
 
-    public function test_a_user_can_logout()
+    /** @test */
+    public function me_route_throws_an_error_if_user_is_not_logged_in()
+    {
+        $this->graphQL('
+        {
+            me {
+                id
+            }
+        }')->assertJson([
+            'errors' => [[
+                'message' => 'UNAUTHENTICATED'
+            ]],
+        ]);
+    }
+
+    /** @test */
+    public function a_user_can_logout()
     {
         $user = app(\App\Factories\UserFactory::class)->create();
         $token = $user->createToken('device_name')->plainTextToken;
