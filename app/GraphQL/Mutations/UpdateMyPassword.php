@@ -2,8 +2,8 @@
 
 namespace App\GraphQL\Mutations;
 
-use Illuminate\Support\Facades\Hash;
 use GraphQL\Type\Definition\ResolveInfo;
+use Illuminate\Support\Facades\Hash;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class UpdateMyPassword

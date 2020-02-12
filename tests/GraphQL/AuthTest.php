@@ -23,7 +23,7 @@ class AuthTest extends GraphQLTestCase
                 'data' => [
                     'email' => $user->email,
                     'password' => 'password',
-                ]
+                ],
             ],
         ])->decodeResponseJson('data.login.accessToken');
 
@@ -32,14 +32,14 @@ class AuthTest extends GraphQLTestCase
                 me {
                     id
                 }
-            }'],
+            }', ],
             ['Authorization' => "Bearer $token"]
         )->assertJson([
             'data' => [
                 'me' => [
                     'id' => $user->id,
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 
@@ -56,8 +56,8 @@ class AuthTest extends GraphQLTestCase
             'data' => [
                 'me' => [
                     'id' => $user->id,
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 
@@ -74,7 +74,7 @@ class AuthTest extends GraphQLTestCase
                   logout {
                     status
                   }
-            }',],
+            }', ],
             ['Authorization' => "Bearer $token"]
         );
 

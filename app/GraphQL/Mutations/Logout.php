@@ -30,7 +30,7 @@ class Logout
         $accessToken = $model::where('token', hash('sha256', $token))->first();
 
         return [
-            'status' => $accessToken->delete()
+            'status' => $accessToken->delete(),
         ];
     }
 }

@@ -11,7 +11,7 @@ abstract class GraphQLTestCase extends TestCase
     use RefreshDatabase;
     use MakesGraphQLRequests;
 
-    public function authenticate() : User
+    public function authenticate(): User
     {
         return app(\App\Factories\UserFactory::class)->createWithAuthentication();
     }

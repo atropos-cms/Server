@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Laravel\Scout\Searchable;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Airlock\HasApiTokens;
+use Laravel\Scout\Searchable;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -47,11 +47,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function getInitialsAttribute() {
-        return substr($this->first_name, 0, 1) . substr($this->last_name, 0, 1);
+    public function getInitialsAttribute()
+    {
+        return substr($this->first_name, 0, 1).substr($this->last_name, 0, 1);
     }
 
-    public function getFullNameAttribute() {
-     return $this->first_name . ' ' . $this->last_name;
+    public function getFullNameAttribute()
+    {
+        return $this->first_name.' '.$this->last_name;
     }
 }

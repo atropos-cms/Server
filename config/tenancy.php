@@ -26,7 +26,7 @@ return [
     'exempt_domains' => [ // e.g. domains which host landing pages, sign up pages, etc
         'atropos-server.test',
         '127.0.0.1',
-        'localhost'
+        'localhost',
     ],
     'database' => [
         'based_on' => null, // The connection that will be used as a base for the dynamically created tenant connection.

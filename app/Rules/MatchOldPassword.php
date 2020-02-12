@@ -16,7 +16,7 @@ class MatchOldPassword implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             return false;
         }
 
