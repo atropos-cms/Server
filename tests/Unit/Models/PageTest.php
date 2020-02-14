@@ -4,12 +4,12 @@ namespace Tests\Unit\Models;
 
 use App\Models\Page;
 use App\Models\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
+use Tests\UsesTenant;
 
 class PageTest extends TestCase
 {
-    use DatabaseMigrations;
+    use UsesTenant;
 
     /** @test */
     public function a_page_belongs_to_a_user()

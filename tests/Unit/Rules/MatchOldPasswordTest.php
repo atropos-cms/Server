@@ -4,12 +4,12 @@ namespace Tests\Unit\Rules;
 
 use App\Models\User;
 use App\Rules\MatchOldPassword;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
+use Tests\UsesTenant;
 
 class MatchOldPasswordTest extends TestCase
 {
-    use DatabaseMigrations;
+    use UsesTenant;
 
     /** @test */
     public function it_returns_false_if_no_user_is_authenticated()

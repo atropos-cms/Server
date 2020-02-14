@@ -3,12 +3,12 @@
 namespace Tests\Unit\Models;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
+use Tests\UsesTenant;
 
 class UserTest extends TestCase
 {
-    use DatabaseMigrations;
+    use UsesTenant;
 
     /** @test */
     public function it_computes_the_initials_for_a_user_based_on_the_first_and_last_name()

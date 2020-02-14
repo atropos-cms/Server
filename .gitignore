@@ -22,3 +22,6 @@ schema-directives.graphql
 
 # CI/CD
 .php_cs.cache
+
+# Testing
+database/testing/*.sqlite

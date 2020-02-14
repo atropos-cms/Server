@@ -2,15 +2,14 @@
 
 namespace Tests\Unit\Models;
 
-use App\Models\Page;
 use App\Models\Post;
 use App\Models\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
+use Tests\UsesTenant;
 
 class PostTest extends TestCase
 {
-    use DatabaseMigrations;
+    use UsesTenant;
 
     /** @test */
     public function a_post_belongs_to_a_user()

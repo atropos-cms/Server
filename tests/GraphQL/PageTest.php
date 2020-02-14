@@ -8,7 +8,7 @@ use Tests\GraphQLTestCase;
 
 class PageTest extends GraphQLTestCase
 {
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
         $this->authenticate();
