@@ -30,6 +30,7 @@ $excludes = [
     'vendor',
     'storage',
     'node_modules',
+    'bootstrap/cache',
 ];
 
 return PhpCsFixer\Config::create()
