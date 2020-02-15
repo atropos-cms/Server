@@ -3,11 +3,8 @@
 namespace App\GraphQL\Scalars;
 
 use Carbon\Carbon;
-use GraphQL\Error\Error;
-use GraphQL\Error\InvariantViolation;
-use GraphQL\Language\AST\StringValueNode;
-use GraphQL\Type\Definition\ScalarType;
 use GraphQL\Utils\Utils;
+use GraphQL\Error\InvariantViolation;
 
 class Iso8601DateTime extends \Nuwave\Lighthouse\Schema\Types\Scalars\DateTime
 {
@@ -15,6 +12,7 @@ class Iso8601DateTime extends \Nuwave\Lighthouse\Schema\Types\Scalars\DateTime
      * Serialize an internal value, ensuring it is a valid datetime string.
      *
      * @param  \Carbon\Carbon|string  $value
+     *
      * @return string
      */
     public function serialize($value): string
@@ -33,9 +31,10 @@ class Iso8601DateTime extends \Nuwave\Lighthouse\Schema\Types\Scalars\DateTime
      *
      * @param  mixed  $value
      * @param  string  $exceptionClass
-     * @return \Carbon\Carbon
      *
      * @throws \GraphQL\Error\InvariantViolation|\GraphQL\Error\Error
+     *
+     * @return \Carbon\Carbon
      */
     protected function tryParsingDateTime($value, string $exceptionClass): Carbon
     {

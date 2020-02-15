@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\GraphQL\Directives;
 
-use App\GraphQL\Directives\UpdateUserValidationDirective;
 use Tests\TestCase;
+use App\GraphQL\Directives\UpdateUserValidationDirective;
 
 class UpdateUserValidationDirectiveTest extends TestCase
 {

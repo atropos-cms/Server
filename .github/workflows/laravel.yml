@@ -25,6 +25,9 @@ jobs:
         mkdir -p database/testing
         touch touch database/testing/db.sqlite
 
+    - name: Codestyle validation with PHP-CS-Fixer
+      run: vendor/bin/php-cs-fixer fix --dry-run --diff
+
     - name: Execute tests via PHPUnit
       env:
         DB_CONNECTION: sqlite

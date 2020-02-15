@@ -3,7 +3,6 @@
 namespace App\GraphQL\Directives;
 
 use App\Rules\MatchOldPassword;
-use Illuminate\Validation\Rule;
 use Nuwave\Lighthouse\Schema\Directives\ValidationDirective;
 
 class UpdateUserPasswordValidationDirective extends ValidationDirective

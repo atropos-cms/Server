@@ -3,8 +3,8 @@
 namespace Tests\GraphQL;
 
 use App\Models\Page;
-use Illuminate\Support\Str;
 use Tests\GraphQLTestCase;
+use Illuminate\Support\Str;
 
 class PageTest extends GraphQLTestCase
 {

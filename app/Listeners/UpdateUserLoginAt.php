@@ -2,11 +2,8 @@
 
 namespace App\Listeners;
 
-use App\Events\UserLogin;
 use App\Models\User;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Support\Carbon;
+use App\Events\UserLogin;
 
 class UpdateUserLoginAt
 {
@@ -14,6 +11,7 @@ class UpdateUserLoginAt
      * Handle the event.
      *
      * @param  object  $event
+     *
      * @return void
      */
     public function handle(UserLogin $event)

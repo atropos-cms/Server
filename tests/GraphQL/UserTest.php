@@ -2,7 +2,6 @@
 
 namespace Tests\GraphQL;
 
-use App\Models\User;
 use Tests\GraphQLTestCase;
 
 class UserTest extends GraphQLTestCase

@@ -2,8 +2,8 @@
 
 namespace App\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Contracts\Validation\Rule;
 
 class MatchOldPassword implements Rule
 {
@@ -12,6 +12,7 @@ class MatchOldPassword implements Rule
      *
      * @param  string  $attribute
      * @param  mixed  $value
+     *
      * @return bool
      */
     public function passes($attribute, $value)

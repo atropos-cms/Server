@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Models;
 
+use Tests\TestCase;
 use App\Models\Page;
 use App\Models\User;
-use Tests\TestCase;
 use Tests\UsesTenant;
 
 class PageTest extends TestCase

@@ -2,8 +2,8 @@
 
 namespace App\Factories;
 
-use App\Models\User as UserModel;
 use Laravel\Airlock\Airlock;
+use App\Models\User as UserModel;
 
 class UserFactory
 {

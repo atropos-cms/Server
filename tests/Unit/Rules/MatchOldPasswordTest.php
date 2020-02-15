@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\Rules;
 
-use App\Models\User;
-use App\Rules\MatchOldPassword;
 use Tests\TestCase;
+use App\Models\User;
 use Tests\UsesTenant;
+use App\Rules\MatchOldPassword;
 
 class MatchOldPasswordTest extends TestCase
 {

@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\GraphQL\Scalars;
 
-use App\GraphQL\Scalars\Iso8601DateTime;
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\GraphQL\Scalars\Iso8601DateTime;
 
 class Iso8601DateTimeTest extends TestCase
 {

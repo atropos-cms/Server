@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Models;
 
+use Tests\TestCase;
 use App\Models\Post;
 use App\Models\User;
-use Tests\TestCase;
 use Tests\UsesTenant;
 
 class PostTest extends TestCase

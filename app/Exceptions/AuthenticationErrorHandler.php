@@ -4,7 +4,6 @@ namespace App\Exceptions;
 
 use Closure;
 use GraphQL\Error\Error;
-use Nuwave\Lighthouse\Exceptions\RendersErrorsExtensions;
 use Nuwave\Lighthouse\Execution\ErrorHandler;
 
 class AuthenticationErrorHandler implements ErrorHandler
@@ -16,6 +15,7 @@ class AuthenticationErrorHandler implements ErrorHandler
      *
      * @param  \GraphQL\Error\Error  $error
      * @param  \Closure  $next
+     *
      * @return array
      */
     public static function handle(Error $error, Closure $next): array
