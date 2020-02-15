@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Laravel\Airlock\Airlock;
+use Stancl\Tenancy\TenantManager;
 
 class AppServiceProvider extends ServiceProvider
 {

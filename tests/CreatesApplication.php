@@ -17,11 +17,6 @@ trait CreatesApplication
 
         $app->make(Kernel::class)->bootstrap();
 
-        // create the test database if it does not exist
-        if (!file_exists(env('DB_DATABASE'))) {
-            touch(env('DB_DATABASE'));
-        }
-
         return $app;
     }
 }

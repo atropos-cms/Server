@@ -22,13 +22,13 @@ jobs:
 
     - name: Create Database
       run: |
-        mkdir -p database
-        touch database/database.sqlite
+        mkdir -p database/testing
+        touch touch database/testing/db.sqlite
 
     - name: Execute tests via PHPUnit
       env:
         DB_CONNECTION: sqlite
-        DB_DATABASE: database/database.sqlite
+        DB_DATABASE: database/testing/db.sqlite
       run: vendor/bin/phpunit --coverage-clover=coverage.xml
 
     - name: Upload coverage to Codecov
