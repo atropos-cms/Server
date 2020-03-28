@@ -52,13 +52,13 @@ enum UserColumn {
     deletedAt @enum(value: "deleted_at")
 }
 
-extend type Query @middleware(checks: ["auth:airlock"]) {
+extend type Query @middleware(checks: ["auth:sanctum"]) {
     me: User @auth @event(dispatch: "App\\Events\\UserLogin")
     user(id: ID! @eq): User @find
     users(search: String @search, orderBy: _ @orderBy(columnsEnum: "UserColumn")): [User!]! @paginate @softDeletes
 }
 
-extend type Mutation @middleware(checks: ["auth:airlock"]) {
+extend type Mutation @middleware(checks: ["auth:sanctum"]) {
     updateMe(data: UpdateOrCreateUserInput! @spread): User @updateUserValidation
     updateMyPassword(data: UpdateUserPasswordInput! @spread): User @updateUserPasswordValidation
 

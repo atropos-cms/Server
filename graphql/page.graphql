@@ -29,12 +29,12 @@ input UpdatePageInput {
     content: String @rules(apply: ["string"])
 }
 
-extend type Query @middleware(checks: ["auth:airlock"]) {
+extend type Query @middleware(checks: ["auth:sanctum"]) {
     page(id: ID! @eq): Page @find
     pages: [Page!]! @all @softDeletes
 }
 
-extend type Mutation @middleware(checks: ["auth:airlock"]) {
+extend type Mutation @middleware(checks: ["auth:sanctum"]) {
     createPage(data: CreatePageInput! @spread): Page @create
     updatePage(id: ID!, data: UpdatePageInput! @spread): Page @update
     deletePage(id: ID!): Page @delete

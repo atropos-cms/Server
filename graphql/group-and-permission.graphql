@@ -28,7 +28,7 @@ enum GroupColumn {
     updatedAt @enum(value: "updated_at")
 }
 
-extend type Query @middleware(checks: ["auth:airlock"]) {
+extend type Query @middleware(checks: ["auth:sanctum"]) {
     group(id: ID! @eq): Group @find
     groups(search: String @search, orderBy: _ @orderBy(columnsEnum: "GroupColumn")): [Group!]! @paginate
 
@@ -36,7 +36,7 @@ extend type Query @middleware(checks: ["auth:airlock"]) {
     permissions: [Permission!]! @all
 }
 
-extend type Mutation @middleware(checks: ["auth:airlock"]) {
+extend type Mutation @middleware(checks: ["auth:sanctum"]) {
     createGroup(data: UpdateOrCreateGroupInput! @spread): Group @create
     updateGroup(id: ID!, data: UpdateOrCreateGroupInput! @spread): Group @update
     deleteGroup(id: ID!): Group @delete

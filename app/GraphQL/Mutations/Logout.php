@@ -3,7 +3,7 @@
 namespace App\GraphQL\Mutations;
 
 use Hash;
-use Laravel\Airlock\Airlock;
+use Laravel\Sanctum\Sanctum;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Validation\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
@@ -27,7 +27,7 @@ class Logout
         $request = $context->request();
         $token = $request->bearerToken();
 
-        $model = Airlock::$personalAccessTokenModel;
+        $model = Sanctum::$personalAccessTokenModel;
         $accessToken = $model::where('token', hash('sha256', $token))->first();
 
         return [

@@ -13,10 +13,7 @@ return [
     |
     */
 
-    'stateful' => [
-        'localhost',
-        'test',
-    ],
+    'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', 'localhost,127.0.0.1')),
 
     /*
     |--------------------------------------------------------------------------
@@ -29,15 +26,15 @@ return [
     |
     */
 
-    'expiration' => 60 * 48, // 48h
+    'expiration' => null,
 
     /*
     |--------------------------------------------------------------------------
-    | Airlock Middleware
+    | Sanctum Middleware
     |--------------------------------------------------------------------------
     |
-    | When authenticating your first-party SPA with Airlock you may need to
-    | customize some of the middleware Airlock uses while processing the
+    | When authenticating your first-party SPA with Sanctum you may need to
+    | customize some of the middleware Sanctum uses while processing the
     | request. You may change the middleware listed below as required.
     |
     */

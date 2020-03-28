@@ -19,12 +19,12 @@ input UpdatePostInput {
     content: String @rules(apply: ["string"])
 }
 
-extend type Query @middleware(checks: ["auth:airlock"]) {
+extend type Query @middleware(checks: ["auth:sanctum"]) {
     post(id: Int! @eq): Post @find
     posts: [Post!]! @paginate @softDeletes
 }
 
-extend type Mutation @middleware(checks: ["auth:airlock"]) {
+extend type Mutation @middleware(checks: ["auth:sanctum"]) {
     createPost(data: CreatePostInput! @spread): Post @create
     updatePost(id: ID!, data: UpdatePostInput! @spread): Post @update
     deletePost(id: ID!): Post @delete

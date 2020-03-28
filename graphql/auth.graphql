@@ -37,7 +37,7 @@ input RegisterInput {
 
 extend type Mutation {
     login(data: LoginInput @spread): AuthPayload @event(dispatch: "App\\Events\\UserLogin")
-    logout: LogoutResponse @middleware(checks: ["auth:airlock"])
+    logout: LogoutResponse @middleware(checks: ["auth:sanctum"])
     # forgotPassword(data: ForgotPasswordInput! @spread): ForgotPasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\ForgotPassword@resolve")
     # updateForgottenPassword(data: NewPasswordWithCodeInput @spread): ForgotPasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\ResetPassword@resolve")
     # register(data: RegisterInput @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Register@resolve")

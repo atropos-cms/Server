@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'airlock',
+        'guard' => 'sanctum',
         'passwords' => 'users',
     ],
 

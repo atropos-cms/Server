@@ -31,7 +31,7 @@ return [
          * To apply middleware on a field level, use the @middleware directive.
          */
         'middleware' => [
-            \Laravel\Airlock\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             \Nuwave\Lighthouse\Support\Http\Middleware\AcceptJson::class,
         ],
     ],

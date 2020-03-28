@@ -2,7 +2,7 @@
 
 namespace App\Factories;
 
-use Laravel\Airlock\Airlock;
+use Laravel\Sanctum\Sanctum;
 use App\Models\User as UserModel;
 
 class UserFactory
@@ -21,7 +21,7 @@ class UserFactory
     {
         $user = factory(UserModel::class)->create($data);
 
-        Airlock::actingAs($user, ['*']);
+        Sanctum::actingAs($user, ['*']);
 
         return $user;
     }

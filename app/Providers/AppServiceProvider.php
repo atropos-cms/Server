@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use Laravel\Airlock\Airlock;
+use Laravel\Sanctum\Sanctum;
 use Stancl\Tenancy\TenantManager;
 use Illuminate\Support\ServiceProvider;
 
@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        Airlock::ignoreMigrations();
+        Sanctum::ignoreMigrations();
     }
 
     /**
