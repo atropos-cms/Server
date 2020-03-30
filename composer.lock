@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "914d24cd06b80939f0e6bb3eb2495552",
+    "content-hash": "6e0369691a3596dd098632336de30784",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -659,6 +659,48 @@
             ],
             "description": "A PHP class to ping hosts.",
             "time": "2019-07-29T21:54:12+00:00"
+        },
+        {
+            "name": "haydenpierce/class-finder",
+            "version": "0.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://gitlab.com/hpierce1102/ClassFinder.git",
+                "reference": "a813ebb4444789ab8ec36692e24f26991014fcdf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://gitlab.com/api/v4/projects/hpierce1102%2FClassFinder/repository/archive.zip?sha=a813ebb4444789ab8ec36692e24f26991014fcdf",
+                "reference": "a813ebb4444789ab8ec36692e24f26991014fcdf",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "^1.6",
+                "phpunit/phpunit": "4.8.36"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "HaydenPierce\\ClassFinder\\": "src/",
+                    "HaydenPierce\\ClassFinder\\UnitTest\\": "test/unit"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Hayden Pierce",
+                    "email": "hayden@haydenpierce.com"
+                }
+            ],
+            "description": "A library that can provide of a list of classes in a given namespace",
+            "time": "2019-09-15T14:33:14+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -1322,6 +1364,58 @@
             "time": "2020-03-17T18:58:12+00:00"
         },
         {
+            "name": "lukeraymonddowning/poser",
+            "version": "2.7.0-beta",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lukeraymonddowning/poser.git",
+                "reference": "80aa993eb6d5a780c3b61ee704bdaf061a7c45d3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lukeraymonddowning/poser/zipball/80aa993eb6d5a780c3b61ee704bdaf061a7c45d3",
+                "reference": "80aa993eb6d5a780c3b61ee704bdaf061a7c45d3",
+                "shasum": ""
+            },
+            "require": {
+                "haydenpierce/class-finder": "^0.4.0",
+                "illuminate/support": "^6.0|^7.0"
+            },
+            "require-dev": {
+                "illuminate/database": "^6.0|^7.0",
+                "orchestra/testbench": "^4.0",
+                "phpunit/phpunit": "^8.0"
+            },
+            "type": "package",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Lukeraymonddowning\\Poser\\PoserServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Lukeraymonddowning\\Poser\\": "./src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Luke Raymond Downing",
+                    "email": "lukeraymonddowning@gmail.com"
+                }
+            ],
+            "description": "A description for poser.",
+            "keywords": [
+                "laravel"
+            ],
+            "time": "2020-03-29T12:11:20+00:00"
+        },
+        {
             "name": "mll-lab/laravel-graphql-playground",
             "version": "v2.1.0",
             "source": {
@@ -1596,12 +1690,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nuwave/lighthouse.git",
-                "reference": "7d7941fff14e9ff21c2bca6cd6f4f0c951b67cd6"
+                "reference": "79ec9183fe672cae70b9a1278cd59299be71e1e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nuwave/lighthouse/zipball/7d7941fff14e9ff21c2bca6cd6f4f0c951b67cd6",
-                "reference": "7d7941fff14e9ff21c2bca6cd6f4f0c951b67cd6",
+                "url": "https://api.github.com/repos/nuwave/lighthouse/zipball/79ec9183fe672cae70b9a1278cd59299be71e1e5",
+                "reference": "79ec9183fe672cae70b9a1278cd59299be71e1e5",
                 "shasum": ""
             },
             "require": {
@@ -1698,7 +1792,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-03-25T10:54:59+00:00"
+            "time": "2020-03-29T11:43:08+00:00"
         },
         {
             "name": "opis/closure",
@@ -2462,6 +2556,12 @@
                 "roles",
                 "security",
                 "spatie"
+            ],
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                }
             ],
             "time": "2020-03-03T21:31:02+00:00"
         },
@@ -4996,6 +5096,12 @@
                 "Xdebug",
                 "performance"
             ],
+            "funding": [
+                {
+                    "url": "https://packagist.com",
+                    "type": "custom"
+                }
+            ],
             "time": "2020-03-01T12:26:26+00:00"
         },
         {
@@ -5424,6 +5530,12 @@
                 "flare",
                 "reporting"
             ],
+            "funding": [
+                {
+                    "url": "https://www.patreon.com/spatie",
+                    "type": "patreon"
+                }
+            ],
             "time": "2020-03-02T15:52:04+00:00"
         },
         {
@@ -5746,48 +5858,6 @@
             "time": "2016-01-20T08:20:44+00:00"
         },
         {
-            "name": "haydenpierce/class-finder",
-            "version": "0.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://gitlab.com/hpierce1102/ClassFinder.git",
-                "reference": "a813ebb4444789ab8ec36692e24f26991014fcdf"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://gitlab.com/api/v4/projects/hpierce1102%2FClassFinder/repository/archive.zip?sha=a813ebb4444789ab8ec36692e24f26991014fcdf",
-                "reference": "a813ebb4444789ab8ec36692e24f26991014fcdf",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "php": ">=5.3"
-            },
-            "require-dev": {
-                "mikey179/vfsstream": "^1.6",
-                "phpunit/phpunit": "4.8.36"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "HaydenPierce\\ClassFinder\\": "src/",
-                    "HaydenPierce\\ClassFinder\\UnitTest\\": "test/unit"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Hayden Pierce",
-                    "email": "hayden@haydenpierce.com"
-                }
-            ],
-            "description": "A library that can provide of a list of classes in a given namespace",
-            "time": "2019-09-15T14:33:14+00:00"
-        },
-        {
             "name": "justinrainbow/json-schema",
             "version": "5.2.9",
             "source": {
@@ -5852,70 +5922,6 @@
                 "schema"
             ],
             "time": "2019-09-25T14:49:45+00:00"
-        },
-        {
-            "name": "lukeraymonddowning/poser",
-            "version": "dev-case-sensitivity",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/SproutDesk/poser.git",
-                "reference": "1d655810231009117940d24b523c0ed5ab907cd3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/SproutDesk/poser/zipball/1d655810231009117940d24b523c0ed5ab907cd3",
-                "reference": "1d655810231009117940d24b523c0ed5ab907cd3",
-                "shasum": ""
-            },
-            "require": {
-                "haydenpierce/class-finder": "^0.4.0",
-                "illuminate/support": "^6.0|^7.0"
-            },
-            "require-dev": {
-                "illuminate/database": "^6.0|^7.0",
-                "orchestra/testbench": "^4.0",
-                "phpunit/phpunit": "^8.0"
-            },
-            "type": "package",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Lukeraymonddowning\\Poser\\PoserServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Lukeraymonddowning\\Poser\\": "./src"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Lukeraymonddowning\\Poser\\Tests\\": "./tests"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/phpunit"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Luke Raymond Downing",
-                    "email": "lukeraymonddowning@gmail.com"
-                }
-            ],
-            "description": "A description for poser.",
-            "keywords": [
-                "laravel"
-            ],
-            "support": {
-                "source": "https://github.com/SproutDesk/poser/tree/case-sensitivity"
-            },
-            "time": "2020-03-27T22:34:40+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -6944,6 +6950,12 @@
                 "highlight.js",
                 "highlight.php",
                 "syntax"
+            ],
+            "funding": [
+                {
+                    "url": "https://github.com/allejo",
+                    "type": "github"
+                }
             ],
             "time": "2020-03-02T05:59:21+00:00"
         },
@@ -7991,8 +8003,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "nuwave/lighthouse": 20,
-        "lukeraymonddowning/poser": 20
+        "nuwave/lighthouse": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

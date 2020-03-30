@@ -2,6 +2,8 @@
 
 namespace Tests\GraphQL;
 
+use Tests\Factories\GroupFactory;
+use Tests\Factories\UserFactory;
 use Tests\GraphQLTestCase;
 
 class UserTest extends GraphQLTestCase
@@ -17,6 +19,7 @@ class UserTest extends GraphQLTestCase
                 id
                 firstName
                 lastName
+                fullName
                 street
                 postcode
                 city
@@ -30,6 +33,7 @@ class UserTest extends GraphQLTestCase
                     'id' => $user->id,
                     'firstName' => $user->first_name,
                     'lastName' => $user->last_name,
+                    'fullName' => $user->full_name,
                     'street' => $user->street,
                     'postcode' => $user->postcode,
                     'city' => $user->city,
@@ -201,6 +205,37 @@ class UserTest extends GraphQLTestCase
 
         $this->assertFalse($user->refresh()->trashed());
     }
+
+//    public function test_syncUserGroups_mutation()
+//    {
+//        $this->authenticate();
+//
+//        $user = UserFactory::new()->withGroups(1)();
+//        $groups = GroupFactory::times()->create()->pluck('id');
+//
+//        $this->postGraphQL([
+//            'query' => '
+//                mutation syncUserGroups($id: ID!, $groups: [ID!]!) {
+//                    syncUserGroups(id: $id, groups: $groups) {
+//                         id
+//                         groups { id }
+//                    }
+//                }
+//            ',
+//            'variables' => [
+//                'id' => $group->id,
+//                'groups' => [$group->id],
+//            ],
+//        ])->assertJson([
+//            'data' => [
+//                'syncUserGroups' => [
+//                    'id' => $group->id,
+//                    'membersCount' => 2,
+//                    'members' => $newUsers->map(fn($id) => ['id' => $id])->all(),
+//                ],
+//            ],
+//        ]);
+//    }
 
     /** @test */
     public function test_updateMe_mutation()
