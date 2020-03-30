@@ -1,7 +1,7 @@
 type Permission {
     id: ID!
     name: String!
-    category: String!
+    category: String
     groups: [Group!]!
 }
 
