@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "02ec5138c817f94ca87e77c537f0d186",
+    "content-hash": "914d24cd06b80939f0e6bb3eb2495552",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -5854,6 +5854,70 @@
             "time": "2019-09-25T14:49:45+00:00"
         },
         {
+            "name": "lukeraymonddowning/poser",
+            "version": "dev-case-sensitivity",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SproutDesk/poser.git",
+                "reference": "1d655810231009117940d24b523c0ed5ab907cd3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SproutDesk/poser/zipball/1d655810231009117940d24b523c0ed5ab907cd3",
+                "reference": "1d655810231009117940d24b523c0ed5ab907cd3",
+                "shasum": ""
+            },
+            "require": {
+                "haydenpierce/class-finder": "^0.4.0",
+                "illuminate/support": "^6.0|^7.0"
+            },
+            "require-dev": {
+                "illuminate/database": "^6.0|^7.0",
+                "orchestra/testbench": "^4.0",
+                "phpunit/phpunit": "^8.0"
+            },
+            "type": "package",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Lukeraymonddowning\\Poser\\PoserServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Lukeraymonddowning\\Poser\\": "./src"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Lukeraymonddowning\\Poser\\Tests\\": "./tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Luke Raymond Downing",
+                    "email": "lukeraymonddowning@gmail.com"
+                }
+            ],
+            "description": "A description for poser.",
+            "keywords": [
+                "laravel"
+            ],
+            "support": {
+                "source": "https://github.com/SproutDesk/poser/tree/case-sensitivity"
+            },
+            "time": "2020-03-27T22:34:40+00:00"
+        },
+        {
             "name": "mockery/mockery",
             "version": "1.3.1",
             "source": {
@@ -7927,7 +7991,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "nuwave/lighthouse": 20
+        "nuwave/lighthouse": 20,
+        "lukeraymonddowning/poser": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
