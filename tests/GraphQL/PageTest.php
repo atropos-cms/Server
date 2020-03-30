@@ -3,9 +3,9 @@
 namespace Tests\GraphQL;
 
 use App\Models\Page;
-use Tests\Factories\UserFactory;
 use Tests\GraphQLTestCase;
 use Illuminate\Support\Str;
+use Tests\Factories\UserFactory;
 
 class PageTest extends GraphQLTestCase
 {

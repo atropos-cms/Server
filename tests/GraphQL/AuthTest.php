@@ -2,8 +2,8 @@
 
 namespace Tests\GraphQL;
 
-use Tests\Factories\UserFactory;
 use Tests\GraphQLTestCase;
+use Tests\Factories\UserFactory;
 
 class AuthTest extends GraphQLTestCase
 {

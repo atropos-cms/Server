@@ -13,7 +13,7 @@ return [
     |
     */
 
-    "models_namespace" => "App\\Models\\",
+    'models_namespace' => 'App\\Models\\',
 
     /*
     |--------------------------------------------------------------------------
@@ -26,7 +26,7 @@ return [
     |
     */
 
-    "factories_namespace" => "Tests\\Factories\\",
+    'factories_namespace' => 'Tests\\Factories\\',
 
     /*
     |--------------------------------------------------------------------------
@@ -38,6 +38,6 @@ return [
     | you may override this with the path of your Factory namespace.
     |
     */
-    "factories_location" => "tests/Factories/"
+    'factories_location' => 'tests/Factories/',
 
 ];

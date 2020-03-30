@@ -3,10 +3,10 @@
 namespace Tests\GraphQL;
 
 use App\Models\Role;
-use Tests\Factories\RoleFactory;
-use Tests\Factories\PermissionFactory;
-use Tests\Factories\UserFactory;
 use Tests\GraphQLTestCase;
+use Tests\Factories\RoleFactory;
+use Tests\Factories\UserFactory;
+use Tests\Factories\PermissionFactory;
 
 class RoleTest extends GraphQLTestCase
 {
@@ -63,9 +63,9 @@ class RoleTest extends GraphQLTestCase
                 'roles' => [
                     'data' => [[
                         'id' => $role->id,
-                        'permissions' => $role->permissions->map(fn($permission) => ['id' => $permission->id])->all(),
-                        'members' => $role->users->map(fn($user) => ['id' => $user->id])->all(),
-                        'membersCount' => 3
+                        'permissions' => $role->permissions->map(fn ($permission) => ['id' => $permission->id])->all(),
+                        'members' => $role->users->map(fn ($user) => ['id' => $user->id])->all(),
+                        'membersCount' => 3,
                     ]],
                 ],
             ],
@@ -209,7 +209,7 @@ class RoleTest extends GraphQLTestCase
             'variables' => [
                 'id' => $role->id,
                 'members' => [
-                    $newUser->id
+                    $newUser->id,
                 ],
             ],
         ])->assertJson([
@@ -249,7 +249,7 @@ class RoleTest extends GraphQLTestCase
                 'syncRoleMembers' => [
                     'id' => $role->id,
                     'membersCount' => 2,
-                    'members' => $newUsers->map(fn($id) => ['id' => $id])->all(),
+                    'members' => $newUsers->map(fn ($id) => ['id' => $id])->all(),
                 ],
             ],
         ]);
@@ -280,7 +280,7 @@ class RoleTest extends GraphQLTestCase
             'data' => [
                 'syncRolePermissions' => [
                     'id' => $role->id,
-                    'permissions' => $permissions->map(fn($id) => ['id' => $id])->all(),
+                    'permissions' => $permissions->map(fn ($id) => ['id' => $id])->all(),
                 ],
             ],
         ]);

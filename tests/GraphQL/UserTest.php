@@ -2,11 +2,10 @@
 
 namespace Tests\GraphQL;
 
-use App\Models\Role;
-use Tests\Factories\PermissionFactory;
+use Tests\GraphQLTestCase;
 use Tests\Factories\RoleFactory;
 use Tests\Factories\UserFactory;
-use Tests\GraphQLTestCase;
+use Tests\Factories\PermissionFactory;
 
 class UserTest extends GraphQLTestCase
 {
@@ -232,7 +231,7 @@ class UserTest extends GraphQLTestCase
             'data' => [
                 'syncUserRoles' => [
                     'id' => $user->id,
-                    'roles' => $roles->map(fn($id) => ['id' => $id])->all(),
+                    'roles' => $roles->map(fn ($id) => ['id' => $id])->all(),
                 ],
             ],
         ]);
@@ -262,7 +261,7 @@ class UserTest extends GraphQLTestCase
             'data' => [
                 'syncUserPermissions' => [
                     'id' => $user->id,
-                    'permissions' => $permissions->map(fn($id) => ['id' => $id])->all(),
+                    'permissions' => $permissions->map(fn ($id) => ['id' => $id])->all(),
                 ],
             ],
         ]);
