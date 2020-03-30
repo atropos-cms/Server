@@ -14,6 +14,7 @@ type Group {
 
     permissions: [Permission!]!
     members: [User!]!  @morphMany(relation: "users")
+    membersCount: Int! @rename(attribute: "members_count")
 }
 
 input UpdateOrCreateGroupInput {
