@@ -2,6 +2,8 @@
 
 namespace Tests\GraphQL;
 
+use App\Models\Role;
+use Tests\Factories\PermissionFactory;
 use Tests\Factories\RoleFactory;
 use Tests\Factories\UserFactory;
 use Tests\GraphQLTestCase;
@@ -11,7 +13,7 @@ class UserTest extends GraphQLTestCase
     /** @test */
     public function test_user_query()
     {
-        $user = $this->authenticate();
+        $user = UserFactory::new()->withAuthentication()();
 
         $this->graphQL("
         {
@@ -47,7 +49,7 @@ class UserTest extends GraphQLTestCase
     /** @test */
     public function test_users_query()
     {
-        $user = $this->authenticate();
+        $user = UserFactory::new()->withAuthentication()();
 
         $this->graphQL('
         {
@@ -71,7 +73,7 @@ class UserTest extends GraphQLTestCase
     /** @test */
     public function test_createUser_mutation()
     {
-        $this->authenticate();
+        $user = UserFactory::new()->withAuthentication()();
 
         $this->postGraphQL([
             'query' => '
@@ -110,7 +112,7 @@ class UserTest extends GraphQLTestCase
     /** @test */
     public function test_updateUser_mutation()
     {
-        $user = $this->authenticate();
+        $user = UserFactory::new()->withAuthentication()();
 
         $this->postGraphQL([
             'query' => '
@@ -154,7 +156,7 @@ class UserTest extends GraphQLTestCase
     /** @test */
     public function test_deleteUser_mutation()
     {
-        $user = $this->authenticate();
+        $user = UserFactory::new()->withAuthentication()();
 
         $this->postGraphQL([
             'query' => '
@@ -181,7 +183,7 @@ class UserTest extends GraphQLTestCase
     /** @test */
     public function test_restoreUser_mutation()
     {
-        $user = $this->authenticate();
+        $user = UserFactory::new()->withAuthentication()();
         $user->delete();
 
         $this->postGraphQL([
@@ -206,41 +208,70 @@ class UserTest extends GraphQLTestCase
         $this->assertFalse($user->refresh()->trashed());
     }
 
-//    public function test_syncUserRoles_mutation()
-//    {
-//        $this->authenticate();
-//
-//        $user = UserFactory::new()->withRoles(1)();
-//        $roles = RoleFactory::times()->create()->pluck('id');
-//
-//        $this->postGraphQL([
-//            'query' => '
-//                mutation syncUserRoles($id: ID!, $roles: [ID!]!) {
-//                    syncUserRoles(id: $id, roles: $roles) {
-//                         id
-//                         roles { id }
-//                    }
-//                }
-//            ',
-//            'variables' => [
-//                'id' => $role->id,
-//                'roles' => [$role->id],
-//            ],
-//        ])->assertJson([
-//            'data' => [
-//                'syncUserRoles' => [
-//                    'id' => $role->id,
-//                    'membersCount' => 2,
-//                    'members' => $newUsers->map(fn($id) => ['id' => $id])->all(),
-//                ],
-//            ],
-//        ]);
-//    }
+    public function test_syncUserRoles_mutation()
+    {
+        $user = UserFactory::new()->withAuthentication()();
+
+        $user = UserFactory::new()->withRoles(1)();
+        $roles = RoleFactory::times(2)->create()->pluck('id');
+
+        $this->postGraphQL([
+            'query' => '
+                mutation syncUserRoles($id: ID!, $roles: [ID!]!) {
+                    syncUserRoles(id: $id, roles: $roles) {
+                         id
+                         roles { id }
+                    }
+                }
+            ',
+            'variables' => [
+                'id' => $user->id,
+                'roles' => $roles,
+            ],
+        ])->assertJson([
+            'data' => [
+                'syncUserRoles' => [
+                    'id' => $user->id,
+                    'roles' => $roles->map(fn($id) => ['id' => $id])->all(),
+                ],
+            ],
+        ]);
+    }
+
+    public function test_syncUserPermissions_mutation()
+    {
+        $user = UserFactory::new()->withAuthentication()();
+
+        $user = UserFactory::new()();
+        $permissions = PermissionFactory::times(2)->create()->pluck('id');
+
+        $this->postGraphQL([
+            'query' => '
+                mutation syncUserPermissions($id: ID!, $permissions: [ID!]!) {
+                    syncUserPermissions(id: $id, permissions: $permissions) {
+                         id
+                         permissions { id }
+                    }
+                }
+            ',
+            'variables' => [
+                'id' => $user->id,
+                'permissions' => $permissions,
+            ],
+        ])->assertJson([
+            'data' => [
+                'syncUserPermissions' => [
+                    'id' => $user->id,
+                    'permissions' => $permissions->map(fn($id) => ['id' => $id])->all(),
+                ],
+            ],
+        ]);
+    }
 
     /** @test */
     public function test_updateMe_mutation()
     {
-        $user = $this->authenticate();
+        $user = UserFactory::new()->withAuthentication()();
 
         $this->postGraphQL([
             'query' => '
@@ -286,7 +317,7 @@ class UserTest extends GraphQLTestCase
     /** @test */
     public function test_updateMyPassword_mutation()
     {
-        $user = app(\App\Factories\UserFactory::class)->createWithAuthentication(['password' => \Hash::make('secret')]);
+        $user = UserFactory::new()->withAuthentication()->create(['password' => \Hash::make('secret')]);
 
         $this->postGraphQL([
             'query' => '

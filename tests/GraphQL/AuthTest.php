@@ -2,6 +2,7 @@
 
 namespace Tests\GraphQL;
 
+use Tests\Factories\UserFactory;
 use Tests\GraphQLTestCase;
 
 class AuthTest extends GraphQLTestCase
@@ -9,7 +10,7 @@ class AuthTest extends GraphQLTestCase
     /** @test */
     public function a_user_can_login()
     {
-        $user = app(\App\Factories\UserFactory::class)->create();
+        $user = UserFactory::new()();
 
         $token = $this->postGraphQL([
             'query' => '
@@ -47,7 +48,7 @@ class AuthTest extends GraphQLTestCase
     /** @test */
     public function an_error_is_returned_if_invalid_login_data_is_provided()
     {
-        $user = app(\App\Factories\UserFactory::class)->create();
+        $user = UserFactory::new()();
 
         $this->postGraphQL([
             'query' => '
@@ -73,7 +74,7 @@ class AuthTest extends GraphQLTestCase
     /** @test */
     public function me_returns_the_active_user()
     {
-        $user = $this->authenticate();
+        $user = UserFactory::new()->withAuthentication()();
 
         $this->graphQL('
         {
@@ -107,7 +108,7 @@ class AuthTest extends GraphQLTestCase
     /** @test */
     public function a_user_can_logout()
     {
-        $user = app(\App\Factories\UserFactory::class)->create();
+        $user = UserFactory::new()();
         $token = $user->createToken('device_name')->plainTextToken;
 
         $this->assertCount(1, $user->tokens);

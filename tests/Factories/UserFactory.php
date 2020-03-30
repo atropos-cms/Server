@@ -2,6 +2,8 @@
 
 namespace Tests\Factories;
 
+use App\Models\User;
+use Laravel\Sanctum\Sanctum;
 use Lukeraymonddowning\Poser\Factory;
 
 /**
@@ -11,4 +13,13 @@ use Lukeraymonddowning\Poser\Factory;
  */
 class UserFactory extends Factory
 {
+    /**
+     * @return $this
+     */
+    public function withAuthentication()
+    {
+        $this->afterCreating(fn (User $user) => Sanctum::actingAs($user, ['*']));
+
+        return $this;
+    }
 }

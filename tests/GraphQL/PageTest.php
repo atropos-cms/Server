@@ -3,6 +3,7 @@
 namespace Tests\GraphQL;
 
 use App\Models\Page;
+use Tests\Factories\UserFactory;
 use Tests\GraphQLTestCase;
 use Illuminate\Support\Str;
 
@@ -11,7 +12,7 @@ class PageTest extends GraphQLTestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->authenticate();
+        UserFactory::new()->withAuthentication()();
     }
 
     /** @test */
