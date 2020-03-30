@@ -2,10 +2,10 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Models\Group;
+use App\Models\Role;
 use Faker\Generator as Faker;
 
-$factory->define(Group::class, function (Faker $faker) {
+$factory->define(Role::class, function (Faker $faker) {
     return [
         'name' => $faker->colorName,
         'description' => $faker->paragraph,

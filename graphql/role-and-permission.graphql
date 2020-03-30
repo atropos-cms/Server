@@ -2,10 +2,10 @@ type Permission {
     id: ID!
     name: String!
     category: String
-    groups: [Group!]!
+    roles: [Role!]!
 }
 
-type Group {
+type Role {
     id: ID!
     name: String!
     description: String
@@ -17,12 +17,12 @@ type Group {
     membersCount: Int! @rename(attribute: "members_count")
 }
 
-input UpdateOrCreateGroupInput {
+input UpdateOrCreateRoleInput {
     name: String @rules(apply: ["required", "string"])
     description: String @rules(apply: ["string", "nullable", "max:1000"])
 }
 
-enum GroupColumn {
+enum RoleColumn {
     name @enum(value: "name")
     description @enum(value: "description")
     createdAt @enum(value: "created_at")
@@ -30,22 +30,22 @@ enum GroupColumn {
 }
 
 extend type Query @middleware(checks: ["auth:sanctum"]) {
-    group(id: ID! @eq): Group @find
-    groups(search: String @search, orderBy: _ @orderBy(columnsEnum: "GroupColumn")): [Group!]! @paginate
+    role(id: ID! @eq): Role @find
+    roles(search: String @search, orderBy: _ @orderBy(columnsEnum: "RoleColumn")): [Role!]! @paginate
 
     permission(id: ID! @eq): Permission @find
     permissions: [Permission!]! @all
 }
 
 extend type Mutation @middleware(checks: ["auth:sanctum"]) {
-    createGroup(data: UpdateOrCreateGroupInput! @spread): Group @create
-    updateGroup(id: ID!, data: UpdateOrCreateGroupInput! @spread): Group @update
-    deleteGroup(id: ID!): Group @delete
+    createRole(data: UpdateOrCreateRoleInput! @spread): Role @create
+    updateRole(id: ID!, data: UpdateOrCreateRoleInput! @spread): Role @update
+    deleteRole(id: ID!): Role @delete
 
-    syncGroupPermissions(id: ID!, permissions: [ID!]!): Group
-    syncGroupMembers(id: ID!, members: [ID!]!): Group
-    addGroupMembers(id: ID!, members: [ID!]!): Group
-    removeGroupMembers(id: ID!, members: [ID!]!): Group
+    syncRolePermissions(id: ID!, permissions: [ID!]!): Role
+    syncRoleMembers(id: ID!, members: [ID!]!): Role
+    addRoleMembers(id: ID!, members: [ID!]!): Role
+    removeRoleMembers(id: ID!, members: [ID!]!): Role
     syncUserPermissions(id: ID!, permissions: [ID!]!): User
-    syncUserGroups(id: ID!, groups: [ID!]!): User
+    syncUserRoles(id: ID!, roles: [ID!]!): User
 }

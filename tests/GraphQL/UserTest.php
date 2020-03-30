@@ -2,7 +2,7 @@
 
 namespace Tests\GraphQL;
 
-use Tests\Factories\GroupFactory;
+use Tests\Factories\RoleFactory;
 use Tests\Factories\UserFactory;
 use Tests\GraphQLTestCase;
 
@@ -206,30 +206,30 @@ class UserTest extends GraphQLTestCase
         $this->assertFalse($user->refresh()->trashed());
     }
 
-//    public function test_syncUserGroups_mutation()
+//    public function test_syncUserRoles_mutation()
 //    {
 //        $this->authenticate();
 //
-//        $user = UserFactory::new()->withGroups(1)();
-//        $groups = GroupFactory::times()->create()->pluck('id');
+//        $user = UserFactory::new()->withRoles(1)();
+//        $roles = RoleFactory::times()->create()->pluck('id');
 //
 //        $this->postGraphQL([
 //            'query' => '
-//                mutation syncUserGroups($id: ID!, $groups: [ID!]!) {
-//                    syncUserGroups(id: $id, groups: $groups) {
+//                mutation syncUserRoles($id: ID!, $roles: [ID!]!) {
+//                    syncUserRoles(id: $id, roles: $roles) {
 //                         id
-//                         groups { id }
+//                         roles { id }
 //                    }
 //                }
 //            ',
 //            'variables' => [
-//                'id' => $group->id,
-//                'groups' => [$group->id],
+//                'id' => $role->id,
+//                'roles' => [$role->id],
 //            ],
 //        ])->assertJson([
 //            'data' => [
-//                'syncUserGroups' => [
-//                    'id' => $group->id,
+//                'syncUserRoles' => [
+//                    'id' => $role->id,
 //                    'membersCount' => 2,
 //                    'members' => $newUsers->map(fn($id) => ['id' => $id])->all(),
 //                ],

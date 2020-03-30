@@ -2,11 +2,11 @@
 
 namespace App\GraphQL\Mutations;
 
-use App\Models\Group;
+use App\Models\Role;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class SyncGroupMembers
+class RemoveRoleMembers
 {
     /**
      * Return a value for the field.
@@ -20,10 +20,17 @@ class SyncGroupMembers
      */
     public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        /** @var Group $group */
-        $group = Group::findById($args['id']);
-        $group->users()->sync($args['members']);
+        /** @var Role $role */
+        $role = Role::findById($args['id']);
 
-        return $group;
+        // Remove users from the input array, that are not a member of the role.
+        $currentMembers = collect($role->users()->pluck('id'));
+        $newMembers = collect($args['members'])
+            ->filter(fn ($item) => $currentMembers->contains($item))
+            ->toArray();
+
+        $role->users()->detach($args['members']);
+
+        return $role;
     }
 }

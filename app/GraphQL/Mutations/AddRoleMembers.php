@@ -2,11 +2,11 @@
 
 namespace App\GraphQL\Mutations;
 
-use App\Models\Group;
+use App\Models\Role;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class AddGroupMembers
+class AddRoleMembers
 {
     /**
      * Return a value for the field.
@@ -20,17 +20,17 @@ class AddGroupMembers
      */
     public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        /** @var Group $group */
-        $group = Group::findById($args['id']);
+        /** @var Role $role */
+        $role = Role::findById($args['id']);
 
         // Remove users from the input array, that are already a member of the group.
-        $currentMembers = collect($group->users()->pluck('id'));
+        $currentMembers = collect($role->users()->pluck('id'));
         $newMembers = collect($args['members'])
             ->filter(fn ($item) => ! $currentMembers->contains($item))
             ->toArray();
 
-        $group->users()->attach($newMembers);
+        $role->users()->attach($newMembers);
 
-        return $group;
+        return $role;
     }
 }

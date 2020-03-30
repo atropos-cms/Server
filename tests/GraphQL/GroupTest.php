@@ -2,13 +2,13 @@
 
 namespace Tests\GraphQL;
 
-use App\Models\Group;
-use Tests\Factories\GroupFactory;
+use App\Models\Role;
+use Tests\Factories\RoleFactory;
 use Tests\Factories\PermissionFactory;
 use Tests\Factories\UserFactory;
 use Tests\GraphQLTestCase;
 
-class GroupTest extends GraphQLTestCase
+class RoleTest extends GraphQLTestCase
 {
     public function setUp(): void
     {
@@ -17,13 +17,13 @@ class GroupTest extends GraphQLTestCase
     }
 
     /** @test */
-    public function test_group_query()
+    public function test_role_query()
     {
-        $group = GroupFactory::new()();
+        $role = RoleFactory::new()();
 
         $this->graphQL("
         {
-            group (id: $group->id) {
+            role (id: $role->id) {
                 id
                 name
                 description
@@ -31,25 +31,25 @@ class GroupTest extends GraphQLTestCase
         }
         ")->assertJson([
             'data' => [
-                'group' => [
-                    'id' => $group->id,
-                    'name' => $group->name,
-                    'description' => $group->description,
+                'role' => [
+                    'id' => $role->id,
+                    'name' => $role->name,
+                    'description' => $role->description,
                 ],
             ],
         ]);
     }
 
     /** @test */
-    public function test_groups_query()
+    public function test_roles_query()
     {
-        $group = GroupFactory::new()
+        $role = RoleFactory::new()
             ->withPermissions(3)
             ->withUsers(3)();
 
         $this->graphQL('
         {
-            groups (first:1, page: 1) {
+            roles (first:1, page: 1) {
                 data {
                     id
                     permissions { id }
@@ -60,11 +60,11 @@ class GroupTest extends GraphQLTestCase
         }
         ')->assertJson([
             'data' => [
-                'groups' => [
+                'roles' => [
                     'data' => [[
-                        'id' => $group->id,
-                        'permissions' => $group->permissions->map(fn($permission) => ['id' => $permission->id])->all(),
-                        'members' => $group->users->map(fn($user) => ['id' => $user->id])->all(),
+                        'id' => $role->id,
+                        'permissions' => $role->permissions->map(fn($permission) => ['id' => $permission->id])->all(),
+                        'members' => $role->users->map(fn($user) => ['id' => $user->id])->all(),
                         'membersCount' => 3
                     ]],
                 ],
@@ -73,14 +73,14 @@ class GroupTest extends GraphQLTestCase
     }
 
     /** @test */
-    public function test_createGroup_mutation()
+    public function test_createRole_mutation()
     {
-        $group = GroupFactory::new()->make();
+        $role = RoleFactory::new()->make();
 
         $this->postGraphQL([
             'query' => '
-                mutation createGroup($data: UpdateOrCreateGroupInput!) {
-                    createGroup(data: $data) {
+                mutation createRole($data: UpdateOrCreateRoleInput!) {
+                    createRole(data: $data) {
                          id
                          name
                          description
@@ -89,30 +89,30 @@ class GroupTest extends GraphQLTestCase
             ',
             'variables' => [
                 'data' => [
-                    'name' => $group->name,
-                    'description' => $group->description,
+                    'name' => $role->name,
+                    'description' => $role->description,
                 ],
             ],
         ])->assertJson([
             'data' => [
-                'createGroup' => [
+                'createRole' => [
                     'id' => 1,
-                    'name' => $group->name,
-                    'description' => $group->description,
+                    'name' => $role->name,
+                    'description' => $role->description,
                 ],
             ],
         ]);
     }
 
     /** @test */
-    public function test_updateGroup_mutation()
+    public function test_updateRole_mutation()
     {
-        $group = GroupFactory::new()();
+        $role = RoleFactory::new()();
 
         $this->postGraphQL([
             'query' => '
-                mutation updateGroup($id: ID!, $data: UpdateOrCreateGroupInput!) {
-                    updateGroup(id: $id, data: $data) {
+                mutation updateRole($id: ID!, $data: UpdateOrCreateRoleInput!) {
+                    updateRole(id: $id, data: $data) {
                          id
                          name
                          description
@@ -120,31 +120,31 @@ class GroupTest extends GraphQLTestCase
                 }
             ',
             'variables' => [
-                'id' => $group->id,
+                'id' => $role->id,
                 'data' => [
                     'name' => 'NewName',
                 ],
             ],
         ])->assertJson([
             'data' => [
-                'updateGroup' => [
-                    'id' => $group->id,
+                'updateRole' => [
+                    'id' => $role->id,
                     'name' => 'NewName',
-                    'description' => $group->description,
+                    'description' => $role->description,
                 ],
             ],
         ]);
     }
 
     /** @test */
-    public function test_deleteGroup_mutation()
+    public function test_deleteRole_mutation()
     {
-        $group = GroupFactory::new()();
+        $role = RoleFactory::new()();
 
         $this->postGraphQL([
             'query' => '
-                mutation deleteGroup($id: ID!) {
-                    deleteGroup(id: $id) {
+                mutation deleteRole($id: ID!) {
+                    deleteRole(id: $id) {
                          id
                          name
                          description
@@ -152,46 +152,46 @@ class GroupTest extends GraphQLTestCase
                 }
             ',
             'variables' => [
-                'id' => $group->id,
+                'id' => $role->id,
             ],
         ])->assertJson([
             'data' => [
-                'deleteGroup' => [
-                    'id' => $group->id,
-                    'name' => $group->name,
-                    'description' => $group->description,
+                'deleteRole' => [
+                    'id' => $role->id,
+                    'name' => $role->name,
+                    'description' => $role->description,
                 ],
             ],
         ]);
 
-        $this->assertTrue(Group::whereId($group->id)->doesntExist());
+        $this->assertTrue(Role::whereId($role->id)->doesntExist());
     }
 
     /** @test */
-    public function test_addGroupMembers_and_removeGroupMembers_mutation()
+    public function test_addRoleMembers_and_removeRoleMembers_mutation()
     {
-        $group = GroupFactory::new()
+        $role = RoleFactory::new()
             ->withUsers(UserFactory::times(3))();
 
         $newUser = UserFactory::new()();
 
         $this->postGraphQL([
             'query' => '
-                mutation addGroupMembers($id: ID!, $members: [ID!]!) {
-                    addGroupMembers(id: $id, members: $members) {
+                mutation addRoleMembers($id: ID!, $members: [ID!]!) {
+                    addRoleMembers(id: $id, members: $members) {
                          id
                          membersCount
                     }
                 }
             ',
             'variables' => [
-                'id' => $group->id,
+                'id' => $role->id,
                 'members' => [$newUser->id],
             ],
         ])->assertJson([
             'data' => [
-                'addGroupMembers' => [
-                    'id' => $group->id,
+                'addRoleMembers' => [
+                    'id' => $role->id,
                     'membersCount' => 4,
                 ],
             ],
@@ -199,23 +199,23 @@ class GroupTest extends GraphQLTestCase
 
         $this->postGraphQL([
             'query' => '
-                mutation removeGroupMembers($id: ID!, $members: [ID!]!) {
-                    removeGroupMembers(id: $id, members: $members) {
+                mutation removeRoleMembers($id: ID!, $members: [ID!]!) {
+                    removeRoleMembers(id: $id, members: $members) {
                          id
                          membersCount
                     }
                 }
             ',
             'variables' => [
-                'id' => $group->id,
+                'id' => $role->id,
                 'members' => [
                     $newUser->id
                 ],
             ],
         ])->assertJson([
             'data' => [
-                'removeGroupMembers' => [
-                    'id' => $group->id,
+                'removeRoleMembers' => [
+                    'id' => $role->id,
                     'membersCount' => 3,
                 ],
             ],
@@ -223,17 +223,17 @@ class GroupTest extends GraphQLTestCase
     }
 
     /** @test */
-    public function test_syncGroupMembers_mutation()
+    public function test_syncRoleMembers_mutation()
     {
-        $group = GroupFactory::new()
+        $role = RoleFactory::new()
             ->withUsers(UserFactory::times(3))();
 
         $newUsers = UserFactory::times(2)->create()->pluck('id');
 
         $this->postGraphQL([
             'query' => '
-                mutation syncGroupMembers($id: ID!, $members: [ID!]!) {
-                    syncGroupMembers(id: $id, members: $members) {
+                mutation syncRoleMembers($id: ID!, $members: [ID!]!) {
+                    syncRoleMembers(id: $id, members: $members) {
                          id
                          membersCount
                          members { id }
@@ -241,13 +241,13 @@ class GroupTest extends GraphQLTestCase
                 }
             ',
             'variables' => [
-                'id' => $group->id,
+                'id' => $role->id,
                 'members' => $newUsers,
             ],
         ])->assertJson([
             'data' => [
-                'syncGroupMembers' => [
-                    'id' => $group->id,
+                'syncRoleMembers' => [
+                    'id' => $role->id,
                     'membersCount' => 2,
                     'members' => $newUsers->map(fn($id) => ['id' => $id])->all(),
                 ],
@@ -256,30 +256,30 @@ class GroupTest extends GraphQLTestCase
     }
 
     /** @test */
-    public function test_syncGroupPermissions_mutation()
+    public function test_syncRolePermissions_mutation()
     {
-        $group = GroupFactory::new()
+        $role = RoleFactory::new()
             ->withPermissions(3)();
 
         $permissions = PermissionFactory::times(2)->create()->pluck('id');
 
         $this->postGraphQL([
             'query' => '
-                mutation syncGroupPermissions($id: ID!, $permissions: [ID!]!) {
-                    syncGroupPermissions(id: $id, permissions: $permissions) {
+                mutation syncRolePermissions($id: ID!, $permissions: [ID!]!) {
+                    syncRolePermissions(id: $id, permissions: $permissions) {
                          id
                          permissions { id }
                     }
                 }
             ',
             'variables' => [
-                'id' => $group->id,
+                'id' => $role->id,
                 'permissions' => $permissions,
             ],
         ])->assertJson([
             'data' => [
-                'syncGroupPermissions' => [
-                    'id' => $group->id,
+                'syncRolePermissions' => [
+                    'id' => $role->id,
                     'permissions' => $permissions->map(fn($id) => ['id' => $id])->all(),
                 ],
             ],

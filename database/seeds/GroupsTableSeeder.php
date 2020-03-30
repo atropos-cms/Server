@@ -11,7 +11,7 @@ class GroupsTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Group::create([
+        \App\Models\Role::create([
             'name' => 'Admin',
         ]);
     }

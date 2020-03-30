@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Laravel\Scout\Searchable;
-use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Role as SpatieRole;
 
-class Group extends Role
+class Role extends SpatieRole
 {
     use Searchable;
 
