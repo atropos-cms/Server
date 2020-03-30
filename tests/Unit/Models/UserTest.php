@@ -21,7 +21,7 @@ class UserTest extends TestCase
 
         /** @var User $user */
         $user = factory(User::class)->make();
-        $initials = substr($user->first_name, 0, 1).substr($user->last_name, 0, 1);
+        $initials = substr($user->first_name, 0, 1) . substr($user->last_name, 0, 1);
 
         $this->assertEquals($initials, $user->initials);
     }

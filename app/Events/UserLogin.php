@@ -7,7 +7,8 @@ use Illuminate\Foundation\Events\Dispatchable;
 
 class UserLogin
 {
-    use Dispatchable, SerializesModels;
+    use Dispatchable;
+    use SerializesModels;
 
     public ?int $userId = null;
 

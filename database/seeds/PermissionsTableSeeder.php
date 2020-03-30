@@ -13,15 +13,15 @@ class PermissionsTableSeeder extends Seeder
     {
         \App\Models\Permission::create([
             'name' => 'createUsers',
-            'category' => 'administration'
+            'category' => 'administration',
         ]);
         \App\Models\Permission::create([
             'name' => 'editUsers',
-            'category' => 'administration'
+            'category' => 'administration',
         ]);
         \App\Models\Permission::create([
             'name' => 'deleteUsers',
-            'category' => 'administration'
+            'category' => 'administration',
         ]);
     }
 }

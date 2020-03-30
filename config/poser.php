@@ -13,7 +13,7 @@ return [
     |
     */
 
-    "models_namespace" => "App\\Models\\",
+    'models_namespace' => 'App\\Models\\',
 
     /*
     |--------------------------------------------------------------------------
@@ -26,6 +26,6 @@ return [
     |
     */
 
-    "factories_namespace" => "Tests\\Factories\\"
+    'factories_namespace' => 'Tests\\Factories\\',
 
 ];

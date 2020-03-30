@@ -23,7 +23,7 @@ class UpdateUserPasswordValidationDirective extends ValidationDirective
     public function rules(): array
     {
         return [
-            'current_password' => ['required', new MatchOldPassword],
+            'current_password' => ['required', new MatchOldPassword()],
             'password' => ['required', 'confirmed'],
         ];
     }
