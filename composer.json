@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.4",
         "ext-json": "*",
+        "bensampo/laravel-enum": "^1.36",
         "beyondcode/laravel-self-diagnosis": "^1.4.2",
         "fideloper/proxy": "^4.0",
         "fruitcake/laravel-cors": "^1.0",
@@ -18,13 +19,14 @@
         "laravel/scout": "^8.0.0",
         "laravel/tinker": "^2.3.0",
         "laravel/ui": "^2.0",
+        "lukeraymonddowning/poser": "2.7.0-beta",
         "mll-lab/laravel-graphql-playground": "^2.0.2",
         "nuwave/lighthouse": "dev-master",
         "predis/predis": "^1.1",
         "pusher/pusher-php-server": "~4.0",
+        "spatie/eloquent-sortable": "^3.8",
         "spatie/laravel-permission": "^3.0",
         "stancl/tenancy": "^2.3.0",
-        "lukeraymonddowning/poser": "2.7.0-beta",
         "teamtnt/laravel-scout-tntsearch-driver": "^8.1"
     },
     "require-dev": {

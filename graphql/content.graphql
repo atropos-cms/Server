@@ -1,39 +1,41 @@
-type Page {
+type Content @modelClass(class: "\\App\\Models\\Website\\Content") {
     id: ID!
     title: String!
     slug: String!
+    order: Int!
     published: Boolean!
-    content: String!
+    type: ContentType!
     createdAt: DateTime! @rename(attribute: "created_at")
     updatedAt: DateTime!  @rename(attribute: "updated_at")
     deletedAt: DateTime  @rename(attribute: "deleted_at")
     author: User! @belongsTo
 }
 
-input CreatePageInput {
+input CreateContentInput {
     title: String! @rules(apply: ["string"])
+    type: ContentType!
     slug: String @rules(apply: ["string"])
+    order: Int @rules(apply: ["integer"])
     published: Boolean @rules(apply: ["boolean"])
-    content: String @rules(apply: ["string"])
     author: CreateAuthorRelation
 }
 
-
-input UpdatePageInput {
-    title: String! @rules(apply: ["string"])
+input UpdateContentInput {
+    title: String @rules(apply: ["string"])
     slug: String @rules(apply: ["string"])
     published: Boolean @rules(apply: ["boolean"])
     content: String @rules(apply: ["string"])
 }
 
 extend type Query @middleware(checks: ["auth:sanctum"]) {
-    page(id: ID! @eq): Page @find
-    pages: [Page!]! @all @softDeletes
+    content(id: ID! @eq): Content @find
+    contents: [Content!]! @all @softDeletes
 }
 
 extend type Mutation @middleware(checks: ["auth:sanctum"]) {
-    createPage(data: CreatePageInput! @spread): Page @create
-    updatePage(id: ID!, data: UpdatePageInput! @spread): Page @update
-    deletePage(id: ID!): Page @delete
-    restorePage(id: ID!): Page @restore
+    createContent(data: CreateContentInput! @spread): Content @create
+    updateContent(id: ID!, data: UpdateContentInput! @spread): Content @update
+    deleteContent(id: ID!): Content @delete
+    forceDeleteContent(id: ID!): Content @forceDelete
+    restoreContent(id: ID!): Content @restore
 }

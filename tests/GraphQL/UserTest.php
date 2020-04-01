@@ -6,9 +6,12 @@ use Tests\GraphQLTestCase;
 use Tests\Factories\RoleFactory;
 use Tests\Factories\UserFactory;
 use Tests\Factories\PermissionFactory;
+use Illuminate\Foundation\Testing\WithFaker;
 
 class UserTest extends GraphQLTestCase
 {
+    use WithFaker;
+
     /** @test */
     public function test_user_query()
     {
@@ -72,7 +75,9 @@ class UserTest extends GraphQLTestCase
     /** @test */
     public function test_createUser_mutation()
     {
-        $user = UserFactory::new()->withAuthentication()();
+        UserFactory::new()->withAuthentication()();
+
+        $user = UserFactory::new()->make();
 
         $this->postGraphQL([
             'query' => '
@@ -92,17 +97,17 @@ class UserTest extends GraphQLTestCase
             ',
             'variables' => [
                 'data' => [
-                    'firstName' => 'FirstName',
-                    'lastName' => 'LastName',
-                    'email' => 'test@local.com',
+                    'firstName' => $user->first_name,
+                    'lastName' => $user->last_name,
+                    'email' => $user->email,
                 ],
             ],
         ])->assertJson([
             'data' => [
                 'createUser' => [
-                    'firstName' => 'FirstName',
-                    'lastName' => 'LastName',
-                    'email' => 'test@local.com',
+                    'firstName' => $user->first_name,
+                    'lastName' => $user->last_name,
+                    'email' => $user->email,
                 ],
             ],
         ]);
@@ -112,6 +117,9 @@ class UserTest extends GraphQLTestCase
     public function test_updateUser_mutation()
     {
         $user = UserFactory::new()->withAuthentication()();
+
+        $firstName = $this->faker->firstName;
+        $lastName = $this->faker->lastName;
 
         $this->postGraphQL([
             'query' => '
@@ -132,16 +140,16 @@ class UserTest extends GraphQLTestCase
             'variables' => [
                 'id' => $user->id,
                 'data' => [
-                    'firstName' => 'FirstName',
-                    'lastName' => 'LastName',
+                    'firstName' => $firstName,
+                    'lastName' => $lastName,
                 ],
             ],
         ])->assertJson([
             'data' => [
                 'updateUser' => [
                     'id' => $user->id,
-                    'firstName' => 'FirstName',
-                    'lastName' => 'LastName',
+                    'firstName' => $firstName,
+                    'lastName' => $lastName,
                     'street' => $user->street,
                     'postcode' => $user->postcode,
                     'city' => $user->city,
@@ -209,7 +217,7 @@ class UserTest extends GraphQLTestCase
 
     public function test_syncUserRoles_mutation()
     {
-        $user = UserFactory::new()->withAuthentication()();
+        UserFactory::new()->withAuthentication()();
 
         $user = UserFactory::new()->withRoles(1)();
         $roles = RoleFactory::times(2)->create()->pluck('id');
@@ -272,6 +280,9 @@ class UserTest extends GraphQLTestCase
     {
         $user = UserFactory::new()->withAuthentication()();
 
+        $firstName = $this->faker->firstName;
+        $lastName = $this->faker->lastName;
+
         $this->postGraphQL([
             'query' => '
                 mutation updateMe($data: UpdateOrCreateUserInput!) {
@@ -290,16 +301,16 @@ class UserTest extends GraphQLTestCase
             ',
             'variables' => [
                 'data' => [
-                    'firstName' => 'FirstName',
-                    'lastName' => 'LastName',
+                    'firstName' => $firstName,
+                    'lastName' => $lastName,
                 ],
             ],
         ])->assertJson([
             'data' => [
                 'updateMe' => [
                     'id' => $user->id,
-                    'firstName' => 'FirstName',
-                    'lastName' => 'LastName',
+                    'firstName' => $firstName,
+                    'lastName' => $lastName,
                     'street' => $user->street,
                     'postcode' => $user->postcode,
                     'city' => $user->city,
@@ -309,8 +320,8 @@ class UserTest extends GraphQLTestCase
             ],
         ]);
 
-        $this->assertEquals('FirstName', $user->fresh()->first_name);
-        $this->assertEquals('LastName', $user->fresh()->last_name);
+        $this->assertEquals($firstName, $user->fresh()->first_name);
+        $this->assertEquals($lastName, $user->fresh()->last_name);
     }
 
     /** @test */

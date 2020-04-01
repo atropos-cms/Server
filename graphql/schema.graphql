@@ -4,8 +4,12 @@ scalar DateTime @scalar(class: "App\\GraphQL\\Scalars\\Iso8601DateTime")
 type Query
 type Mutation
 
+input CreateAuthorRelation {
+    connect: ID
+}
+
 #import auth.graphql
 #import user.graphql
 #import role-and-permission.graphql
-#import page.graphql
+#import content.graphql
 #import post.graphql
