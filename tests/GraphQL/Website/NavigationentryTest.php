@@ -6,10 +6,10 @@ use App\Enums\ContentType;
 use Tests\GraphQLTestCase;
 use Illuminate\Support\Str;
 use Tests\Factories\UserFactory;
-use Tests\Factories\Website\ContentFactory;
+use Tests\Factories\Website\NavigationentryFactory;
 use Illuminate\Foundation\Testing\WithFaker;
 
-class ContentTest extends GraphQLTestCase
+class NavigationentryTest extends GraphQLTestCase
 {
     use WithFaker;
 
@@ -25,13 +25,13 @@ class ContentTest extends GraphQLTestCase
     }
 
     /** @test */
-    public function test_content_query()
+    public function test_navigation_query()
     {
-        $content = ContentFactory::new()();
+        $navigationentry = NavigationentryFactory::new()();
 
         $this->graphQL("
         {
-            content (id: $content->id) {
+            navigationentry (id: $navigationentry->id) {
                 id
                 title
                 published
@@ -39,91 +39,98 @@ class ContentTest extends GraphQLTestCase
         }
         ")->assertJson([
             'data' => [
-                'content' => [
-                    'id' => $content->id,
-                    'title' => $content->title,
-                    'published' => $content->published,
+                'navigationentry' => [
+                    'id' => $navigationentry->id,
+                    'title' => $navigationentry->title,
+                    'published' => $navigationentry->published,
                 ],
             ],
         ]);
     }
 
     /** @test */
-    public function test_contents_query()
+    public function test_navigationentries_query()
     {
-        $contents = ContentFactory::times(3)();
+        $navigationentries = NavigationentryFactory::times(3)();
 
         $this->graphQL('
         {
-            contents {
+            navigationentries {
               id
             }
         }
         ')->assertJson([
             'data' => [
-                'contents' => $contents->map(fn ($content) => ['id' => $content->id])->all(),
+                'navigationentries' => $navigationentries->map(fn ($navigationentry) => ['id' => $navigationentry->id])->all(),
             ],
         ]);
     }
 
     /** @test */
-    public function test_createPage_mutation()
+    public function test_createNavigationentry_mutation()
     {
-        $content = ContentFactory::new()->make();
+        $navigationentry = NavigationentryFactory::new()->make();
 
         $this->postGraphQL([
             'query' => '
-                mutation createContent($data: CreateContentInput!) {
-                    createContent(data: $data) {
+                mutation createNavigationentry($data: CreateNavigationentryInput!) {
+                    createNavigationentry(data: $data) {
                          id
                          title
-                         type
                          slug
                          published
                          order
                          author {
                             id
                          }
+                         content {
+                           __typename
+                           ... on Page {
+                              body
+                           }
+                         }
                     }
                 }
             ',
             'variables' => [
                 'data' => [
-                    'title' => $content->title,
+                    'title' => $navigationentry->title,
                     'type' => ContentType::Page()->key,
                 ],
             ],
         ])->assertJson([
             'data' => [
-                'createContent' => [
-                    'title' => $content->title,
-                    'type' => ContentType::Page()->key,
-                    'slug' => Str::slug($content->title),
+                'createNavigationentry' => [
+                    'title' => $navigationentry->title,
+                    'slug' => Str::slug($navigationentry->title),
                     'published' => false,
                     'order' => 1,
                     'author' => [
                         'id' => $this->user->id,
                     ],
+                    'content' => [
+                        '__typename' => ContentType::Page()->key,
+                    ]
                 ],
             ],
-        ]);
+        ])->dump();
     }
 
     /** @test */
-    public function test_updateContent_mutation()
+    public function test_updateNavigationentry_mutation()
     {
-        $content = ContentFactory::new()->forAuthor(
+        $navigationentry = NavigationentryFactory::new()->forAuthor(
             UserFactory::new()
         )->create();
 
         $title = $this->faker->title;
 
-        $this->assertNotSame($this->user->id, $content->author->id);
+        $this->assertNotSame($this->user->id, $navigationentry->author->id);
 
         $this->postGraphQL([
             'query' => '
-                mutation updateContent($id: ID!, $data: UpdateContentInput!) {
-                    updateContent(id: $id, data: $data) {
+                mutation updateNavigationentry($id: ID!, $data: UpdateNavigationentryInput!) {
+                    updateNavigationentry(id: $id, data: $data) {
                          id
                          title
                          slug
@@ -136,7 +143,7 @@ class ContentTest extends GraphQLTestCase
                 }
             ',
             'variables' => [
-                'id' => $content->id,
+                'id' => $navigationentry->id,
                 'data' => [
                     'title' => $title,
                     'published' => true,
@@ -144,9 +151,9 @@ class ContentTest extends GraphQLTestCase
             ],
         ])->assertJson([
             'data' => [
-                'updateContent' => [
+                'updateNavigationentry' => [
                     'title' => $title,
-                    'slug' => Str::slug($content->title),
+                    'slug' => Str::slug($navigationentry->title),
                     'published' => true,
                     'order' => 1,
                     'author' => [
@@ -158,85 +165,85 @@ class ContentTest extends GraphQLTestCase
     }
 
     /** @test */
-    public function test_deleteContent_mutation()
+    public function test_deleteNavigationentry_mutation()
     {
-        $content = ContentFactory::new()();
+        $navigationentry = NavigationentryFactory::new()();
 
         $this->postGraphQL([
             'query' => '
-                mutation deleteContent($id: ID!) {
-                    deleteContent(id: $id) {
+                mutation deleteNavigationentry($id: ID!) {
+                    deleteNavigationentry(id: $id) {
                         id
                     }
                 }
             ',
             'variables' => [
-                'id' => $content->id,
+                'id' => $navigationentry->id,
             ],
         ])->assertJson([
             'data' => [
-                'deleteContent' => [
-                    'id' => $content->id,
+                'deleteNavigationentry' => [
+                    'id' => $navigationentry->id,
                 ],
             ],
         ]);
 
-        $this->assertTrue($content->refresh()->trashed());
+        $this->assertTrue($navigationentry->refresh()->trashed());
     }
 
     /** @test */
-    public function test_restoreContent_mutation()
+    public function test_restoreNavigationentry_mutation()
     {
-        $content = ContentFactory::new()();
-        $content->delete();
+        $navigationentry = NavigationentryFactory::new()();
+        $navigationentry->delete();
 
         $this->postGraphQL([
             'query' => '
-                mutation restoreContent($id: ID!) {
-                    restoreContent(id: $id) {
+                mutation restoreNavigationentry($id: ID!) {
+                    restoreNavigationentry(id: $id) {
                         id
                     }
                 }
             ',
             'variables' => [
-                'id' => $content->id,
+                'id' => $navigationentry->id,
             ],
         ])->assertJson([
             'data' => [
-                'restoreContent' => [
-                    'id' => $content->id,
+                'restoreNavigationentry' => [
+                    'id' => $navigationentry->id,
                 ],
             ],
         ]);
 
-        $this->assertFalse($content->refresh()->trashed());
+        $this->assertFalse($navigationentry->refresh()->trashed());
     }
 
     /** @test */
-    public function test_forceDeleteContent_mutation()
+    public function test_forceDeleteNavigationentry_mutation()
     {
-        $content = ContentFactory::new()();
+        $navigationentry = NavigationentryFactory::new()();
 
         $this->postGraphQL([
             'query' => '
-                mutation forceDeleteContent($id: ID!) {
-                    forceDeleteContent(id: $id) {
+                mutation forceDeleteNavigationentry($id: ID!) {
+                    forceDeleteNavigationentry(id: $id) {
                         id
                     }
                 }
             ',
             'variables' => [
-                'id' => $content->id,
+                'id' => $navigationentry->id,
             ],
         ])->assertJson([
             'data' => [
-                'forceDeleteContent' => [
-                    'id' => $content->id,
+                'forceDeleteNavigationentry' => [
+                    'id' => $navigationentry->id,
                 ],
             ],
         ]);
 
 
-        $this->assertDatabaseMissing($content->getTable(), ['id' => $content->id]);
+        $this->assertDatabaseMissing($navigationentry->getTable(), ['id' => $navigationentry->id]);
     }
 }

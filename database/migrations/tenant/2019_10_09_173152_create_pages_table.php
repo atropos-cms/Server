@@ -15,13 +15,7 @@ class CreatePagesTable extends Migration
     {
         Schema::create('pages', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('author_id')->nullable();
-            $table->string('title');
-            $table->string('slug');
-            $table->longText('content')->nullable();
-            $table->boolean('published');
-            $table->timestamps();
-            $table->softDeletes();
+            $table->longText('body')->nullable();
         });
     }
 

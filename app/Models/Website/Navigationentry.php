@@ -4,6 +4,7 @@ namespace App\Models\Website;
 
 use App\Models\User;
 use App\Enums\ContentType;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use BenSampo\Enum\Traits\CastsEnums;
@@ -11,10 +12,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Content extends Model
+class Navigationentry extends Model
 {
     use SoftDeletes;
-    use Searchable;
+//    use Searchable;
     use CastsEnums;
 
     protected static function boot()
@@ -59,6 +60,18 @@ class Content extends Model
     ];
 
     /**
+     * Returns the currently highest order number for any navigationentry
+     *
+     * @return int
+     */
+    public function getHighestOrderNumber(): int
+    {
+        return (int) static::query()->max('order');
+    }
+
+    /**
+     * Gets the author for this entry
+     *
      * @return BelongsTo
      */
     public function author(): BelongsTo
@@ -67,12 +80,12 @@ class Content extends Model
     }
 
     /**
-     * Determines the next value for the order column
+     * Gets the content for this entry
      *
-     * @return int
+     * @return MorphTo
      */
-    public function getHighestOrderNumber(): int
+    public function content(): MorphTo
     {
-        return (int) static::query()->max('order');
+        return $this->morphTo();
     }
 }

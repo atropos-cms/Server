@@ -13,9 +13,9 @@ use BenSampo\Enum\Enum;
  */
 final class ContentType extends Enum
 {
-    const Page = 'page';
-    const Blog = 'blog';
-    const Events = 'event';
-    const Link = 'link';
-    const Folder = 'folder';
+    const Page = \App\Models\Website\Page::class;
+//    const Blog = 'blog';
+//    const Events = 'event';
+//    const Link = 'link';
+//    const Folder = 'folder';
 }

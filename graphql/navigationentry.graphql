@@ -1,17 +1,25 @@
-type Content @modelClass(class: "\\App\\Models\\Website\\Content") {
+type Page {
+    id: ID!
+    body: String
+    navigationentry: Navigationentry! @morphOne
+}
+
+union Content = Page
+
+type Navigationentry @modelClass(class: "\\App\\Models\\Website\\Navigationentry") {
     id: ID!
     title: String!
     slug: String!
     order: Int!
     published: Boolean!
-    type: ContentType!
+    content: Content! @morphTo
     createdAt: DateTime! @rename(attribute: "created_at")
     updatedAt: DateTime!  @rename(attribute: "updated_at")
     deletedAt: DateTime  @rename(attribute: "deleted_at")
     author: User! @belongsTo
 }
 
-input CreateContentInput {
+input CreateNavigationentryInput {
     title: String! @rules(apply: ["string"])
     type: ContentType!
     slug: String @rules(apply: ["string"])
@@ -20,7 +28,7 @@ input CreateContentInput {
     author: CreateAuthorRelation
 }
 
-input UpdateContentInput {
+input UpdateNavigationentryInput {
     title: String @rules(apply: ["string"])
     slug: String @rules(apply: ["string"])
     published: Boolean @rules(apply: ["boolean"])
@@ -28,14 +36,14 @@ input UpdateContentInput {
 }
 
 extend type Query @middleware(checks: ["auth:sanctum"]) {
-    content(id: ID! @eq): Content @find
-    contents: [Content!]! @all @softDeletes
+    navigationentry(id: ID! @eq): Navigationentry @find
+    navigationentries: [Navigationentry!]! @all @softDeletes
 }
 
 extend type Mutation @middleware(checks: ["auth:sanctum"]) {
-    createContent(data: CreateContentInput! @spread): Content @create
-    updateContent(id: ID!, data: UpdateContentInput! @spread): Content @update
-    deleteContent(id: ID!): Content @delete
-    forceDeleteContent(id: ID!): Content @forceDelete
-    restoreContent(id: ID!): Content @restore
+    createNavigationentry(data: CreateNavigationentryInput! @spread): Navigationentry
+    updateNavigationentry(id: ID!, data: UpdateNavigationentryInput! @spread): Navigationentry @update
+    deleteNavigationentry(id: ID!): Navigationentry @delete
+    forceDeleteNavigationentry(id: ID!): Navigationentry @forceDelete
+    restoreNavigationentry(id: ID!): Navigationentry @restore
 }
