@@ -113,7 +113,7 @@ class NavigationentryTest extends GraphQLTestCase
                     ]
                 ],
             ],
-        ])->dump();
+        ]);
     }
 
     /** @test */
