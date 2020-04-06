@@ -6,8 +6,8 @@ use App\Enums\ContentType;
 use Tests\GraphQLTestCase;
 use Illuminate\Support\Str;
 use Tests\Factories\UserFactory;
-use Tests\Factories\Website\NavigationentryFactory;
 use Illuminate\Foundation\Testing\WithFaker;
+use Tests\Factories\Website\NavigationentryFactory;
 
 class NavigationentryTest extends GraphQLTestCase
 {
@@ -110,7 +110,7 @@ class NavigationentryTest extends GraphQLTestCase
                     ],
                     'content' => [
                         '__typename' => ContentType::Page()->key,
-                    ]
+                    ],
                 ],
             ],
         ]);

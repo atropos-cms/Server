@@ -6,6 +6,6 @@ use Faker\Generator as Faker;
 
 $factory->define(\App\Models\Website\Page::class, function (Faker $faker) {
     return [
-        'body' => $faker->paragraph
+        'body' => $faker->paragraph,
     ];
 });

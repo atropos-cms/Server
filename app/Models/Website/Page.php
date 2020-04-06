@@ -26,7 +26,7 @@ class Page extends Model
     /**
      * Get the page's navigationentry.
      */
-    public function navigationentry() : MorphOne
+    public function navigationentry(): MorphOne
     {
         return $this->morphOne(Navigationentry::class, 'content');
     }

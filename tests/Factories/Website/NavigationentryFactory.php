@@ -2,8 +2,8 @@
 
 namespace Tests\Factories\Website;
 
-use App\Models\Website\Navigationentry;
 use Lukeraymonddowning\Poser\Factory;
+use App\Models\Website\Navigationentry;
 
 /**
  * @method \Illuminate\Support\Collection|\Illuminate\Database\Eloquent\Collection|\App\Models\Website\Navigationentry[]|\App\Models\Website\Navigationentry __invoke($attributes = [])
