@@ -1,7 +1,11 @@
-type Page {
+type Page @modelClass(class: "\\App\\Models\\Website\\Page") {
     id: ID!
     body: String
     navigationentry: Navigationentry! @morphOne
+}
+
+input UpdatePageInput {
+    body: String! @rules(apply: ["string"])
 }
 
 union Content = Page
@@ -32,7 +36,6 @@ input UpdateNavigationentryInput {
     title: String @rules(apply: ["string"])
     slug: String @rules(apply: ["string"])
     published: Boolean @rules(apply: ["boolean"])
-    content: String @rules(apply: ["string"])
 }
 
 extend type Query @middleware(checks: ["auth:sanctum"]) {
@@ -46,4 +49,6 @@ extend type Mutation @middleware(checks: ["auth:sanctum"]) {
     deleteNavigationentry(id: ID!): Navigationentry @delete
     forceDeleteNavigationentry(id: ID!): Navigationentry @forceDelete
     restoreNavigationentry(id: ID!): Navigationentry @restore
+
+    updatePage(id: ID!, data: UpdatePageInput! @spread): Page @update
 }
