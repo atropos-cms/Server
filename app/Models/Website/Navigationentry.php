@@ -10,6 +10,7 @@ use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Navigationentry extends Model
@@ -67,6 +68,19 @@ class Navigationentry extends Model
     public function getHighestOrderNumber(): int
     {
         return (int) static::query()->max('order');
+    }
+
+    public static function setNewOrder($ids, int $startOrder = 1)
+    {
+        if (! is_array($ids) && ! $ids instanceof ArrayAccess) {
+            throw new InvalidArgumentException('You must pass an array or ArrayAccess object to setNewOrder');
+        }
+
+        foreach ($ids as $id) {
+            static::withoutGlobalScope(SoftDeletingScope::class)
+                ->where('id', $id)
+                ->update(['order' => $startOrder++]);
+        }
     }
 
     /**

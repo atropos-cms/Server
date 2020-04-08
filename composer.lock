@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d2349a65bb5ed19a4535aed56307aacb",
+    "content-hash": "4a94556c77207c37442f168b0c4b9c1b",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1705,16 +1705,16 @@
         },
         {
             "name": "lukeraymonddowning/poser",
-            "version": "2.7.0-beta",
+            "version": "3.0.1-beta",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lukeraymonddowning/poser.git",
-                "reference": "80aa993eb6d5a780c3b61ee704bdaf061a7c45d3"
+                "reference": "ab531b1620cdf547b444fc463dbb70689f956e1c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lukeraymonddowning/poser/zipball/80aa993eb6d5a780c3b61ee704bdaf061a7c45d3",
-                "reference": "80aa993eb6d5a780c3b61ee704bdaf061a7c45d3",
+                "url": "https://api.github.com/repos/lukeraymonddowning/poser/zipball/ab531b1620cdf547b444fc463dbb70689f956e1c",
+                "reference": "ab531b1620cdf547b444fc463dbb70689f956e1c",
                 "shasum": ""
             },
             "require": {
@@ -1753,7 +1753,7 @@
             "keywords": [
                 "laravel"
             ],
-            "time": "2020-03-29T12:11:20+00:00"
+            "time": "2020-04-06T08:53:40+00:00"
         },
         {
             "name": "mll-lab/laravel-graphql-playground",
@@ -2026,16 +2026,16 @@
         },
         {
             "name": "nuwave/lighthouse",
-            "version": "dev-master",
+            "version": "4.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nuwave/lighthouse.git",
-                "reference": "79ec9183fe672cae70b9a1278cd59299be71e1e5"
+                "reference": "7d7941fff14e9ff21c2bca6cd6f4f0c951b67cd6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nuwave/lighthouse/zipball/79ec9183fe672cae70b9a1278cd59299be71e1e5",
-                "reference": "79ec9183fe672cae70b9a1278cd59299be71e1e5",
+                "url": "https://api.github.com/repos/nuwave/lighthouse/zipball/7d7941fff14e9ff21c2bca6cd6f4f0c951b67cd6",
+                "reference": "7d7941fff14e9ff21c2bca6cd6f4f0c951b67cd6",
                 "shasum": ""
             },
             "require": {
@@ -2132,7 +2132,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-03-29T11:43:08+00:00"
+            "time": "2020-03-25T10:54:59+00:00"
         },
         {
             "name": "opis/closure",
@@ -8585,9 +8585,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "nuwave/lighthouse": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

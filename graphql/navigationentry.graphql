@@ -50,5 +50,7 @@ extend type Mutation @middleware(checks: ["auth:sanctum"]) {
     forceDeleteNavigationentry(id: ID!): Navigationentry @forceDelete
     restoreNavigationentry(id: ID!): Navigationentry @restore
 
+    syncNavigationentryOrder(data: [ID!]): [Navigationentry]
+
     updatePage(id: ID!, data: UpdatePageInput! @spread): Page @update
 }

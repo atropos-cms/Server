@@ -246,4 +246,29 @@ class NavigationentryTest extends GraphQLTestCase
 
         $this->assertDatabaseMissing($navigationentry->getTable(), ['id' => $navigationentry->id]);
     }
+
+    /** @test */
+    public function test_syncNavigationentryOrder_mutation()
+    {
+        $navigationentries = NavigationentryFactory::times(3)();
+        $reverseOrderedIds = $navigationentries->sortByDesc('order')->values();
+
+        $this->postGraphQL([
+            'query' => '
+                mutation syncNavigationentryOrder($data: [ID!]) {
+                    syncNavigationentryOrder(data: $data) {
+                        id
+                    }
+                }
+            ',
+            'variables' => [
+                'data' => $reverseOrderedIds->pluck('id')->toArray(),
+            ],
+        ])->assertJson([
+            'data' => [
+                'syncNavigationentryOrder' => $reverseOrderedIds->map(fn ($navigationentry) => ['id' => (string)$navigationentry->id])->all(),
+            ],
+        ]);
+    }
+
 }
