@@ -264,9 +264,25 @@ class NavigationentryTest extends GraphQLTestCase
             'variables' => [
                 'data' => $reverseOrderedIds->pluck('id')->toArray(),
             ],
-        ])->assertJson([
+        ])->assertExactJson([
             'data' => [
-                'syncNavigationentryOrder' => $reverseOrderedIds->map(fn ($navigationentry) => ['id' => (string)$navigationentry->id])->all(),
+                'syncNavigationentryOrder' => $reverseOrderedIds
+                    ->map(fn ($navigationentry) => ['id' => (string)$navigationentry->id])
+                    ->all(),
+            ],
+        ]);
+
+        $this->graphQL('
+        {
+            navigationentries {
+              id
+            }
+        }
+        ')->assertExactJson([
+            'data' => [
+                'navigationentries' => $reverseOrderedIds
+                    ->map(fn ($navigationentry) => ['id' => (string)$navigationentry->id])
+                    ->all(),
             ],
         ]);
     }

@@ -4,6 +4,7 @@ namespace App\Models\Website;
 
 use App\Models\User;
 use App\Enums\ContentType;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use BenSampo\Enum\Traits\CastsEnums;
@@ -19,9 +20,16 @@ class Navigationentry extends Model
 //    use Searchable;
     use CastsEnums;
 
-    protected static function boot()
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
     {
-        parent::boot();
+        static::addGlobalScope('order', function (Builder $builder) {
+            $builder->orderBy('order');
+        });
 
         static::creating(function (self $model) {
             $model->slug = Str::slug($model->title);

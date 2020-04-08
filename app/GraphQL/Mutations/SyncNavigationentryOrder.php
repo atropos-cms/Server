@@ -21,6 +21,6 @@ class SyncNavigationentryOrder
     {
         Navigationentry::setNewOrder($args['data']);
 
-        return Navigationentry::orderBy('order')->get();
+        return Navigationentry::all();
     }
 }
