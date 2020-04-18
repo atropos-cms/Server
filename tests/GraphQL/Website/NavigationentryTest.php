@@ -243,7 +243,6 @@ class NavigationentryTest extends GraphQLTestCase
             ],
         ]);
 
-
         $this->assertDatabaseMissing($navigationentry->getTable(), ['id' => $navigationentry->id]);
     }
 
