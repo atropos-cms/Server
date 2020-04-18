@@ -11,17 +11,20 @@ class PermissionsTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Permission::create([
-            'name' => 'createUsers',
-            'category' => 'administration',
-        ]);
-        \App\Models\Permission::create([
-            'name' => 'editUsers',
-            'category' => 'administration',
-        ]);
-        \App\Models\Permission::create([
-            'name' => 'deleteUsers',
-            'category' => 'administration',
-        ]);
+        $permissions = [
+            'updateMe',
+            'updateMyPassword',
+            'createUser',
+            'updateUser',
+            'deleteUser',
+            'restoreUser',
+        ];
+
+        foreach ($permissions as $permission) {
+            \App\Models\Permission::create([
+                'name' => $permission,
+                'category' => 'administration',
+            ]);
+        }
     }
 }

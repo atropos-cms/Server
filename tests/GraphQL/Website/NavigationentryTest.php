@@ -254,7 +254,7 @@ class NavigationentryTest extends GraphQLTestCase
 
         $this->postGraphQL([
             'query' => '
-                mutation syncNavigationentryOrder($data: [ID!]) {
+                mutation syncNavigationentryOrder($data: [ID!]!) {
                     syncNavigationentryOrder(data: $data) {
                         id
                     }

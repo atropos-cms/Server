@@ -11,8 +11,11 @@ class GroupsTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Role::create([
+        $admin = \App\Models\Role::create([
             'name' => 'Admin',
         ]);
+
+        $permissions = \App\Models\Permission::pluck('id');
+        $admin->permissions()->sync($permissions);
     }
 }
