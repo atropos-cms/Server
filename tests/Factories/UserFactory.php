@@ -22,4 +22,28 @@ class UserFactory extends Factory
 
         return $this;
     }
+
+    /**
+     * @param string $permission
+     *
+     * @return $this
+     */
+    public function withPermission(string $permission)
+    {
+        $permissionModel = PermissionFactory::new()->make(['name' => $permission]);
+
+        $this->afterCreating(fn (User $user) => $user->permissions()->save($permissionModel));
+
+        return $this;
+    }
+
+    /**
+     * @param string $permission
+     *
+     * @return $this
+     */
+    public function authenticateWithPermission(string $permission)
+    {
+        return $this->withAuthentication()->withPermission($permission);
+    }
 }

@@ -12,12 +12,9 @@ class PermissionsTableSeeder extends Seeder
     public function run()
     {
         $permissions = [
-            'updateMe',
-            'updateMyPassword',
-            'createUser',
-            'updateUser',
-            'deleteUser',
-            'restoreUser',
+            'administration-users',
+            'administration-roles',
+            'administration-settings',
         ];
 
         foreach ($permissions as $permission) {

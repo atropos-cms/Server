@@ -54,16 +54,16 @@ enum UserColumn {
 
 extend type Query @middleware(checks: ["auth:sanctum"]) {
     me: User @auth @event(dispatch: "App\\Events\\UserLogin")
-    user(id: ID! @eq): User @find
-    users(search: String @search, orderBy: _ @orderBy(columnsEnum: "UserColumn")): [User!]! @paginate @softDeletes
+    user(id: ID! @eq): User @find @can(ability: "view", find: "id")
+    users(search: String @search, orderBy: _ @orderBy(columnsEnum: "UserColumn")): [User!]! @paginate @softDeletes @can(ability: "viewAny")
 }
 
 extend type Mutation @middleware(checks: ["auth:sanctum"]) {
     updateMe(data: UpdateOrCreateUserInput! @spread): User @updateUserValidation
     updateMyPassword(data: UpdateUserPasswordInput! @spread): User @updateUserPasswordValidation
 
-    createUser(data: UpdateOrCreateUserInput! @spread): User @updateUserValidation @create @event(dispatch: "App\\Events\\UserCreated")
-    updateUser(id: ID!, data: UpdateOrCreateUserInput! @spread): User @updateUserValidation @update
-    deleteUser(id: ID!): User @delete
-    restoreUser(id: ID!): User @restore
+    createUser(data: UpdateOrCreateUserInput! @spread): User @updateUserValidation @create @can(ability: "create") @event(dispatch: "App\\Events\\UserCreated")
+    updateUser(id: ID!, data: UpdateOrCreateUserInput! @spread): User @updateUserValidation @update @can(ability: "update", find: "id")
+    deleteUser(id: ID!): User @delete @can(ability: "delete", find: "id")
+    restoreUser(id: ID!): User @restore @can(ability: "restore", find: "id")
 }

@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class GroupsTableSeeder extends Seeder
+class RolesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

@@ -13,7 +13,7 @@ class RoleTest extends GraphQLTestCase
     public function setUp(): void
     {
         parent::setUp();
-        UserFactory::new()->withAuthentication()();
+        UserFactory::new()->authenticateWithPermission('administration-roles')();
     }
 
     /** @test */

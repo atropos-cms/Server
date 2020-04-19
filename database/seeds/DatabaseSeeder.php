@@ -15,8 +15,8 @@ class DatabaseSeeder extends Seeder
         $this->call(TenantSeeder::class);
 
         // These seeders apply to the tenant just created
-        $this->call(UsersTableSeeder::class);
         $this->call(PermissionsTableSeeder::class);
-        $this->call(GroupsTableSeeder::class);
+        $this->call(RolesTableSeeder::class);
+        $this->call(UsersTableSeeder::class);
     }
 }

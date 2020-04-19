@@ -11,9 +11,11 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Models\User::class)->create([
+        $admin = \Tests\Factories\UserFactory::new()->create([
             'email' => 'admin@localhost',
         ]);
+
+        $admin->assignRole('Admin');
 
         factory(\App\Models\User::class, 100)->create();
     }

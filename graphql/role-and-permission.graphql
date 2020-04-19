@@ -30,22 +30,22 @@ enum RoleColumn {
 }
 
 extend type Query @middleware(checks: ["auth:sanctum"]) {
-    role(id: ID! @eq): Role @find
-    roles(search: String @search, orderBy: _ @orderBy(columnsEnum: "RoleColumn")): [Role!]! @paginate
+    role(id: ID! @eq): Role @find @can(ability: "view", find: "id")
+    roles(search: String @search, orderBy: _ @orderBy(columnsEnum: "RoleColumn")): [Role!]! @paginate @can(ability: "viewAny")
 
     permission(id: ID! @eq): Permission @find
     permissions: [Permission!]! @all
 }
 
 extend type Mutation @middleware(checks: ["auth:sanctum"]) {
-    createRole(data: UpdateOrCreateRoleInput! @spread): Role @create
-    updateRole(id: ID!, data: UpdateOrCreateRoleInput! @spread): Role @update
-    deleteRole(id: ID!): Role @delete
+    createRole(data: UpdateOrCreateRoleInput! @spread): Role @create @can(ability: "create")
+    updateRole(id: ID!, data: UpdateOrCreateRoleInput! @spread): Role @update @can(ability: "update", find: "id")
+    deleteRole(id: ID!): Role @delete @can(ability: "delete", find: "id")
 
-    syncRolePermissions(id: ID!, permissions: [ID!]!): Role
-    syncRoleMembers(id: ID!, members: [ID!]!): Role
-    addRoleMembers(id: ID!, members: [ID!]!): Role
-    removeRoleMembers(id: ID!, members: [ID!]!): Role
-    syncUserPermissions(id: ID!, permissions: [ID!]!): User
-    syncUserRoles(id: ID!, roles: [ID!]!): User
+    syncRolePermissions(id: ID!, permissions: [ID!]!): Role @can(ability: "update", find: "id")
+    syncRoleMembers(id: ID!, members: [ID!]!): Role @can(ability: "update", find: "id")
+    addRoleMembers(id: ID!, members: [ID!]!): Role @can(ability: "update", find: "id")
+    removeRoleMembers(id: ID!, members: [ID!]!): Role @can(ability: "update", find: "id")
+    syncUserPermissions(id: ID!, permissions: [ID!]!): User @can(ability: "update", find: "id")
+    syncUserRoles(id: ID!, roles: [ID!]!): User @can(ability: "update", find: "id")
 }
