@@ -3,7 +3,6 @@
 namespace App\GraphQL\Scalars;
 
 use Carbon\Carbon;
-use GraphQL\Utils\Utils;
 use GraphQL\Error\InvariantViolation;
 
 class Iso8601DateTime extends \Nuwave\Lighthouse\Schema\Types\Scalars\DateTime

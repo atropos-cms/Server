@@ -4,11 +4,11 @@ namespace App\Models\Website;
 
 use App\Models\User;
 use App\Enums\ContentType;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletingScope;

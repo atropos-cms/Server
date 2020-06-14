@@ -2,10 +2,9 @@
 
 namespace App\GraphQL\Mutations;
 
-use Hash;
-use Laravel\Sanctum\PersonalAccessToken;
 use Laravel\Sanctum\Sanctum;
 use GraphQL\Type\Definition\ResolveInfo;
+use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\Validation\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 

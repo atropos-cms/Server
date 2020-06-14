@@ -2,9 +2,9 @@
 
 namespace Tests\GraphQL\Collaboration;
 
-use Tests\Factories\Collaboration\FolderFactory;
-use Tests\Factories\UserFactory;
 use Tests\GraphQLTestCase;
+use Tests\Factories\UserFactory;
+use Tests\Factories\Collaboration\FolderFactory;
 
 class FolderTest extends GraphQLTestCase
 {
@@ -46,14 +46,14 @@ class FolderTest extends GraphQLTestCase
     {
         $folders = FolderFactory::times(3)();
 
-        $this->graphQL("
+        $this->graphQL('
         {
             folders {
                 id
                 name
             }
         }
-        ")->assertJson([
+        ')->assertJson([
             'data' => [
                 'folders' => $folders->map(fn ($folder) => [
                     'id' => $folder->id,
@@ -68,7 +68,7 @@ class FolderTest extends GraphQLTestCase
     {
         $folder = FolderFactory::new()->make();
 
-         $id = $this->postGraphQL([
+        $id = $this->postGraphQL([
             'query' => '
                 mutation createFolder($data: CreateFolderInput!) {
                     createFolder(data: $data) {
@@ -90,7 +90,7 @@ class FolderTest extends GraphQLTestCase
             ],
         ])->json('data.createFolder.id');
 
-         $this->assertNotNull($id);
+        $this->assertNotNull($id);
     }
 
     /** @test */
@@ -204,5 +204,4 @@ class FolderTest extends GraphQLTestCase
 
         $this->assertDatabaseMissing($folder->getTable(), ['id' => $folder->id]);
     }
-
 }

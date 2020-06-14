@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\User;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class RolePolicy
@@ -14,6 +14,7 @@ class RolePolicy
      * Determine whether the user can view any models.
      *
      * @param  \App\Models\User  $user
+     *
      * @return mixed
      */
     public function viewAny(User $user)
@@ -26,6 +27,7 @@ class RolePolicy
      *
      * @param  \App\Models\User  $user
      * @param  \App\Role  $role
+     *
      * @return mixed
      */
     public function view(User $user, Role $role)
@@ -37,6 +39,7 @@ class RolePolicy
      * Determine whether the user can create models.
      *
      * @param  \App\Models\User  $user
+     *
      * @return mixed
      */
     public function create(User $user)
@@ -49,6 +52,7 @@ class RolePolicy
      *
      * @param  \App\Models\User  $user
      * @param  \App\Role  $role
+     *
      * @return mixed
      */
     public function update(User $user, Role $role)
@@ -61,6 +65,7 @@ class RolePolicy
      *
      * @param  \App\Models\User  $user
      * @param  \App\Role  $role
+     *
      * @return mixed
      */
     public function delete(User $user, Role $role)
@@ -73,6 +78,7 @@ class RolePolicy
      *
      * @param  \App\Models\User  $user
      * @param  \App\Role  $role
+     *
      * @return mixed
      */
     public function restore(User $user, Role $role)
@@ -85,6 +91,7 @@ class RolePolicy
      *
      * @param  \App\Models\User  $user
      * @param  \App\Role  $role
+     *
      * @return mixed
      */
     public function forceDelete(User $user, Role $role)
