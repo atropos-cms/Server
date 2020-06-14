@@ -3,6 +3,7 @@
 namespace App\GraphQL\Mutations;
 
 use Hash;
+use Laravel\Sanctum\PersonalAccessToken;
 use Laravel\Sanctum\Sanctum;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Validation\ValidationException;
@@ -27,8 +28,9 @@ class Logout
         $request = $context->request();
         $token = $request->bearerToken();
 
+        /** @var PersonalAccessToken $model */
         $model = Sanctum::$personalAccessTokenModel;
-        $accessToken = $model::where('token', hash('sha256', $token))->first();
+        $accessToken = $model::findToken($token);
 
         return [
             'status' => $accessToken->delete(),

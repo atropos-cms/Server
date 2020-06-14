@@ -32,8 +32,10 @@ class Login
             ]);
         }
 
+        $token = $user->createToken('device_name');
+
         return [
-            'accessToken' => $user->createToken('device_name')->plainTextToken,
+            'accessToken' => $token->plainTextToken,
             'user' => $user,
         ];
     }

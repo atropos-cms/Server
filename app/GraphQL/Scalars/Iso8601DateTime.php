@@ -22,7 +22,7 @@ class Iso8601DateTime extends \Nuwave\Lighthouse\Schema\Types\Scalars\DateTime
         }
 
         return $this
-            ->tryParsingDateTime($value, InvariantViolation::class)
+            ->tryParsingDate($value, InvariantViolation::class)
             ->toIso8601String();
     }
 
@@ -36,16 +36,8 @@ class Iso8601DateTime extends \Nuwave\Lighthouse\Schema\Types\Scalars\DateTime
      *
      * @return \Carbon\Carbon
      */
-    protected function tryParsingDateTime($value, string $exceptionClass): Carbon
+    protected function parse($value): Carbon
     {
-        try {
-            return Carbon::createFromFormat(Carbon::ISO8601, $value);
-        } catch (\Exception $e) {
-            throw new $exceptionClass(
-                Utils::printSafeJson(
-                    $e->getMessage()
-                )
-            );
-        }
+        return Carbon::createFromFormat(Carbon::ISO8601, $value);
     }
 }

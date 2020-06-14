@@ -109,9 +109,13 @@ class AuthTest extends GraphQLTestCase
     public function a_user_can_logout()
     {
         $user = UserFactory::new()();
-        $token = $user->createToken('device_name')->plainTextToken;
+        // Create an additional token that should not be deleted
+        $user->createToken('device_name');
 
-        $this->assertCount(1, $user->tokens);
+        $token = $user->createToken('device_name');
+        $bearerToken = $token->plainTextToken;
+
+        $this->assertCount(2, $user->tokens);
 
         $this->postGraphQL(
             [
@@ -121,9 +125,9 @@ class AuthTest extends GraphQLTestCase
                     status
                   }
             }', ],
-            ['Authorization' => "Bearer $token"]
+            ['Authorization' => "Bearer $bearerToken"]
         );
 
-        $this->assertCount(0, $user->fresh()->tokens);
+        $this->assertCount(1, $user->fresh()->tokens);
     }
 }
