@@ -82,7 +82,7 @@ class Navigationentry extends Model
      * @param $ids
      * @param int $startOrder
      */
-    public static function setNewOrder($ids, int $startOrder = 1) : void
+    public static function setNewOrder($ids, int $startOrder = 1): void
     {
         if (! is_array($ids) && ! $ids instanceof ArrayAccess) {
             throw new InvalidArgumentException('You must pass an array or ArrayAccess object to setNewOrder');
