@@ -78,7 +78,11 @@ class Navigationentry extends Model
         return (int) static::query()->max('order');
     }
 
-    public static function setNewOrder($ids, int $startOrder = 1)
+    /**
+     * @param $ids
+     * @param int $startOrder
+     */
+    public static function setNewOrder($ids, int $startOrder = 1) : void
     {
         if (! is_array($ids) && ! $ids instanceof ArrayAccess) {
             throw new InvalidArgumentException('You must pass an array or ArrayAccess object to setNewOrder');
