@@ -2,12 +2,8 @@
 
 namespace Tests\Unit\Models\Website;
 
-use App\Enums\ContentType;
-use App\Models\Website\Navigationentry;
 use Tests\GraphQLTestCase;
-use Illuminate\Support\Str;
-use Tests\Factories\UserFactory;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\Website\Navigationentry;
 use Tests\Factories\Website\NavigationentryFactory;
 
 class NavigationentryTest extends GraphQLTestCase
