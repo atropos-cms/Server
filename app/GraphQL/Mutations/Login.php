@@ -34,6 +34,9 @@ class Login
 
         $token = $user->createToken('device_name');
 
+        // Update the login_at field with the current time
+        $user->forceFill(['login_at' => now()])->save();
+
         return [
             'accessToken' => $token->plainTextToken,
             'user' => $user,

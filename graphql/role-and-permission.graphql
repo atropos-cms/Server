@@ -9,6 +9,8 @@ type Role {
     id: ID!
     name: String!
     description: String
+    emailAddress: String @rename(attribute: "email_address")
+    mailingList: RoleMailingList @rename(attribute: "mailing_list")
     createdAt: DateTime! @rename(attribute: "created_at")
     updatedAt: DateTime!  @rename(attribute: "updated_at")
 
@@ -20,6 +22,8 @@ type Role {
 input UpdateOrCreateRoleInput {
     name: String @rules(apply: ["required", "string"])
     description: String @rules(apply: ["string", "nullable", "max:1000"])
+    emailAddress: String @rules(apply: ["string", "nullable", "email:rfc,strict,dns", "max:100"]) @rename(attribute: "email_address")
+    mailingList: RoleMailingList @rename(attribute: "mailing_list")
 }
 
 enum RoleColumn {

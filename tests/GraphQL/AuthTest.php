@@ -2,6 +2,7 @@
 
 namespace Tests\GraphQL;
 
+use Carbon\Carbon;
 use Tests\GraphQLTestCase;
 use Tests\Factories\UserFactory;
 
@@ -43,6 +44,33 @@ class AuthTest extends GraphQLTestCase
                 ],
             ],
         ]);
+    }
+
+    /** @test */
+    public function login_records_the_loginAt_date()
+    {
+        $user = UserFactory::new()();
+        Carbon::setTestNow(now());
+
+        $this->assertNull($user->refresh()->login_at);
+
+        $this->postGraphQL([
+            'query' => '
+                mutation login($data: LoginInput) {
+                    login(data: $data) {
+                        accessToken
+                    }
+                }
+            ',
+            'variables' => [
+                'data' => [
+                    'email' => $user->email,
+                    'password' => 'password',
+                ],
+            ],
+        ])->decodeResponseJson('data.login.accessToken');
+
+        $this->assertEquals(now()->toIso8601String(), $user->refresh()->login_at->toIso8601String());
     }
 
     /** @test */

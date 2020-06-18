@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddFieldsToGroupsTable extends Migration
+class AddFieldsToRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -17,6 +17,9 @@ class AddFieldsToGroupsTable extends Migration
 
         Schema::table($tableNames['roles'], function (Blueprint $table) {
             $table->text('description')->nullable();
+            $table->string('email_address')->nullable();
+            $table->tinyInteger('mailing_list')
+                ->default(\App\Enums\RoleMailingList::Disabled);
         });
     }
 
@@ -27,7 +30,9 @@ class AddFieldsToGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::table('groups', function (Blueprint $table) {
+        $tableNames = config('permission.table_names');
+
+        Schema::table($tableNames['roles'], function (Blueprint $table) {
             $table->dropColumn('description');
         });
     }

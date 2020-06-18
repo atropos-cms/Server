@@ -20,11 +20,6 @@ class Navigationentry extends Model
 //    use Searchable;
     use CastsEnums;
 
-    /**
-     * The "booted" method of the model.
-     *
-     * @return void
-     */
     protected static function booted()
     {
         static::addGlobalScope('order', function (Builder $builder) {
@@ -41,47 +36,23 @@ class Navigationentry extends Model
         });
     }
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'title', 'slug', 'published', 'type',
     ];
 
-    /**
-     * The model's attributes.
-     *
-     * @var array
-     */
     protected $attributes = [
         'published' => false,
     ];
 
-    /**
-     * Map attribute names to enum classes.
-     *
-     * @var array
-     */
     protected $enumCasts = [
         'type' => ContentType::class,
     ];
 
-    /**
-     * Returns the currently highest order number for any navigationentry
-     *
-     * @return int
-     */
     public function getHighestOrderNumber(): int
     {
         return (int) static::query()->max('order');
     }
 
-    /**
-     * @param $ids
-     * @param int $startOrder
-     */
     public static function setNewOrder($ids, int $startOrder = 1): void
     {
         if (! is_array($ids) && ! $ids instanceof ArrayAccess) {
@@ -95,21 +66,16 @@ class Navigationentry extends Model
         }
     }
 
-    /**
-     * Gets the author for this entry
-     *
-     * @return BelongsTo
-     */
+    public function setSlugAttribute($value)
+    {
+        $this->attributes['slug'] = Str::slug($value);
+    }
+
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * Gets the content for this entry
-     *
-     * @return MorphTo
-     */
     public function content(): MorphTo
     {
         return $this->morphTo();

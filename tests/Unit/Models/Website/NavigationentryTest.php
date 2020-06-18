@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Models\Website;
 
+use Illuminate\Support\Str;
 use Tests\GraphQLTestCase;
 use App\Models\Website\Navigationentry;
 use Tests\Factories\Website\NavigationentryFactory;
@@ -23,5 +24,19 @@ class NavigationentryTest extends GraphQLTestCase
         // After reordering, the order should be reversed
         Navigationentry::get(['id', 'order'])
             ->each(fn ($e) => $this->assertSame((int)$e->id, 4 - $e->order));
+    }
+
+    /** @test */
+    public function it_strips_invalid_characters_from_slugs()
+    {
+        $navigationentry = NavigationentryFactory::new();
+
+        $this->assertEquals(Str::slug($navigationentry->slug), $navigationentry->slug);
+
+        $navigationentry->update(['slug' => 'Slug with space']);
+        $this->assertEquals(Str::slug($navigationentry->slug), $navigationentry->slug);
+
+        $navigationentry->update(['slug' => '!Ümlauts aren\'t allowed']);
+        $this->assertEquals(Str::slug($navigationentry->slug), $navigationentry->slug);
     }
 }

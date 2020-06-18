@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Enums\ContentType;
+use App\Enums\RoleMailingList;
 use Illuminate\Support\ServiceProvider;
 use Nuwave\Lighthouse\Schema\TypeRegistry;
 use Nuwave\Lighthouse\Schema\Types\LaravelEnumType;
@@ -20,6 +21,10 @@ class GraphQLServiceProvider extends ServiceProvider
     {
         $typeRegistry->register(
             new LaravelEnumType(ContentType::class)
+        );
+
+        $typeRegistry->register(
+            new LaravelEnumType(RoleMailingList::class)
         );
     }
 }
