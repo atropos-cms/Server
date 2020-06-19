@@ -22,13 +22,13 @@ type User {
 }
 
 input UpdateOrCreateUserInput {
-    firstName: String @rename(attribute: "first_name")
-    lastName: String @rename(attribute: "last_name")
+    firstName: String! @rules(apply: ["required", "string"]) @rename(attribute: "first_name")
+    lastName: String! @rules(apply: ["required", "string"]) @rename(attribute: "last_name")
+    email: String! @rules(apply: ["required", "string", "email:rfc,strict,dns"])
     street: String
     postcode: String
     city: String
     country: String
-    email: String
 }
 
 input UpdateUserPasswordInput {

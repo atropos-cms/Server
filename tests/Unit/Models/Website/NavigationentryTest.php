@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Models\Website;
 
-use Illuminate\Support\Str;
 use Tests\GraphQLTestCase;
+use Illuminate\Support\Str;
 use App\Models\Website\Navigationentry;
 use Tests\Factories\Website\NavigationentryFactory;
 

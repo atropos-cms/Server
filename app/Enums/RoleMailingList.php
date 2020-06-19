@@ -13,5 +13,6 @@ final class RoleMailingList extends Enum
 {
     const Disabled = 0;
     const Members = 1;
-    const Public = 2;
+    const Registered = 2;
+    const Public = 3;
 }

@@ -23,6 +23,15 @@ class Page extends Model
         'body',
     ];
 
+    public function getBodyAttribute($value)
+    {
+        if (! is_null($value)) {
+            return $value;
+        }
+
+        return '{}';
+    }
+
     /**
      * Get the page's navigationentry.
      */

@@ -1,6 +1,6 @@
 type Page @modelClass(class: "\\App\\Models\\Website\\Page") {
     id: ID!
-    body: String
+    body: String!
     navigationentry: Navigationentry! @morphOne
 }
 
