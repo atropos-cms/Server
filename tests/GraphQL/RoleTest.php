@@ -10,6 +10,11 @@ use Tests\AuthenticatedGraphQLTestCase;
 
 class RoleTest extends AuthenticatedGraphQLTestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->user = UserFactory::new()->authenticateWithPermissions('administration-roles')();
+    }
 
     /** @test */
     public function test_role_query()

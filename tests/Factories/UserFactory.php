@@ -24,26 +24,33 @@ class UserFactory extends Factory
     }
 
     /**
-     * @param string $permission
+     * @param string|array $permissions
      *
      * @return $this
      */
-    public function withPermission(string $permission)
+    public function withPermissions($permissions)
     {
-        $permissionModel = PermissionFactory::new()->make(['name' => $permission]);
+        if (! is_array($permissions)) {
+            $permissions = [$permissions];
+        }
 
-        $this->afterCreating(fn (User $user) => $user->permissions()->save($permissionModel));
+        foreach ($permissions as $permission) {
+            $permissionModel = PermissionFactory::new()->make(['name' => $permission]);
+
+            $this->afterCreating(fn (User $user) => $user->permissions()->save($permissionModel));
+        }
 
         return $this;
     }
 
     /**
-     * @param string $permission
+     * @param string|array $permission
+     * @param mixed $permissions
      *
      * @return $this
      */
-    public function authenticateWithPermission(string $permission)
+    public function authenticateWithPermissions($permissions)
     {
-        return $this->withAuthentication()->withPermission($permission);
+        return $this->withAuthentication()->withPermissions($permissions);
     }
 }

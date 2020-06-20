@@ -51,7 +51,7 @@ class UserTest extends GraphQLTestCase
     /** @test */
     public function test_users_query()
     {
-        $user = UserFactory::new()->authenticateWithPermission('administration-users')();
+        $user = UserFactory::new()->authenticateWithPermissions('administration-users')();
 
         $this->graphQL('
         {
@@ -75,7 +75,7 @@ class UserTest extends GraphQLTestCase
     /** @test */
     public function test_createUser_mutation()
     {
-        UserFactory::new()->authenticateWithPermission('administration-users')();
+        UserFactory::new()->authenticateWithPermissions('administration-users')();
 
         $user = UserFactory::new()->make();
 
@@ -116,7 +116,7 @@ class UserTest extends GraphQLTestCase
     /** @test */
     public function test_updateUser_mutation()
     {
-        $user = UserFactory::new()->authenticateWithPermission('administration-users')();
+        $user = UserFactory::new()->authenticateWithPermissions('administration-users')();
 
         $firstName = $this->faker->firstName;
         $lastName = $this->faker->lastName;
@@ -142,6 +142,7 @@ class UserTest extends GraphQLTestCase
                 'data' => [
                     'firstName' => $firstName,
                     'lastName' => $lastName,
+                    'email' => $user->email,
                 ],
             ],
         ])->assertJson([
@@ -163,7 +164,7 @@ class UserTest extends GraphQLTestCase
     /** @test */
     public function test_deleteUser_mutation()
     {
-        $user = UserFactory::new()->authenticateWithPermission('administration-users')();
+        $user = UserFactory::new()->authenticateWithPermissions('administration-users')();
 
         $this->postGraphQL([
             'query' => '
@@ -190,7 +191,7 @@ class UserTest extends GraphQLTestCase
     /** @test */
     public function test_restoreUser_mutation()
     {
-        $user = UserFactory::new()->authenticateWithPermission('administration-users')();
+        $user = UserFactory::new()->authenticateWithPermissions('administration-users')();
         $user->delete();
 
         $this->postGraphQL([
@@ -217,7 +218,7 @@ class UserTest extends GraphQLTestCase
 
     public function test_syncUserRoles_mutation()
     {
-        UserFactory::new()->authenticateWithPermission('administration-users')();
+        UserFactory::new()->authenticateWithPermissions(['administration-users', 'administration-roles'])();
 
         $user = UserFactory::new()->withRoles(1)();
         $roles = RoleFactory::times(2)->create()->pluck('id');
@@ -247,7 +248,7 @@ class UserTest extends GraphQLTestCase
 
     public function test_syncUserPermissions_mutation()
     {
-        UserFactory::new()->authenticateWithPermission('administration-users')();
+        UserFactory::new()->authenticateWithPermissions('administration-users')();
 
         $user = UserFactory::new()();
         $permissions = PermissionFactory::times(2)->create()->pluck('id');
@@ -303,6 +304,7 @@ class UserTest extends GraphQLTestCase
                 'data' => [
                     'firstName' => $firstName,
                     'lastName' => $lastName,
+                    'email' => $user->email,
                 ],
             ],
         ])->assertJson([
