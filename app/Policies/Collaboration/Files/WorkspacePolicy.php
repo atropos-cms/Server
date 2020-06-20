@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Policies;
+namespace App\Policies\Collaboration\Files;
 
 use App\Enums\Permission;
-use App\Models\Role;
+use App\Models\Collaboration\Files\Workspace;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class RolePolicy
+class WorkspacePolicy
 {
     use HandlesAuthorization;
 
@@ -20,20 +20,20 @@ class RolePolicy
      */
     public function viewAny(User $user)
     {
-        return $user->can(Permission::AdministrationRoles);
+        return $user->can(Permission::CollaborationFileWorkspaces);
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Role  $role
+     * @param  Workspace $workspace
      *
      * @return mixed
      */
-    public function view(User $user, Role $role)
+    public function view(User $user, Workspace $workspace)
     {
-        return $user->can(Permission::AdministrationRoles);
+        return $user->can(Permission::CollaborationFileWorkspaces);
     }
 
     /**
@@ -45,58 +45,58 @@ class RolePolicy
      */
     public function create(User $user)
     {
-        return $user->can(Permission::AdministrationRoles);
+        return $user->can(Permission::CollaborationFileWorkspaces);
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Role  $role
+     * @param  Workspace $workspace
      *
      * @return mixed
      */
-    public function update(User $user, Role $role)
+    public function update(User $user, Workspace $workspace)
     {
-        return $user->can(Permission::AdministrationRoles);
+        return $user->can(Permission::CollaborationFileWorkspaces);
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Role  $role
+     * @param  Workspace $workspace
      *
      * @return mixed
      */
-    public function delete(User $user, Role $role)
+    public function delete(User $user, Workspace $workspace)
     {
-        return $user->can(Permission::AdministrationRoles);
+        return $user->can(Permission::CollaborationFileWorkspaces);
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Role  $role
+     * @param  Workspace $workspace
      *
      * @return mixed
      */
-    public function restore(User $user, Role $role)
+    public function restore(User $user, Workspace $workspace)
     {
-        return $user->can(Permission::AdministrationRoles);
+        return $user->can(Permission::CollaborationFileWorkspaces);
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Role  $role
+     * @param  Workspace $workspace
      *
      * @return mixed
      */
-    public function forceDelete(User $user, Role $role)
+    public function forceDelete(User $user, Workspace $workspace)
     {
-        return $user->can(Permission::AdministrationRoles);
+        return $user->can(Permission::CollaborationFileWorkspaces);
     }
 }

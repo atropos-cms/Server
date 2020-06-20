@@ -11,9 +11,14 @@ abstract class AuthenticatedGraphQLTestCase extends GraphQLTestCase
      */
     protected $user;
 
+    /**
+     * @var array
+     */
+    protected array $authUserPermissions = [];
+
     public function setUp(): void
     {
         parent::setUp();
-        $this->user = UserFactory::new()->withAuthentication()();
+        $this->user = UserFactory::new()->authenticateWithPermissions($this->authUserPermissions)();
     }
 }

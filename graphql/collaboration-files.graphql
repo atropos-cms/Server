@@ -1,6 +1,9 @@
 type Workspace @modelClass(class: "\\App\\Models\\Collaboration\\Files\\Workspace") {
     id: ID!
     name: String
+
+    roles: [Role!]!  @morphMany(relation: "roles")
+    rolesCount: Int! @rename(attribute: "roles_count")
 }
 
 input CreateWorkspaceInput {
@@ -11,9 +14,16 @@ input UpdateWorkspaceInput {
     name: String! @rules(apply: ["string"])
 }
 
+enum WorkspaceColumn {
+    name @enum(value: "name")
+    createdAt @enum(value: "created_at")
+    updatedAt @enum(value: "updated_at")
+    deletedAt @enum(value: "deleted_at")
+}
+
 extend type Query @middleware(checks: ["auth:sanctum"]) {
     workspace(id: ID! @eq): Workspace @find
-    workspaces: [Workspace!]! @all @softDeletes
+    workspaces(search: String @search, orderBy: _ @orderBy(columnsEnum: "WorkspaceColumn")): [Workspace!]! @all @softDeletes
 }
 
 extend type Mutation @middleware(checks: ["auth:sanctum"]) {
@@ -22,8 +32,11 @@ extend type Mutation @middleware(checks: ["auth:sanctum"]) {
     deleteWorkspace(id: ID!): Workspace @delete
     forceDeleteWorkspace(id: ID!): Workspace @forceDelete
     restoreWorkspace(id: ID!): Workspace @restore
-}
 
+    syncWorkspaceRoles(id: ID!, roles: [ID!]!): Workspace @can(ability: "update", find: "id")
+    addRoleToWorkspace(id: ID!, roles: [ID!]!): Workspace @can(ability: "update", find: "id")
+    removeRoleFromWorkspace(id: ID!, roles: [ID!]!): Workspace @can(ability: "update", find: "id")
+}
 
 
 type Folder @modelClass(class: "\\App\\Models\\Collaboration\\Folder") {

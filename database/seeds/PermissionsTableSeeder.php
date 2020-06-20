@@ -11,16 +11,11 @@ class PermissionsTableSeeder extends Seeder
      */
     public function run()
     {
-        $permissions = [
-            'administration-users',
-            'administration-roles',
-            'administration-settings',
-        ];
-
-        foreach ($permissions as $permission) {
+        foreach (\App\Enums\Permission::getValues() as $permission) {
+            $category = \Illuminate\Support\Str::before($permission, '-');
             \App\Models\Permission::create([
                 'name' => $permission,
-                'category' => 'administration',
+                'category' => $category,
             ]);
         }
     }

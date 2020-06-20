@@ -17,4 +17,9 @@ class Workspace extends Model
     {
         return $this->belongsToMany(\App\Models\Role::class);
     }
+
+    public function getRolesCountAttribute(): int
+    {
+        return $this->roles()->count();
+    }
 }

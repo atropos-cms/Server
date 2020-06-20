@@ -4,9 +4,13 @@ namespace Tests\GraphQL\Collaboration\Files;
 
 use Tests\AuthenticatedGraphQLTestCase;
 use Tests\Factories\Collaboration\Files\WorkspaceFactory;
+use Tests\Factories\RoleFactory;
+use Tests\Factories\UserFactory;
 
 class WorkspaceTest extends AuthenticatedGraphQLTestCase
 {
+    protected array $authUserPermissions = ['collaboration-files-workspaces'];
+
     /** @test */
     public function test_workspace_query()
     {
@@ -199,5 +203,92 @@ class WorkspaceTest extends AuthenticatedGraphQLTestCase
         ]);
 
         $this->assertDatabaseMissing($workspace->getTable(), ['id' => $workspace->id]);
+    }
+
+
+    /** @test */
+    public function test_syncWorkspaceRoles_mutation()
+    {
+        $workspace = WorkspaceFactory::new()
+            ->withRoles(RoleFactory::times(3))();
+
+        $newRoles = RoleFactory::times(2)->create()->pluck('id');
+
+        $this->postGraphQL([
+            'query' => '
+                mutation syncWorkspaceRoles($id: ID!, $roles: [ID!]!) {
+                    syncWorkspaceRoles(id: $id, roles: $roles) {
+                         id
+                         rolesCount
+                         roles { id }
+                    }
+                }
+            ',
+            'variables' => [
+                'id' => $workspace->id,
+                'roles' => $newRoles,
+            ],
+        ])->assertJson([
+            'data' => [
+                'syncWorkspaceRoles' => [
+                    'id' => $workspace->id,
+                    'rolesCount' => 2,
+                    'roles' => $newRoles->map(fn ($id) => ['id' => $id])->all(),
+                ],
+            ],
+        ]);
+    }
+
+    /** @test */
+    public function test_addRoleToWorkspace_and_removeRoleFromWorkspace_mutation()
+    {
+        $workspace = WorkspaceFactory::new()
+            ->withRoles(RoleFactory::times(3))();
+
+        $newRole = RoleFactory::new()();
+
+        $this->postGraphQL([
+            'query' => '
+                mutation addRoleToWorkspace($id: ID!, $roles: [ID!]!) {
+                    addRoleToWorkspace(id: $id, roles: $roles) {
+                         id
+                    }
+                }
+            ',
+            'variables' => [
+                'id' => $workspace->id,
+                'roles' => [$newRole->id],
+            ],
+        ])->assertJson([
+            'data' => [
+                'addRoleToWorkspace' => [
+                    'id' => $workspace->id,
+                ],
+            ],
+        ]);
+
+        $this->postGraphQL([
+            'query' => '
+                mutation removeRoleFromWorkspace($id: ID!, $roles: [ID!]!) {
+                    removeRoleFromWorkspace(id: $id, roles: $roles) {
+                         id
+                         rolesCount
+                    }
+                }
+            ',
+            'variables' => [
+                'id' => $workspace->id,
+                'roles' => [
+                    $newRole->id,
+                ],
+            ],
+        ])->assertJson([
+            'data' => [
+                'removeRoleFromWorkspace' => [
+                    'id' => $workspace->id,
+                    'rolesCount' => 3,
+                ],
+            ],
+        ]);
     }
 }

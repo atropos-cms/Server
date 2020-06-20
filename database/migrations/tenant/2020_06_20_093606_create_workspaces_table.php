@@ -20,10 +20,10 @@ class CreateWorkspacesTable extends Migration
             $table->softDeletes();
         });
 
-        Schema::create('roles_workspaces', function (Blueprint $table) {
+        Schema::create('role_workspace', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('role_id');
-            $table->unsignedInteger('workspaces_id');
+            $table->unsignedInteger('workspace_id');
         });
     }
 
@@ -35,6 +35,6 @@ class CreateWorkspacesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('workspaces');
-        Schema::dropIfExists('roles_workspaces');
+        Schema::dropIfExists('role_workspace');
     }
 }
