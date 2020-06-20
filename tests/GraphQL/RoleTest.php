@@ -3,18 +3,13 @@
 namespace Tests\GraphQL;
 
 use App\Models\Role;
-use Tests\GraphQLTestCase;
 use Tests\Factories\RoleFactory;
 use Tests\Factories\UserFactory;
 use Tests\Factories\PermissionFactory;
+use Tests\AuthenticatedGraphQLTestCase;
 
-class RoleTest extends GraphQLTestCase
+class RoleTest extends AuthenticatedGraphQLTestCase
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-        UserFactory::new()->authenticateWithPermission('administration-roles')();
-    }
 
     /** @test */
     public function test_role_query()

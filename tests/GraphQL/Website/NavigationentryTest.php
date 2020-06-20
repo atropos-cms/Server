@@ -3,26 +3,15 @@
 namespace Tests\GraphQL\Website;
 
 use App\Enums\ContentType;
-use Tests\GraphQLTestCase;
 use Illuminate\Support\Str;
 use Tests\Factories\UserFactory;
+use Tests\AuthenticatedGraphQLTestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\Factories\Website\NavigationentryFactory;
 
-class NavigationentryTest extends GraphQLTestCase
+class NavigationentryTest extends AuthenticatedGraphQLTestCase
 {
     use WithFaker;
-
-    /**
-     * @var \App\Models\User
-     */
-    private $user;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->user = UserFactory::new()->withAuthentication()();
-    }
 
     /** @test */
     public function test_navigation_query()

@@ -1,20 +1,13 @@
 <?php
 
-namespace Tests\GraphQL;
+namespace Tests\GraphQL\Website;
 
 use App\Models\Page;
-use Tests\GraphQLTestCase;
 use Illuminate\Support\Str;
-use Tests\Factories\UserFactory;
+use Tests\AuthenticatedGraphQLTestCase;
 
-class PageTest extends GraphQLTestCase
+class PageTest extends AuthenticatedGraphQLTestCase
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-        UserFactory::new()->withAuthentication()();
-    }
-
     /** @test */
     public function test_page_query()
     {

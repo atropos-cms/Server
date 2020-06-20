@@ -1,0 +1,53 @@
+type Workspace @modelClass(class: "\\App\\Models\\Collaboration\\Files\\Workspace") {
+    id: ID!
+    name: String
+}
+
+input CreateWorkspaceInput {
+    name: String! @rules(apply: ["string"])
+}
+
+input UpdateWorkspaceInput {
+    name: String! @rules(apply: ["string"])
+}
+
+extend type Query @middleware(checks: ["auth:sanctum"]) {
+    workspace(id: ID! @eq): Workspace @find
+    workspaces: [Workspace!]! @all @softDeletes
+}
+
+extend type Mutation @middleware(checks: ["auth:sanctum"]) {
+    createWorkspace(data: CreateWorkspaceInput! @spread): Workspace @create
+    updateWorkspace(id: ID!, data: UpdateWorkspaceInput! @spread): Workspace @update
+    deleteWorkspace(id: ID!): Workspace @delete
+    forceDeleteWorkspace(id: ID!): Workspace @forceDelete
+    restoreWorkspace(id: ID!): Workspace @restore
+}
+
+
+
+type Folder @modelClass(class: "\\App\\Models\\Collaboration\\Folder") {
+    id: ID!
+    name: String
+}
+
+input CreateFolderInput {
+    name: String! @rules(apply: ["string"])
+}
+
+input UpdateFolderInput {
+    name: String! @rules(apply: ["string"])
+}
+
+extend type Query @middleware(checks: ["auth:sanctum"]) {
+    folder(id: ID! @eq): Folder @find
+    folders: [Folder!]! @all @softDeletes
+}
+
+extend type Mutation @middleware(checks: ["auth:sanctum"]) {
+    createFolder(data: CreateFolderInput! @spread): Folder @create
+    updateFolder(id: ID!, data: UpdateFolderInput! @spread): Folder @update
+    deleteFolder(id: ID!): Folder @delete
+    forceDeleteFolder(id: ID!): Folder @forceDelete
+    restoreFolder(id: ID!): Folder @restore
+}

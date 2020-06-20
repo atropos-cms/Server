@@ -12,4 +12,5 @@ input CreateAuthorRelation {
 #import user.graphql
 #import role-and-permission.graphql
 #import website.graphql
-#import collaboration.graphql
+
+#import collaboration-files.graphql

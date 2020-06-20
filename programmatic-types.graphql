@@ -5,3 +5,16 @@ enum ContentType {
   """Page"""
   Page
 }
+enum RoleMailingList {
+  """Disabled"""
+  Disabled
+
+  """Members"""
+  Members
+
+  """Registered"""
+  Registered
+
+  """Public"""
+  Public
+}
