@@ -15,6 +15,8 @@ class CreateFilesAndFoldersTable extends Migration
     {
         Schema::create('files', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('parent_id')->nullable();
+
             $table->unsignedBigInteger('workspace_id')->index();
             $table->foreign('workspace_id')->references('id')->on('workspaces')->cascadeOnDelete();
 
@@ -32,6 +34,8 @@ class CreateFilesAndFoldersTable extends Migration
 
         Schema::create('folders', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('parent_id')->nullable();
+
             $table->unsignedBigInteger('workspace_id')->index();
             $table->foreign('workspace_id')->references('id')->on('workspaces')->cascadeOnDelete();
 

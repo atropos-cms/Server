@@ -12,6 +12,10 @@ input ConnectWorkspaceRelation {
     connect: ID
 }
 
+input ConnectParentFolderRelation {
+    connect: ID
+}
+
 #import auth.graphql
 #import user.graphql
 #import role-and-permission.graphql

@@ -4,9 +4,15 @@
 type Workspace @modelClass(class: "\\App\\Models\\Collaboration\\Files\\Workspace") {
     id: ID!
     name: String
+    createdAt: DateTime! @rename(attribute: "created_at")
+    updatedAt: DateTime!  @rename(attribute: "updated_at")
+    deletedAt: DateTime  @rename(attribute: "deleted_at")
 
     roles: [Role!]!  @morphMany(relation: "roles")
     rolesCount: Int! @rename(attribute: "roles_count")
+
+    folders: Folder @hasMany
+    #    files: File @hasMany
 }
 
 input CreateWorkspaceInput {
@@ -47,11 +53,26 @@ extend type Mutation @middleware(checks: ["auth:sanctum"]) {
 type Folder @modelClass(class: "\\App\\Models\\Collaboration\\Files\\Folder") {
     id: ID!
     workspace: Workspace @belongsTo
+
     name: String
+    createdAt: DateTime! @rename(attribute: "created_at")
+    updatedAt: DateTime!  @rename(attribute: "updated_at")
+    deletedAt: DateTime  @rename(attribute: "deleted_at")
+
+    parent: Folder @belongsTo
+    children: Folder @hasMany
+}
+
+enum FolderColumn {
+    name @enum(value: "name")
+    createdAt @enum(value: "created_at")
+    updatedAt @enum(value: "updated_at")
+    deletedAt @enum(value: "deleted_at")
 }
 
 input CreateFolderInput {
     workspace: ConnectWorkspaceRelation!
+    parent: ConnectParentFolderRelation!
     name: String! @rules(apply: ["string"])
 }
 
@@ -61,7 +82,7 @@ input UpdateFolderInput {
 
 extend type Query @middleware(checks: ["auth:sanctum"]) {
     folder(workspace_id: ID! @eq, id: ID! @eq): Folder @find
-    folders(workspace_id: ID! @eq): [Folder!]! @all @softDeletes
+    folders(workspace_id: ID! @eq, parent_id: ID @eq, orderBy: _ @orderBy(columnsEnum: "FolderColumn")): [Folder!]! @softDeletes
 }
 
 extend type Mutation @middleware(checks: ["auth:sanctum"]) {
