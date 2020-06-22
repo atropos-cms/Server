@@ -4,7 +4,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(\App\Models\Collaboration\Folder::class, function (Faker $faker) {
+$factory->define(\App\Models\Collaboration\Files\File::class, function (Faker $faker) {
     return [
         'name' => $faker->word,
     ];

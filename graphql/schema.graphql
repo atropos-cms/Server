@@ -4,7 +4,11 @@ scalar DateTime @scalar(class: "App\\GraphQL\\Scalars\\Iso8601DateTime")
 type Query
 type Mutation
 
-input CreateAuthorRelation {
+input ConnectAuthorRelation {
+    connect: ID
+}
+
+input ConnectWorkspaceRelation {
     connect: ID
 }
 

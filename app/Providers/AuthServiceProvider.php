@@ -2,12 +2,12 @@
 
 namespace App\Providers;
 
-use App\Models\Collaboration\Files\Workspace;
 use App\Models\Role;
 use App\Models\User;
-use App\Policies\Collaboration\Files\WorkspacePolicy;
 use App\Policies\RolePolicy;
 use App\Policies\UserPolicy;
+use App\Models\Collaboration\Files\Workspace;
+use App\Policies\Collaboration\Files\WorkspacePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -22,7 +22,7 @@ class AuthServiceProvider extends ServiceProvider
         Role::class => RolePolicy::class,
 
         // Collaboration
-        Workspace::class => WorkspacePolicy::class
+        Workspace::class => WorkspacePolicy::class,
     ];
 
     /**

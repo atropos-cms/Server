@@ -29,7 +29,7 @@ input CreateNavigationentryInput {
     slug: String @rules(apply: ["string"])
     order: Int @rules(apply: ["integer"])
     published: Boolean @rules(apply: ["boolean"])
-    author: CreateAuthorRelation
+    author: ConnectAuthorRelation
 }
 
 input UpdateNavigationentryInput {

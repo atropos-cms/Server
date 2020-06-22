@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Models\Collaboration;
+namespace App\Models\Collaboration\Files;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class File extends Model
 {
@@ -22,4 +23,9 @@ class File extends Model
         'sha256_checksum',
         'size',
     ];
+
+    public function workspace(): BelongsTo
+    {
+        return $this->belongsTo(Workspace::class);
+    }
 }

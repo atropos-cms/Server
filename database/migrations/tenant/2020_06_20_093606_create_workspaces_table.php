@@ -22,8 +22,12 @@ class CreateWorkspacesTable extends Migration
 
         Schema::create('role_workspace', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('role_id');
-            $table->unsignedInteger('workspace_id');
+
+            $table->unsignedInteger('role_id')->index();
+            $table->foreign('role_id')->references('id')->on(config('permission.table_names')['roles'])->cascadeOnDelete();
+
+            $table->unsignedBigInteger('workspace_id')->index();
+            $table->foreign('workspace_id')->references('id')->on('workspaces')->cascadeOnDelete();
         });
     }
 

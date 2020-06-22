@@ -2,9 +2,8 @@
 
 namespace App\GraphQL\Mutations;
 
-use App\Models\Collaboration\Files\Workspace;
-use App\Models\Role;
 use GraphQL\Type\Definition\ResolveInfo;
+use App\Models\Collaboration\Files\Workspace;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class RemoveRoleFromWorkspace

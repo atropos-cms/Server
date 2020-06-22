@@ -2,9 +2,9 @@
 
 namespace App\Policies\Collaboration\Files;
 
+use App\Models\User;
 use App\Enums\Permission;
 use App\Models\Collaboration\Files\Workspace;
-use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class WorkspacePolicy

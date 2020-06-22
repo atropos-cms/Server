@@ -2,8 +2,8 @@
 
 namespace App\GraphQL\Mutations;
 
-use App\Models\Collaboration\Files\Workspace;
 use GraphQL\Type\Definition\ResolveInfo;
+use App\Models\Collaboration\Files\Workspace;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class AddRoleToWorkspace

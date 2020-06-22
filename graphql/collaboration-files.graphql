@@ -1,3 +1,6 @@
+#
+# Workspace
+#
 type Workspace @modelClass(class: "\\App\\Models\\Collaboration\\Files\\Workspace") {
     id: ID!
     name: String
@@ -38,13 +41,17 @@ extend type Mutation @middleware(checks: ["auth:sanctum"]) {
     removeRoleFromWorkspace(id: ID!, roles: [ID!]!): Workspace @can(ability: "update", find: "id")
 }
 
-
-type Folder @modelClass(class: "\\App\\Models\\Collaboration\\Folder") {
+#
+# Folder
+#
+type Folder @modelClass(class: "\\App\\Models\\Collaboration\\Files\\Folder") {
     id: ID!
+    workspace: Workspace @belongsTo
     name: String
 }
 
 input CreateFolderInput {
+    workspace: ConnectWorkspaceRelation!
     name: String! @rules(apply: ["string"])
 }
 
@@ -53,8 +60,8 @@ input UpdateFolderInput {
 }
 
 extend type Query @middleware(checks: ["auth:sanctum"]) {
-    folder(id: ID! @eq): Folder @find
-    folders: [Folder!]! @all @softDeletes
+    folder(workspace_id: ID! @eq, id: ID! @eq): Folder @find
+    folders(workspace_id: ID! @eq): [Folder!]! @all @softDeletes
 }
 
 extend type Mutation @middleware(checks: ["auth:sanctum"]) {

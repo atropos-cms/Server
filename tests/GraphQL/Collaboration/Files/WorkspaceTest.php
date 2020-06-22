@@ -2,10 +2,9 @@
 
 namespace Tests\GraphQL\Collaboration\Files;
 
+use Tests\Factories\RoleFactory;
 use Tests\AuthenticatedGraphQLTestCase;
 use Tests\Factories\Collaboration\Files\WorkspaceFactory;
-use Tests\Factories\RoleFactory;
-use Tests\Factories\UserFactory;
 
 class WorkspaceTest extends AuthenticatedGraphQLTestCase
 {

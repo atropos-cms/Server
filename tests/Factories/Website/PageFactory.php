@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Factories;
+namespace Tests\Factories\Website;
 
 use Lukeraymonddowning\Poser\Factory;
 

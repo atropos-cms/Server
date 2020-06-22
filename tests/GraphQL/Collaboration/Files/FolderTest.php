@@ -1,10 +1,11 @@
 <?php
 
-namespace Tests\GraphQL\Collaboration;
+namespace Tests\GraphQL\Collaboration\Files;
 
 use Tests\GraphQLTestCase;
 use Tests\Factories\UserFactory;
-use Tests\Factories\Collaboration\FolderFactory;
+use Tests\Factories\Collaboration\Files\FolderFactory;
+use Tests\Factories\Collaboration\Files\WorkspaceFactory;
 
 class FolderTest extends GraphQLTestCase
 {
@@ -22,11 +23,14 @@ class FolderTest extends GraphQLTestCase
     /** @test */
     public function test_folder_query()
     {
-        $folder = FolderFactory::new()();
+        $workspace = WorkspaceFactory::new()();
+        $folder = FolderFactory::new()
+            ->forWorkspace($workspace)
+            ->create();
 
         $this->graphQL("
         {
-            folder (id: $folder->id) {
+            folder (workspace_id: $workspace->id, id: $folder->id) {
                 id
                 name
             }
@@ -44,20 +48,27 @@ class FolderTest extends GraphQLTestCase
     /** @test */
     public function test_folders_query()
     {
-        $folders = FolderFactory::times(3)();
+        $workspace = WorkspaceFactory::new()();
+        $folders = FolderFactory::times(3)
+            ->forWorkspace($workspace)
+            ->create();
 
-        $this->graphQL('
+        $this->graphQL("
         {
-            folders {
+            folders(workspace_id: $workspace->id) {
                 id
                 name
+                workspace {
+                  id
+                }
             }
         }
-        ')->assertJson([
+        ")->assertJson([
             'data' => [
                 'folders' => $folders->map(fn ($folder) => [
                     'id' => $folder->id,
                     'name' => $folder->name,
+                    'workspace' => ['id' => $workspace->id,],
                 ])->all(),
             ],
         ]);
@@ -66,6 +77,7 @@ class FolderTest extends GraphQLTestCase
     /** @test */
     public function test_createFolder_mutation()
     {
+        $workspace = WorkspaceFactory::new()();
         $folder = FolderFactory::new()->make();
 
         $id = $this->postGraphQL([
@@ -73,6 +85,9 @@ class FolderTest extends GraphQLTestCase
                 mutation createFolder($data: CreateFolderInput!) {
                     createFolder(data: $data) {
                          id
+                         workspace {
+                           id
+                         }
                          name
                     }
                 }
@@ -80,12 +95,14 @@ class FolderTest extends GraphQLTestCase
             'variables' => [
                 'data' => [
                     'name' => $folder->name,
+                    'workspace' => ['connect' => $workspace->id],
                 ],
             ],
         ])->assertJson([
             'data' => [
                 'createFolder' => [
                     'name' => $folder->name,
+                    'workspace' => ['id' => $workspace->id,],
                 ],
             ],
         ])->json('data.createFolder.id');
@@ -96,13 +113,18 @@ class FolderTest extends GraphQLTestCase
     /** @test */
     public function test_updateFolder_mutation()
     {
-        $folder = FolderFactory::new()();
+        $folder = FolderFactory::new()
+            ->forWorkspace(WorkspaceFactory::new())
+            ->create();
 
         $this->postGraphQL([
             'query' => '
                 mutation updateFolder($id: ID!, $data: UpdateFolderInput!) {
                     updateFolder(id: $id, data: $data) {
                          id
+                         workspace {
+                           id
+                         }
                          name
                     }
                 }
@@ -118,6 +140,7 @@ class FolderTest extends GraphQLTestCase
                 'updateFolder' => [
                     'id' => $folder->id,
                     'name' => $folder->name,
+                    'workspace' => ['id' => $folder->workspace->id,],
                 ],
             ],
         ]);
@@ -126,7 +149,9 @@ class FolderTest extends GraphQLTestCase
     /** @test */
     public function test_deleteFolder_mutation()
     {
-        $folder = FolderFactory::new()();
+        $folder = FolderFactory::new()
+            ->forWorkspace(WorkspaceFactory::new())
+            ->create();
 
         $this->postGraphQL([
             'query' => '
@@ -153,7 +178,9 @@ class FolderTest extends GraphQLTestCase
     /** @test */
     public function test_restoreFolder_mutation()
     {
-        $folder = FolderFactory::new()();
+        $folder = FolderFactory::new()
+            ->forWorkspace(WorkspaceFactory::new())
+            ->create();
         $folder->delete();
 
         $this->postGraphQL([
@@ -181,7 +208,9 @@ class FolderTest extends GraphQLTestCase
     /** @test */
     public function test_forceDeleteFolder_mutation()
     {
-        $folder = FolderFactory::new()();
+        $folder = FolderFactory::new()
+            ->forWorkspace(WorkspaceFactory::new())
+            ->create();
 
         $this->postGraphQL([
             'query' => '

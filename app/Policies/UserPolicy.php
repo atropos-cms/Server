@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Enums\Permission;
 use App\Models\User;
+use App\Enums\Permission;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class UserPolicy

@@ -11,7 +11,7 @@ type Post {
 input CreatePostInput {
     title: String @rules(apply: ["string"])
     content: String @rules(apply: ["string"])
-    author: CreateAuthorRelation
+    author: ConnectAuthorRelation
 }
 
 input UpdatePostInput {
