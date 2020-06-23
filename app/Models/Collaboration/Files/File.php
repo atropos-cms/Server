@@ -10,11 +10,6 @@ class File extends Model
 {
     use SoftDeletes;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name',
         'mime_type',
@@ -27,5 +22,10 @@ class File extends Model
     public function workspace(): BelongsTo
     {
         return $this->belongsTo(Workspace::class);
+    }
+
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(Folder::class, 'parent_id');
     }
 }

@@ -92,3 +92,55 @@ extend type Mutation @middleware(checks: ["auth:sanctum"]) {
     forceDeleteFolder(id: ID!): Folder @forceDelete
     restoreFolder(id: ID!): Folder @restore
 }
+
+#
+# File
+#
+type File @modelClass(class: "\\App\\Models\\Collaboration\\Files\\File") {
+    id: ID!
+    workspace: Workspace @belongsTo
+
+    name: String
+    mimeType: String @rename(attribute: "mime_type")
+    originalFilename: String @rename(attribute: "original_filename")
+    fileExtension: String @rename(attribute: "file_extension")
+    sha256Checksum: String @rename(attribute: "sha256_checksum")
+    size: Int @rename(attribute: "size")
+
+    createdAt: DateTime! @rename(attribute: "created_at")
+    updatedAt: DateTime!  @rename(attribute: "updated_at")
+    deletedAt: DateTime  @rename(attribute: "deleted_at")
+
+    parent: Folder @belongsTo
+}
+
+enum FileColumn {
+    name @enum(value: "name")
+    size @enum(value: "size")
+    createdAt @enum(value: "created_at")
+    updatedAt @enum(value: "updated_at")
+    deletedAt @enum(value: "deleted_at")
+}
+
+input CreateFileInput {
+    workspace: ConnectWorkspaceRelation!
+    parent: ConnectParentFolderRelation!
+    name: String @rules(apply: ["string"])
+}
+
+input UpdateFileInput {
+    name: String! @rules(apply: ["string"])
+}
+
+extend type Query @middleware(checks: ["auth:sanctum"]) {
+    file(workspace_id: ID! @eq, id: ID! @eq): File @find
+    files(workspace_id: ID! @eq, parent_id: ID @eq, orderBy: _ @orderBy(columnsEnum: "FileColumn")): [File!]! @softDeletes
+}
+
+extend type Mutation @middleware(checks: ["auth:sanctum"]) {
+    createFile(file: Upload!, data: CreateFileInput! @spread): File
+    updateFile(id: ID!, data: UpdateFileInput! @spread): File @update
+    deleteFile(id: ID!): File @delete
+    forceDeleteFile(id: ID!): File @forceDelete
+    restoreFile(id: ID!): File @restore
+}

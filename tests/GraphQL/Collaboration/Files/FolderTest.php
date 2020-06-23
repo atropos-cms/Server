@@ -85,10 +85,10 @@ class FolderTest extends GraphQLTestCase
                 mutation createFolder($data: CreateFolderInput!) {
                     createFolder(data: $data) {
                          id
+                         name
                          workspace {
                            id
                          }
-                         name
                     }
                 }
             ',
@@ -96,6 +96,7 @@ class FolderTest extends GraphQLTestCase
                 'data' => [
                     'name' => $folder->name,
                     'workspace' => ['connect' => $workspace->id],
+                    'parent' => [],
                 ],
             ],
         ])->assertJson([
@@ -103,6 +104,51 @@ class FolderTest extends GraphQLTestCase
                 'createFolder' => [
                     'name' => $folder->name,
                     'workspace' => ['id' => $workspace->id,],
+                ],
+            ],
+        ])->json('data.createFolder.id');
+
+        $this->assertNotNull($id);
+    }
+
+    /** @test */
+    public function test_createFolder_mutation_with_parent_folder()
+    {
+        $workspace = WorkspaceFactory::new()();
+        $parent = FolderFactory::new()
+            ->forWorkspace($workspace)
+            ->create();
+
+        $folder = FolderFactory::new()->make();
+
+        $id = $this->postGraphQL([
+            'query' => '
+                mutation createFolder($data: CreateFolderInput!) {
+                    createFolder(data: $data) {
+                         id
+                         name
+                         workspace {
+                           id
+                         }
+                         parent {
+                           id
+                         }
+                    }
+                }
+            ',
+            'variables' => [
+                'data' => [
+                    'name' => $folder->name,
+                    'workspace' => ['connect' => $workspace->id],
+                    'parent' => ['connect' => $parent->id],
+                ],
+            ],
+        ])->assertJson([
+            'data' => [
+                'createFolder' => [
+                    'name' => $folder->name,
+                    'workspace' => ['id' => $workspace->id,],
+                    'parent' => ['id' => $parent->id,],
                 ],
             ],
         ])->json('data.createFolder.id');
@@ -122,10 +168,10 @@ class FolderTest extends GraphQLTestCase
                 mutation updateFolder($id: ID!, $data: UpdateFolderInput!) {
                     updateFolder(id: $id, data: $data) {
                          id
+                         name
                          workspace {
                            id
                          }
-                         name
                     }
                 }
             ',
