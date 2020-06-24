@@ -6,7 +6,6 @@ use Tests\GraphQLTestCase;
 use Tests\Factories\UserFactory;
 use Illuminate\Http\UploadedFile;
 use Tests\Factories\Collaboration\Files\FileFactory;
-use Tests\Factories\Collaboration\Files\FolderFactory;
 use Tests\Factories\Collaboration\Files\WorkspaceFactory;
 
 class FileTest extends GraphQLTestCase

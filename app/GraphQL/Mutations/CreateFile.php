@@ -2,11 +2,11 @@
 
 namespace App\GraphQL\Mutations;
 
+use Illuminate\Support\Facades\Storage;
 use App\Models\Collaboration\Files\File;
 use GraphQL\Type\Definition\ResolveInfo;
 use App\Models\Collaboration\Files\Folder;
 use App\Models\Collaboration\Files\Workspace;
-use Illuminate\Support\Facades\Storage;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class CreateFile
