@@ -73,6 +73,7 @@ class FileTest extends GraphQLTestCase
         {
             files(workspace_id: $workspace->id) {
                 id
+                uuid
                 name
                 mimeType
                 originalFilename
@@ -88,6 +89,7 @@ class FileTest extends GraphQLTestCase
             'data' => [
                 'files' => $files->map(fn ($file) => [
                     'id' => $file->id,
+                    'uuid' => $file->uuid,
                     'name' => $file->name,
                     'mimeType' => $file->mime_type,
                     'originalFilename' => $file->original_filename,

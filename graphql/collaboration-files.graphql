@@ -52,6 +52,7 @@ extend type Mutation @middleware(checks: ["auth:sanctum"]) {
 #
 type Folder @modelClass(class: "\\App\\Models\\Collaboration\\Files\\Folder") {
     id: ID!
+    uuid: String
     workspace: Workspace @belongsTo
 
     name: String
@@ -98,6 +99,7 @@ extend type Mutation @middleware(checks: ["auth:sanctum"]) {
 #
 type File @modelClass(class: "\\App\\Models\\Collaboration\\Files\\File") {
     id: ID!
+    uuid: String
     workspace: Workspace @belongsTo
 
     name: String

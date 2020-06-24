@@ -15,6 +15,7 @@ class CreateFilesAndFoldersTable extends Migration
     {
         Schema::create('files', function (Blueprint $table) {
             $table->id();
+            $table->string('uuid', 36);
             $table->unsignedBigInteger('parent_id')->nullable();
 
             $table->unsignedBigInteger('workspace_id')->index();
@@ -34,6 +35,7 @@ class CreateFilesAndFoldersTable extends Migration
 
         Schema::create('folders', function (Blueprint $table) {
             $table->id();
+            $table->string('uuid', 36);
             $table->unsignedBigInteger('parent_id')->nullable();
 
             $table->unsignedBigInteger('workspace_id')->index();

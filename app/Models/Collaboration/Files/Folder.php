@@ -6,10 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Ramsey\Uuid\Uuid;
 
 class Folder extends Model
 {
     use SoftDeletes;
+
+    protected static function booted()
+    {
+        static::creating(function (Folder $model) {
+            $model->uuid = Uuid::uuid4();
+        });
+    }
 
     protected $fillable = [
         'name',

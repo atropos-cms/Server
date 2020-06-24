@@ -34,10 +34,10 @@ class CreateFile
 
         /** @var \Illuminate\Http\UploadedFile $fileInput */
         $fileInput = $args['file'];
-        $file->name = $file->name ?? $fileInput->getClientOriginalName();
+        $file->name = $file->name ?? pathinfo($fileInput->getClientOriginalName(), PATHINFO_FILENAME);
         $file->mime_type = $fileInput->getMimeType();
         $file->original_filename = $fileInput->getClientOriginalName();
-        $file->file_extension = $fileInput->guessExtension();
+        $file->file_extension = $fileInput->getClientOriginalExtension();
         $file->size = $fileInput->getSize();
         $file->sha256_checksum = hash('sha256', $fileInput->get());
 
