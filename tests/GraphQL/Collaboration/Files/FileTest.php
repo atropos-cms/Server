@@ -270,4 +270,37 @@ class FileTest extends GraphQLTestCase
 
         $this->assertDatabaseMissing($file->getTable(), ['id' => $file->id]);
     }
+
+    /** @test */
+    public function test_downloadFile_mutation()
+    {
+        $file = FileFactory::new()
+            ->forWorkspace(WorkspaceFactory::new())
+            ->create();
+
+        $this->postGraphQL([
+            'query' => '
+                mutation downloadFile($id: ID!) {
+                    downloadFile(id: $id) {
+                        file {
+                            id
+                        }
+                        validUntil
+                        downloadLink
+                    }
+                }
+            ',
+            'variables' => [
+                'id' => $file->id,
+            ],
+        ])->assertJson([
+            'data' => [
+                'downloadFile' => [
+                    'file' => [
+                        'id' => $file->id,
+                    ],
+                ],
+            ],
+        ])->dump();
+    }
 }

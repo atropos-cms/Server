@@ -36,4 +36,9 @@ class File extends Model
     {
         return $this->belongsTo(Folder::class, 'parent_id');
     }
+
+    public function getStoragePathAttribute()
+    {
+        return "{$this->uuid}.{$this->file_extension}";
+    }
 }

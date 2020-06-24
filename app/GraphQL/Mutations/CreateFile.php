@@ -6,6 +6,7 @@ use App\Models\Collaboration\Files\File;
 use GraphQL\Type\Definition\ResolveInfo;
 use App\Models\Collaboration\Files\Folder;
 use App\Models\Collaboration\Files\Workspace;
+use Illuminate\Support\Facades\Storage;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class CreateFile
@@ -41,6 +42,11 @@ class CreateFile
         $file->size = $fileInput->getSize();
         $file->sha256_checksum = hash('sha256', $fileInput->get());
 
-        return tap($file)->save();
+        $file->save();
+
+        // Save file to disk
+        Storage::putFileAs('files', $fileInput, $file->storage_path);
+
+        return $file;
     }
 }

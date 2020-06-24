@@ -116,6 +116,12 @@ type File @modelClass(class: "\\App\\Models\\Collaboration\\Files\\File") {
     parent: Folder @belongsTo
 }
 
+type FileDownload {
+    file: File
+    validUntil:  DateTime!
+    downloadLink: String!
+}
+
 enum FileColumn {
     name @enum(value: "name")
     size @enum(value: "size")
@@ -145,4 +151,5 @@ extend type Mutation @middleware(checks: ["auth:sanctum"]) {
     deleteFile(id: ID!): File @delete
     forceDeleteFile(id: ID!): File @forceDelete
     restoreFile(id: ID!): File @restore
+    downloadFile(id: ID!): FileDownload
 }
