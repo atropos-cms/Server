@@ -27,13 +27,13 @@ class DownloadFile
         URL::formatHostUsing(fn () => 'http://' . tenant()->domains[0]);
 
         $validUntil = now()->addMinutes(5);
-        $downloadLink = URL::temporarySignedRoute('download-file', $validUntil, [
+        $downloadLink = URL::temporarySignedRoute('files-download', $validUntil, [
             'fileId' => $file->id,
         ]);
 
         return [
             'file' => $file,
-            'validUntil' => now(),
+            'validUntil' => $validUntil,
             'downloadLink' => $downloadLink,
         ];
     }

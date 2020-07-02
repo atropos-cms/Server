@@ -2,6 +2,8 @@
 
 namespace Tests\GraphQL\Collaboration\Files;
 
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Tests\GraphQLTestCase;
 use Tests\Factories\UserFactory;
 use Illuminate\Http\UploadedFile;
@@ -273,11 +275,13 @@ class FileTest extends GraphQLTestCase
     /** @test */
     public function test_downloadFile_mutation()
     {
+        Carbon::setTestNow(now());
+
         $file = FileFactory::new()
             ->forWorkspace(WorkspaceFactory::new())
             ->create();
 
-        $this->postGraphQL([
+        $downloadLink = $this->postGraphQL([
             'query' => '
                 mutation downloadFile($id: ID!) {
                     downloadFile(id: $id) {
@@ -298,8 +302,12 @@ class FileTest extends GraphQLTestCase
                     'file' => [
                         'id' => $file->id,
                     ],
+                    'validUntil' => now()->addMinutes(5)->toIso8601String(),
                 ],
             ],
-        ])->dump();
+        ])->json('data.downloadFile.downloadLink');
+
+        $this->assertStringContainsString('/files-download', $downloadLink);
+        $this->assertStringContainsString('signature=', $downloadLink);
     }
 }

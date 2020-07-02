@@ -12,7 +12,7 @@ type Workspace @modelClass(class: "\\App\\Models\\Collaboration\\Files\\Workspac
     rolesCount: Int! @rename(attribute: "roles_count")
 
     folders: Folder @hasMany
-    #    files: File @hasMany
+    files: File @hasMany
 }
 
 input CreateWorkspaceInput {
@@ -64,6 +64,12 @@ type Folder @modelClass(class: "\\App\\Models\\Collaboration\\Files\\Folder") {
     children: Folder @hasMany
 }
 
+type FolderDownload {
+    folder: Folder
+    validUntil:  DateTime!
+    downloadLink: String!
+}
+
 enum FolderColumn {
     name @enum(value: "name")
     createdAt @enum(value: "created_at")
@@ -92,6 +98,7 @@ extend type Mutation @middleware(checks: ["auth:sanctum"]) {
     deleteFolder(id: ID!): Folder @delete
     forceDeleteFolder(id: ID!): Folder @forceDelete
     restoreFolder(id: ID!): Folder @restore
+    downloadFolder(id: ID!): FolderDownload
 }
 
 #

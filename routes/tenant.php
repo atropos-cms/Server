@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/download-file', 'DownloadFile')->name('download-file');
+Route::get('/files-download', 'DownloadFileOrFolder')->name('files-download');
 
 Route::get('{uri}', function () {
     return file_get_contents(public_path('app/index.html'));

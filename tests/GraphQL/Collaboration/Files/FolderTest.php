@@ -2,6 +2,8 @@
 
 namespace Tests\GraphQL\Collaboration\Files;
 
+use Carbon\Carbon;
+use Tests\Factories\Collaboration\Files\FileFactory;
 use Tests\GraphQLTestCase;
 use Tests\Factories\UserFactory;
 use Tests\Factories\Collaboration\Files\FolderFactory;
@@ -278,5 +280,44 @@ class FolderTest extends GraphQLTestCase
         ]);
 
         $this->assertDatabaseMissing($folder->getTable(), ['id' => $folder->id]);
+    }
+
+    /** @test */
+    public function test_downloadFolder_mutation()
+    {
+        Carbon::setTestNow(now());
+
+        $folder = FolderFactory::new()
+            ->forWorkspace(WorkspaceFactory::new())
+            ->create();
+
+        $downloadLink = $this->postGraphQL([
+            'query' => '
+                mutation downloadFolder($id: ID!) {
+                    downloadFolder(id: $id) {
+                        folder {
+                            id
+                        }
+                        validUntil
+                        downloadLink
+                    }
+                }
+            ',
+            'variables' => [
+                'id' => $folder->id,
+            ],
+        ])->assertJson([
+            'data' => [
+                'downloadFolder' => [
+                    'folder' => [
+                        'id' => $folder->id,
+                    ],
+                    'validUntil' => now()->addMinutes(5)->toIso8601String(),
+                ],
+            ],
+        ])->json('data.downloadFolder.downloadLink');
+
+        $this->assertStringContainsString('/files-download', $downloadLink);
+        $this->assertStringContainsString('signature=', $downloadLink);
     }
 }
