@@ -16,11 +16,12 @@ class CreateTenantsTable extends Migration
     public function up(): void
     {
         Schema::create('tenants', function (Blueprint $table) {
-            $table->string('id', 36)->primary(); // 36 characters is the default uuid length
+            $table->string('id')->primary();
 
-            // (optional) your custom, indexed columns may go here
+            // your custom columns may go here
 
-            $table->json('data');
+            $table->timestamps();
+            $table->json('data')->nullable();
         });
     }
 

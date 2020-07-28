@@ -25,20 +25,10 @@ trait UsesTenant
             'tenancy.queue_database_creation' => false,
         ]);
 
-        tenancy()->create($domain);
-        tenancy()->all();
-
-        tenancy()->init($domain);
-    }
-
-    public function tearDown(): void
-    {
-        config([
-            'tenancy.queue_database_deletion' => false,
-            'tenancy.delete_database_after_tenant_deletion' => true,
+        $tenant = \App\Models\Tenant::create();
+        $tenant->domains()->create([
+            'domain' => $domain,
         ]);
-        tenancy()->all()->each->delete();
-
-        parent::tearDown();
+        tenancy()->initialize($tenant);
     }
 }

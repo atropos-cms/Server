@@ -23,6 +23,7 @@ schema-directives.graphql
 
 # CI/CD
 .php_cs.cache
+/storage/tenant*
 
 # Testing
 database/testing/*.sqlite

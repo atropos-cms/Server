@@ -3,8 +3,8 @@
 namespace App\GraphQL\Mutations;
 
 use Illuminate\Support\Facades\URL;
-use App\Models\Collaboration\Files\Folder;
 use GraphQL\Type\Definition\ResolveInfo;
+use App\Models\Collaboration\Files\Folder;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class DownloadFolder
@@ -22,9 +22,6 @@ class DownloadFolder
     public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         $folder = Folder::findOrFail($args['id']);
-
-        // Set the correct host part for tenant urls
-        URL::formatHostUsing(fn () => 'http://' . tenant()->domains[0]);
 
         $validUntil = now()->addMinutes(5);
         $downloadLink = URL::temporarySignedRoute('files-download', $validUntil, [

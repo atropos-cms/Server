@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Collaboration\Files\Folder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Collaboration\Files\File;
+use App\Models\Collaboration\Files\Folder;
 
 class DownloadFileOrFolder extends Controller
 {

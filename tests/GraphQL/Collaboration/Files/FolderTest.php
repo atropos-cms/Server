@@ -3,7 +3,6 @@
 namespace Tests\GraphQL\Collaboration\Files;
 
 use Carbon\Carbon;
-use Tests\Factories\Collaboration\Files\FileFactory;
 use Tests\GraphQLTestCase;
 use Tests\Factories\UserFactory;
 use Tests\Factories\Collaboration\Files\FolderFactory;

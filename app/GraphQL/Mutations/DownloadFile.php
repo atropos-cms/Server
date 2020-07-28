@@ -23,9 +23,6 @@ class DownloadFile
     {
         $file = File::findOrFail($args['id']);
 
-        // Set the correct host part for tenant urls
-        URL::formatHostUsing(fn () => 'http://' . tenant()->domains[0]);
-
         $validUntil = now()->addMinutes(5);
         $downloadLink = URL::temporarySignedRoute('files-download', $validUntil, [
             'fileId' => $file->id,

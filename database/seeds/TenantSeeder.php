@@ -11,7 +11,10 @@ class TenantSeeder extends Seeder
      */
     public function run()
     {
-        tenancy()->create('tenant.atropos-server.test');
-        tenancy()->init('tenant.atropos-server.test');
+        $tenant = \App\Models\Tenant::create();
+        $tenant->domains()->create([
+            'domain' => 'tenant.atropos-server.test',
+        ]);
+        tenancy()->initialize($tenant);
     }
 }

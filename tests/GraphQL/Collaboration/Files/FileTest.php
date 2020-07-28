@@ -3,7 +3,6 @@
 namespace Tests\GraphQL\Collaboration\Files;
 
 use Carbon\Carbon;
-use Illuminate\Support\Str;
 use Tests\GraphQLTestCase;
 use Tests\Factories\UserFactory;
 use Illuminate\Http\UploadedFile;
@@ -306,6 +305,7 @@ class FileTest extends GraphQLTestCase
                 ],
             ],
         ])->json('data.downloadFile.downloadLink');
+
 
         $this->assertStringContainsString('/files-download', $downloadLink);
         $this->assertStringContainsString('signature=', $downloadLink);
