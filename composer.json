@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.4",
         "ext-json": "*",
+        "ext-zip": "*",
         "bensampo/laravel-enum": "^2.1.0",
         "beyondcode/laravel-self-diagnosis": "^1.4.2",
         "fideloper/proxy": "^4.0",
@@ -27,6 +28,7 @@
         "ramsey/uuid": "^4.0",
         "spatie/eloquent-sortable": "^3.8",
         "spatie/laravel-permission": "^3.0",
+        "spatie/temporary-directory": "^1.2",
         "stancl/tenancy": "^3.1.4",
         "teamtnt/laravel-scout-tntsearch-driver": "^9.0"
     },
