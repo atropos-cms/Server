@@ -2,11 +2,11 @@
 
 namespace Tests\Unit\Models\Website;
 
+use Tests\TestCase;
+use Tests\UsesTenant;
 use Illuminate\Support\Str;
 use App\Models\Website\Navigationentry;
 use Tests\Factories\Website\NavigationentryFactory;
-use Tests\TestCase;
-use Tests\UsesTenant;
 
 class NavigationentryTest extends TestCase
 {

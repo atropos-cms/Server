@@ -9,7 +9,6 @@ use Tests\AuthenticatedGraphQLTestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\Factories\Website\NavigationentryFactory;
 
-
 class NavigationentryTest extends AuthenticatedGraphQLTestCase
 {
     use WithFaker;
