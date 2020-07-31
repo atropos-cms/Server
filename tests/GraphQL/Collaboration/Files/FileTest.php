@@ -3,6 +3,7 @@
 namespace Tests\GraphQL\Collaboration\Files;
 
 use Carbon\Carbon;
+use Tests\Factories\Collaboration\Files\FolderFactory;
 use Tests\GraphQLTestCase;
 use Tests\Factories\UserFactory;
 use Illuminate\Http\UploadedFile;
@@ -83,6 +84,9 @@ class FileTest extends GraphQLTestCase
                 workspace {
                   id
                 }
+                parent {
+                  id
+                }
             }
         }
         ")->assertJson([
@@ -97,10 +101,63 @@ class FileTest extends GraphQLTestCase
                     'sha256Checksum' => $file->sha256_checksum,
                     'size' => $file->size,
                     'workspace' => ['id' => $workspace->id,],
+                    'parent' => null,
                 ])->all(),
             ],
         ]);
     }
+
+    /** @test */
+    public function test_files_with_parent_query()
+    {
+        $workspace = WorkspaceFactory::new()();
+
+        $folder = FolderFactory::new()
+            ->forWorkspace($workspace)
+            ->create();
+
+        $files = FileFactory::times(3)
+            ->forWorkspace($workspace)
+            ->forParent($folder)
+            ->create();
+
+        $this->graphQL("
+        {
+            files(workspace_id: $workspace->id, parent_id: $folder->id) {
+                id
+                uuid
+                name
+                mimeType
+                originalFilename
+                fileExtension
+                sha256Checksum
+                size
+                workspace {
+                  id
+                }
+                parent {
+                  id
+                }
+            }
+        }
+        ")->assertJson([
+            'data' => [
+                'files' => $files->map(fn ($file) => [
+                    'id' => $file->id,
+                    'uuid' => $file->uuid,
+                    'name' => $file->name,
+                    'mimeType' => $file->mime_type,
+                    'originalFilename' => $file->original_filename,
+                    'fileExtension' => $file->file_extension,
+                    'sha256Checksum' => $file->sha256_checksum,
+                    'size' => $file->size,
+                    'workspace' => ['id' => $workspace->id,],
+                    'parent' => ['id' => $folder->id,],
+                ])->all(),
+            ],
+        ]);
+    }
+
 
     /** @test */
     public function test_createFile_mutation()
@@ -306,8 +363,22 @@ class FileTest extends GraphQLTestCase
             ],
         ])->json('data.downloadFile.downloadLink');
 
-
         $this->assertStringContainsString('/files-download', $downloadLink);
         $this->assertStringContainsString('signature=', $downloadLink);
+    }
+
+    /** @test */
+    public function test_that_an_error_is_returned_if_an_invalid_parent_is_set()
+    {
+        $workspace = WorkspaceFactory::new()();
+
+        $this->graphQL("
+        {
+            files(workspace_id: $workspace->id, parent_id: 0) {
+                id
+            }
+        }
+        ")
+            ->assertGraphQLValidationError('parent_id', 'Could not find a folder matching the given parent_id');
     }
 }

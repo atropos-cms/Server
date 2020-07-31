@@ -62,6 +62,47 @@ class FolderTest extends GraphQLTestCase
                 workspace {
                   id
                 }
+                parent {
+                  id
+                }
+            }
+        }
+        ")->assertJson([
+            'data' => [
+                'folders' => $folders->map(fn ($folder) => [
+                    'id' => $folder->id,
+                    'name' => $folder->name,
+                    'workspace' => ['id' => $workspace->id,],
+                ])->all(),
+            ],
+        ]);
+    }
+
+    /** @test */
+    public function test_folders_with_parent__query()
+    {
+        $workspace = WorkspaceFactory::new()();
+
+        $folder = FolderFactory::new()
+            ->forWorkspace($workspace)
+            ->create();
+
+        $folders = FolderFactory::times(3)
+            ->forWorkspace($workspace)
+            ->forParent($folder)
+            ->create();
+
+        $this->graphQL("
+        {
+            folders(workspace_id: $workspace->id, parent_id: $folder->id) {
+                id
+                name
+                workspace {
+                  id
+                }
+                parent {
+                  id
+                }
             }
         }
         ")->assertJson([
@@ -318,5 +359,20 @@ class FolderTest extends GraphQLTestCase
 
         $this->assertStringContainsString('/files-download', $downloadLink);
         $this->assertStringContainsString('signature=', $downloadLink);
+    }
+
+    /** @test */
+    public function test_that_an_error_is_returned_if_an_invalid_parent_is_set()
+    {
+        $workspace = WorkspaceFactory::new()();
+
+        $this->graphQL("
+        {
+            folders(workspace_id: $workspace->id, parent_id: 0) {
+                id
+            }
+        }
+        ")
+            ->assertGraphQLValidationError('parent_id', 'Could not find a folder matching the given parent_id');
     }
 }

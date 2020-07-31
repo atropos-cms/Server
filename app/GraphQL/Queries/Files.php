@@ -5,7 +5,7 @@ namespace App\GraphQL\Queries;
 use App\Models\Collaboration\Files\File;
 use GraphQL\Type\Definition\ResolveInfo;
 use App\Models\Collaboration\Files\Folder;
-use Illuminate\Validation\ValidationException;
+use Nuwave\Lighthouse\Exceptions\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class Files
