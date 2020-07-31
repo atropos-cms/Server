@@ -11,7 +11,6 @@ use Illuminate\Foundation\Testing\WithFaker;
 class UserTest extends GraphQLTestCase
 {
     use WithFaker;
-
     /** @test */
     public function test_user_query()
     {

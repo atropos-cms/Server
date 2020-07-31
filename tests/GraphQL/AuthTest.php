@@ -29,6 +29,8 @@ class AuthTest extends GraphQLTestCase
             ],
         ])->decodeResponseJson('data.login.accessToken');
 
+        $this->assertNotNull($token);
+
         $this->postGraphQL(
             [
             'query' => '{

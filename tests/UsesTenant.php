@@ -17,8 +17,10 @@ trait UsesTenant
         }
     }
 
-    public function initializeTenancy($domain = 'test.localhost')
+    public function initializeTenancy($domain = 'tenant')
     {
+        config()->set('app.url', "http://$domain.localhost");
+
         config([
             'tenancy.database.prefix' => 'testing/',
             'tenancy.database.suffix' => '.sqlite',
@@ -29,6 +31,7 @@ trait UsesTenant
         $tenant->domains()->create([
             'domain' => $domain,
         ]);
+
         tenancy()->initialize($tenant);
     }
 }

@@ -2,13 +2,16 @@
 
 namespace Tests\Unit\Models\Website;
 
-use Tests\GraphQLTestCase;
 use Illuminate\Support\Str;
 use App\Models\Website\Navigationentry;
 use Tests\Factories\Website\NavigationentryFactory;
+use Tests\TestCase;
+use Tests\UsesTenant;
 
-class NavigationentryTest extends GraphQLTestCase
+class NavigationentryTest extends TestCase
 {
+    use UsesTenant;
+
     /** @test */
     public function a_new_order_can_be_set_for_navigationentries()
     {
