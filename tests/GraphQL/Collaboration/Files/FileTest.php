@@ -158,7 +158,6 @@ class FileTest extends GraphQLTestCase
         ]);
     }
 
-
     /** @test */
     public function test_createFile_mutation()
     {
@@ -197,6 +196,56 @@ class FileTest extends GraphQLTestCase
                     'mimeType' => 'image/jpeg',
                     'workspace' => ['id' => $workspace->id,],
                     'parent' => null,
+                ],
+            ],
+        ])->json('data.createFile.id');
+
+        $this->assertNotNull($id);
+    }
+
+    /** @test */
+    public function test_createFile_with_parent_mutation()
+    {
+        $workspace = WorkspaceFactory::new()();
+
+        $folder = FolderFactory::new()
+            ->forWorkspace($workspace)
+            ->create();
+
+        $file = FileFactory::new()->make();
+
+        $dataJson = json_encode([
+            'name' => $file->name,
+            'workspace' => ['connect' => $workspace->id],
+            'parent' => ['connect' => $folder->id],
+        ]);
+
+        $id = $this->multipartGraphQL(
+            [
+                'operations' => /* @lang JSON */ '
+            {
+                "query": "mutation createFile($file: Upload!, $data: CreateFileInput!) { createFile(file: $file, data: $data) { id name size mimeType workspace { id }  parent { id } } }",
+                "variables": {
+                    "file": null,
+                    "data": ' . $dataJson . '
+                }
+            }',
+                'map' => /* @lang JSON */'
+            {
+                "0": ["variables.file"]
+            }',
+            ],
+            [
+                '0' => UploadedFile::fake()->create('image.jpg', 500),
+            ]
+        )->assertJson([
+            'data' => [
+                'createFile' => [
+                    'name' => $file->name,
+                    'size' => 512000,
+                    'mimeType' => 'image/jpeg',
+                    'workspace' => ['id' => $workspace->id,],
+                    'parent' => ['id' => $folder->id,],
                 ],
             ],
         ])->json('data.createFile.id');
